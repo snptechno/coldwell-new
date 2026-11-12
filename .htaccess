@@ -1,0 +1,3 @@
+# Dev placement inside htdocs: only public/ may be served.
+# app/, system, vendor/, writable/, .env and composer files must never be reachable.
+Require all denied
