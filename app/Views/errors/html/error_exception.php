@@ -128,7 +128,16 @@ $errorId = uniqid('error', true);
                                         foreach ($row['args'] as $key => $value) : ?>
                                             <tr>
                                                 <td><code><?= esc(isset($params[$key]) ? '$' . $params[$key]->name : "#{$key}") ?></code></td>
-                                                <td><pre><?= esc(print_r($value, true)) ?></pre></td>
+                                                <td><pre><?php
+                                                    // Coldwell: never dump objects/arrays - Request/Router args carry $_SERVER with .env secrets.
+                                                    if (is_object($value)) {
+                                                        echo esc('object(' . $value::class . ')');
+                                                    } elseif (is_array($value)) {
+                                                        echo esc('array(' . count($value) . ')');
+                                                    } else {
+                                                        echo esc(print_r($value, true));
+                                                    }
+                                                ?></pre></td>
                                             </tr>
                                         <?php endforeach ?>
 
@@ -179,7 +188,9 @@ $errorId = uniqid('error', true);
                             <tr>
                                 <td><?= esc($key) ?></td>
                                 <td>
-                                    <?php if (is_string($value)) : ?>
+                                    <?php if (preg_match('/pass|secret|key|token|pwd|salt|auth/i', (string) $key)) : ?>
+                                        <em>[hidden - secret]</em><?php /* Coldwell: dev error page must not show .env secrets (Apache listens on all interfaces) */ ?>
+                                    <?php elseif (is_string($value)) : ?>
                                         <?= esc($value) ?>
                                     <?php else: ?>
                                         <pre><?= esc(print_r($value, true)) ?></pre>

@@ -52,7 +52,9 @@ class Toolbar extends BaseConfig
      * If set to false var data from the views will not be collected. Useful to
      * avoid high memory usage when there are lots of data passed to the view.
      */
-    public bool $collectVarData = true;
+    // Coldwell: off - view data can include the Request object, whose $_SERVER copy
+    // holds every .env secret, and the toolbar embeds it in every dev page.
+    public bool $collectVarData = false;
 
     /**
      * --------------------------------------------------------------------------

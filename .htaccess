@@ -1,3 +1,17 @@
-# Dev placement inside htdocs: only public/ may be served.
-# app/, system, vendor/, writable/, .env and composer files must never be reachable.
-Require all denied
+# Dev/staging placement inside htdocs: serve CI4 at /coldwell-ci4/ (no "/public"),
+# so URLs match the live site's paths.
+# Every request is mapped INTO public/, so app/, system, vendor/, writable/, .env
+# and composer files can never be reached (/.env -> public/.env -> 404).
+# On the live server the DocumentRoot points straight at public/ instead.
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# If mod_rewrite is ever missing, fail closed.
+<IfModule !mod_rewrite.c>
+    Require all denied
+</IfModule>

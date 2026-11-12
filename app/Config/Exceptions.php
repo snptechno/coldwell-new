@@ -56,7 +56,15 @@ class Exceptions extends BaseConfig
      *
      * @var list<string>
      */
-    public array $sensitiveDataInTrace = [];
+    public array $sensitiveDataInTrace = [
+        // Coldwell: the Request object in trace args carries $_SERVER, which
+        // includes every .env value (encryption key, DB and SMTP passwords).
+        // Dev error pages are reachable from the LAN (Apache listens on 0.0.0.0).
+        'globals/server',
+        'globals/env',
+        'server',
+        'env',
+    ];
 
     /**
      * --------------------------------------------------------------------------
@@ -101,6 +109,7 @@ class Exceptions extends BaseConfig
      */
     public function handler(int $statusCode, Throwable $exception): ExceptionHandlerInterface
     {
-        return new ExceptionHandler($this);
+        // Coldwell: never send trace argument values to non-browser clients (see App\Debug\SafeExceptionHandler).
+        return new \App\Debug\SafeExceptionHandler($this);
     }
 }
