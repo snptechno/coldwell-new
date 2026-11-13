@@ -1,0 +1,829 @@
+@media screen and (min-width:1601px){
+	.slide-txt .r-col h4 {width: 36%}
+}
+
+@media screen and (min-width:1500px){
+	.slide-txt .r-col h4 {right: 14%;}
+}
+@media screen and (max-width:1400px){
+	.slide-txt .r-col h4 {right: 20%}
+}
+
+@media screen and (max-width:1280px){
+	a.scroll-down {width: 35%; bottom: 8%}
+	.abt-container {padding: 0}
+	.home_inner_banner .search_module, .hm-txt {margin-left: 3%}
+	#gallery .owl-nav, #testimonial-gallery .owl-nav,  #nri-events .owl-nav, #success-stories .owl-nav {top: -27%; width: 110px;right: 0;}
+	#success-stories .owl-nav {left: auto}
+	#gallery .owl-nav .owl-prev, #testimonial-gallery .owl-nav .owl-prev, #nri-events .owl-nav .owl-prev {left: 0;}
+	#gallery .owl-nav .owl-next, #testimonial-gallery .owl-nav .owl-next, #nri-events .owl-nav .owl-next {right: 0}
+	.learnings .gallery-sec h3{margin: 10px 0 30px;}
+	.career-sidebar.banner_sidebar h2 {width: 74%}
+	#testimonial-gallery {margin-top: 70px}
+	.beng-box, .mumb-box, .new-mumb-box, .pune-box, .ahm-box, .noida-box, .vadod-box {width: 99%}
+	.frch-item {width: 23%}
+	.abt_home_left ul li {font-size: 15px;}
+	.slide-txt .fr-main-left {padding-left: 3%}
+	.slide-txt .r-col h4 {right: 23%}
+	#sliding_menu_js ul li a {padding: 10px 3%}
+}
+
+@media screen and (max-width:1152px){
+	nav ul li {padding: 0 1.2%;}
+	.banner_sidebar h2{font-size: 32px}
+	.abt_home_left h2 {font-size: 48px}
+	.abt_home_left h3 {font-size: 18px}
+	.franchisee_text, .learning_blue {width: 50%}
+	.li_01 {left: 0; top: 35%;}
+	footer ul.foot_links {padding-right: 1%;}
+	.sub-nav li {letter-spacing: 1px}
+	.slide-txt h1 {font-size: 32px}
+	.frnc-right-top, .frnc_right form {padding-left: 4%; padding-right: 4%}
+	.frnc-right-top h3 {font-size: 23px}
+	.feature-colm {width: 46%;}
+	.featr-desc {width: 90%}
+	.frnc_right h5 {font-size: 15px}
+	.abt_home_left img {max-width: 55%}
+	ul.serve-col1:before {height: 86%}
+	ul.serve-col1 li small, ul.serve-col2 li small {margin-top: 4px}
+	.contact-sec form small {width: 50%}
+	#apply-now-frame input[type="file"] {width: 40%;}
+	.home-enquire-form small{width: 65%}
+	.t-item h4 small {font-size: 13px}
+	#nri-events .event-info {padding: 0 3%}
+	.slide-txt .r-col h4 {width: 60%}
+	/*.ent-item {width: 45%}*/
+}
+
+@media only screen and (max-width: 1093px){
+	nav ul li{padding: 0 0.8%}
+	.banner_sidebar h2, .nri h3, .contact h3 {font-size: 26px}
+	.abt_home_left h2 {font-size: 43px;}
+	.cbu_container {background-position-x: 300px}
+	.li_06 {right: 0;top:-28%;}
+	.li_03 {left: 36%}
+	.li_02 {left: 19%}
+	.inner_banner_container .slide-txt h1 {font-size: 28px}
+	h3 {font-size: 21px}
+	.t-item img {height: auto}
+	.frnc-right-top a {font-size: 11px}
+	.frnc_right {font-size: 13px}
+	.learning_blue {top: 170px;}
+	ul.serve-col1:before {height: 85%}
+	ul.serve-col1 li small, ul.serve-col2 li small {margin-top: 2px}
+	.slide-txt .r-col h4 {font-size: 18px}
+	.abt_home_left ul li {width: 44%}
+	.t-item {padding: 2%}
+	.nri-services div.tab a {font-size: 14px}
+	#nri-events .event-info h4 {font-size: 16px}
+	#nri-events .event-info h3 {margin: 15px 0}
+	.ent-cont {padding-bottom: 17px; width: 80%}
+	.ent-item {width: 24.6%}
+	.slide-txt .r-col h4 {right: 26%;}
+}
+
+@media only screen and (max-width:1024px){
+	a.scroll-down {width: 40%}
+	nav {width: 80%}
+	nav ul li { padding: 0 0.7%; }
+	nav ul li a {margin: 27px 0;font-size: 13px}
+	.search_module {width: 90%}
+	.abt_home_left h3 {font-size: 15px;}
+	.abt_home_left ul li:first-child span {display: block;}
+	.abt_home_left p {margin-bottom: 5px}
+	p, .slide-txt span.txt-para {font-size: 14px; line-height: 18px}
+	.learning_blue h2, .bottom_text h4 {font-size: 38px}
+	.li_01 {top: 16%; left: -1%}
+	.bottom_text span{margin-bottom: 20%}
+	.our-frnch-main h3 .span2 {margin-right: 32%}
+	.our-frnch-main  h3 {margin: 40px 0}
+	.our-frnch-main .vadod-box h3 {left: -55%;}
+	.our-frnch-main .new-mumb-box h3 .span1, .our-frnch-main h3 .span1{margin-left: 26%}
+	.featr-desc {font-size: 16px}
+	.t-item h4 small {font-size: 13px}
+	.frnc_left h2 {font-size: 35px}
+	.slide-txt .l-col h2 {font-size: 20px; line-height: normal;}
+	.frnc_left{padding-right: 5%}
+	.team_container ul.team_01:before,.team_container ul.team_02:before,.team_container ul.team_02:after,.team_container ul.team_03:before{display: none;}
+	.team_container ul li{width:50%; margin-top: 40px;}
+	.team_container ul{margin-top: 0;}
+	/*ul.leader_list li span{line-height: 36px;}*/
+	#gallery .owl-nav, #testimonial-gallery .owl-nav {top: -34%;}
+	.learnings h3{font-size: 25px;}
+	.video_iframe_lightbox{width: 90%;}
+	.frch-item small {letter-spacing: 0}
+	.item-tit span {width: 80%}
+	ul.serve-col1:before {height: 83%}
+	.contact-sec form small, .home-enquire-form {width: 45%}
+	.application-form {width: 65%;}
+	.slide-txt span.txt-para:before {top: 6%}
+	.slide-txt span.txt-para:after {bottom: 6%}	
+	.real_estate_franchisee {background-position-x: 40%; background-attachment: scroll}
+	.disc-wrap {width: 60%}
+	.franchisee-form .form-rw { width: 32%;}
+	.ent-cont h3 {font-size: 20px;}
+	.slide-txt .r-col h4 {width: 67%}
+
+	.find-office .form-wrp select {
+	    width: 200px;
+	}
+	.find-office .search {
+	    width: 160px;
+	}
+
+	.item-tit {
+	    background-size: 100%;
+	    min-height: 150px;
+	}
+	.item-tit span {
+	    width: 60%;
+	}
+	.item-tit a{
+		bottom: 20px;
+	}
+}
+
+@media only screen and (max-width:980px){
+	.learning_blue h2, .bottom_text h4 {font-size: 35px}
+	.abt_home_left h2 {font-size: 40px;}
+	.frnc-right-top h3 {font-size: 20px}
+	.frnc_left hr {margin: 1em 0}
+	.job-colm1 {padding: 20px 3% 20px 1%}
+	ul.serve-col1:before {height: 82%}
+	.contact-sec {width: 90%;}
+	.team-sec h3 {font-size: 19px}
+	.frnc-right-top img {margin-right: 0}
+	.featr-desc h4 {font-size: 18px;position: relative;}
+	.mrkts:before {z-index: 0}
+	.nri-services .tabcontent li {padding: 2% 3%}
+	.nri-services .tabcontent li span {font-size: 15px}
+	.ent-cont {width: 89%}
+	.ent-cont p {font-size: 12px}
+	.ent-cont h3 {font-size: 17px}
+	.evnts-main .top-rod.hidden {display: block;}
+	.ent-item {width: 26.6%;}
+	ul.values-list li {width: 19%}
+	ul.values-list li span {font-size: 20px}
+	nav ul li {padding: 0 1.8%;}
+	.training-module-bg h4 {font-size: 15px}
+}
+
+@media only screen and (max-width:800px){
+	nav {display: none}
+	#sliding_menu_js ul li.hidden-li {display: block}
+	.home_inner_banner .search_module, .hm-txt {margin-bottom: 3%}
+	.search_select {width: 30%;}
+	input.search_input {width: 60%}
+	input[type="submit"] {width: 8%}
+	.home_inner_banner, .inner_banner {width: 100%; height: auto}
+	.banner_sidebar {width: 100%; height: auto; padding: 7% 3% 9%;position: absolute; bottom: 0}
+	.menu_icon {background: #311717; padding: 1% ; width: 22px;margin-top: 2.2%}
+	h2.m-t-01, .banner_container .banner_sidebar h2.m-t-01, .in-det.banner_sidebar h2 {margin-top: 0px}
+	a.scroll-down {position: relative; display: block; width: 100%;text-align: center; left: 0; margin-top: 8%}
+	a.scroll-down img {text-align: center;display: block;margin: 0 auto; margin-top: 4%}
+	.abt_home_left, .abt_home_right  {width: 100%; padding: 4% 2%}
+	.abt_home_left ul li {width: auto; margin: 5px 2%;}
+	#owl_demo1 .owl-nav {bottom: 15%}
+	.franchisee_text, .learning_blue {width: 62%}
+	.learning_blue {top: 128px;}
+	.explore_btn {width: 60%; margin-top: 100%}
+	.home_bottom_section ul li {width: 49.5%; margin-bottom: 20px}
+	.home_bottom_section ul li:nth-child(2){margin-right: 0}
+	.home_bottom_section ul li img {width: 100%; border: 1px solid #ccc;}
+	footer ul.foot_links:first-child, footer ul.foot_links {width: 33%}
+	footer ul.foot_links.last_child {width: 66%}
+	footer ul.foot_links:nth-child(3) {border-right: none;}
+	footer ul.foot_links:nth-child(4) {padding-left: 0;}
+	.home_bottom_section {background: #fff}
+	.advantage_section ul {background-size: contain; width: 96%}
+	.li_05 {top: 35%;}
+	.advantage_section ul li.li_06 {right: 0}
+	.advantage_section {padding-bottom: 90px}
+	.inner_banner_container .banner_sidebar {position: inherit; height: auto !important}
+	#franchisee .sub-nav {display: none;}
+	.our-frnch-main h3 {font-size: 25px}
+	.frnc_left, .frnc_right {width: 100%; height: auto !important; min-height: auto !important; position: relative; padding: 0; float: left;}
+	.frnc_right form {padding-bottom: 3%}
+	.frnc-right-top {margin-bottom: 0}
+	 #testimonial-gallery .owl-nav {top: -38%;}
+	 #gallery .owl-nav {top: -16%;}
+	.job-desc-row {display: block}
+	.job-colm1 {width: 50%; float: left;}
+	.job-colm1:first-child {width: 100%; border-right: none;border-bottom: 1px solid #e5e5e5}
+	.job-colm1:nth-child(2),.job-colm1:nth-child(3){border-bottom: 1px solid #e5e5e5}
+	.job-colm1:nth-child(3) {border-right: none}
+	.learnings h3, .career-sec h3 {font-size: 22px}
+	.career-sidebar.banner_sidebar h2 {clear: both;margin-left: 50%; width: 50%;}
+	.corporate_team_lightbox{width: 94%;}
+	.item-tit {background-size: contain; min-height: 155px;}
+	.item-tit span {font-size: 11px}
+	ul.serve-col1:before {height: 76%}
+	.contact-sec {width: 100%;padding: 20px 0;float: left;}
+	.application-form {width: 80%;}
+	#apply-now-frame .light_inner {overflow: scroll}
+	.home-enquire-form {width: 55%}
+	.frnc-right-top img {margin-right: 2%}
+	.frnc-right-top:after{display: none}
+	.frnc-right-top {padding: 3% 4% 4%}
+	.t-item {width: 33%; padding: 2%}	
+	.feature-colm span img, .str img {max-width: 85%}
+	.logo {width: 20%}
+	header {padding-top: 15px}
+	.advantage_section ul li:hover {-webkit-transform: scale(1);transform: scale(1);}
+	a.back-to-top {width: 40px; height: 40px}
+	.career-sidebar.banner_sidebar h2 {margin: 35% 0}
+	.disc-wrap {width: 70%}
+	.our-frnch-main {padding-bottom: 10px}
+	#Learning .sub-nav.sticked {position: relative;}
+	.nri-services div.tab a {font-size: 13px; height: 50px; padding: 14px 1%}
+	.nri .acc-trigger,	.ent-cont h3 {font-size: 17px}
+	.ent-cont p {font-size: 11px}
+	.ent-item {width: 32%;}
+	ul.leader_list li span {font-size: 25px}
+	ul.leader_list li span strong {line-height: normal;}
+	.teamleader-list li span {font-size: 25px}
+	.training-module-bg h4 {font-size: 11px}
+	.our-frnch-main .new-mumb-box h3 .span1, .our-frnch-main h3 .span1 {margin-left: 33%;}
+
+	.filter-result .result-head{
+		width: 100%;
+		margin: 60px auto 0px;
+	}
+	.video-player {width: 90%; float: none; margin: 0 auto;}
+	.video img{    width: 95%;}
+	iframe{width:100% !important;}
+}
+
+@media only screen and (max-width:1024px) and (orientation: portrait), (max-width:768px){
+	.franchise-wrp .find-office .top-wrp{
+	    flex-direction: column;
+	}
+	.franchise-wrp .find-office .top-wrp > div{
+		width: 100% !important;
+	}
+	.franchise-wrp .find-office .top-wrp .wrp-02 ul{
+	    display: flex;
+	    flex-direction: column;
+	    align-items: center;
+	}
+	.franchise-wrp .find-office .top-wrp .wrp-03 ul{
+		flex-direction: column;
+	}
+	.franchise-wrp .find-office .top-wrp .wrp-03 ul li{
+		margin: 0 0 10px 0;
+	    text-align: center;
+	}
+
+	.franchise-wrp .find-office .bottom-wrp .title{
+		line-height: 28px;
+	}
+
+	.specialities-wrp .left{
+	    flex-direction: column;
+	}
+
+	.specialities-wrp .left > div {
+	    width: 100%;
+	    margin-bottom: 30px;
+	    justify-content: center;
+	}
+
+	.find-office{
+	    flex-direction: column;
+	    padding: 30px;
+	    width: 100%;
+	}
+	.find-office .p1{
+	    margin-bottom: 10px;
+	    width: 100%;
+	}
+	.find-office .line{
+	    width: 100%;
+	    height: 1px;
+	    margin: 30px 0;
+	}
+	#search_by{
+	    width: 100%;
+	}
+	.find-office .search{
+		width: 96%;
+	}
+
+	.find-office .form-wrp .select-wrp {
+	    width: 40%;
+	}
+	.find-office .form-wrp select {
+	    width: 100%;
+	}
+	.find-office .form-wrp input[type="button"]{
+	    width: 20%;
+	    padding: 1% 3%;
+	}
+	.frch-item {
+	    width: 46%;
+	}
+	.item-tit {
+	    min-height: 22vw;
+	}
+	.item-tit a {
+	    bottom: 0px;
+	    right: 20px;
+	}
+	.item-tit span {
+	    font-size: 12px;
+	    margin: 20px 0 3px;
+	}
+	.frch-item span.cm-soon{
+	    bottom: 0;
+	    width: 80%;
+	}
+
+	.still-queries-wrp .container > div{
+	    flex-direction: column-reverse;
+	}
+	.still-queries-wrp .container > div > div {
+	    width: 100%;
+	}
+
+
+	.franchise-wrp .find-office .top-wrp .wrp-03 ul li:first-child{
+		/*width: 100%;*/
+	    margin: 0 auto 10px;
+	}
+
+	.franchise-wrp .find-office .top-wrp .wrp-03 ul li:last-child{
+		width: 100%;
+	}
+
+	.franchise-wrp .find-office .top-wrp .wrp-03 ul li img{
+		/*width: 60px;*/
+	}
+
+	.filter-result .change-view {
+	    justify-content: center;
+	    width: 100%;
+	}
+	.home_inner_banner .hm-txt{
+		flex-direction: column;
+		margin-top: 50%;
+		align-items: center;
+	}
+	.home_inner_banner .hm-txt img {
+	    width: 50%;
+	}
+	.home_inner_banner .hm-txt span{
+		text-align: center;
+		font-size: 5vw;
+		width: 50vw;
+	}
+	.enquire-sec .para {
+	    font-size: 20px;
+	}
+}
+
+@media only screen and (max-width:768px){
+	#gallery .owl-na, #testimonial-gallery .owl-nav, #nri-events .owl-nav{top: -22%;}
+	ul.leader_bottom_list > li {width: 100%; border-right: none;border-bottom: 1px #0077b9 dotted; min-height: auto; margin-bottom: 30px; padding-bottom: 20px}
+	.leader_bottom_list h2 img {margin-top: 0}
+	ul.values-list li {width: 30%;}
+	ul.values-list li:nth-child(3) {border-right: none;}
+	.slide-txt .r-col h4 {font-size: 14px; bottom: 23%}
+	ul.blog-items.area-in-list li {width: 42%}
+}
+
+@media only screen and (max-width:767px){
+	.advantage_section ul {background: none; padding: 0 20px; box-sizing: border-box;}
+	.advantage_section ul li, .advantage_section ul li.li_06 {position: relative; top: 0; right: 0; left: 0; margin-bottom: 30px; clear: both;}
+	.advantage_section ul li span {top: 50%; transform: translateY(-50%); left: 120%; font-size: 18px; width: 50%;font-size: 18px;width: 400%;
+    text-align: left;}
+    .advantage_section {padding-bottom: 0px; background-size: cover}
+    .advantage_section p {margin-bottom: 20px}
+    .banner_container {height: auto}
+    .banner_sidebar {position: relative;}
+    .franchisee_text h2 {font-size: 36px}
+    .franchisee_text p {font-size: 17px; line-height: 22px}
+    .learning_blue h2, .bottom_text h4, .frnc_left h2 {font-size: 30px}
+    .abt_home_left ul li {font-size: 14px}
+    .learning_blue p {font-size: 17px; line-height: 22px}
+    .logo {width: 25%}
+    .inner_banner_container {display: block; height: auto}
+    .slide-txt {margin-top: 25%; margin-bottom: 0}
+    .our-frnch-main h3 {font-size: 20px; margin: 30px 0}
+    .frch-item {width: 46%}
+    .top-rod.hidden {display: block} 
+    .new-mumb-box .top-rod, .pune-box .top-rod, .mumb-box .top-rod.mumb-last {width: 100%}
+    .top-rod, .vadod-box .top-rod, .noida-box .top-rod {height: 12px; background-position-x: center; margin-top: 10px; background-position-y: top;}
+    .ahm-box, .noida-box, .vadod-box {margin: 0; text-align: center; padding-top: 8%; width: 100%;}
+    .our-frnch-main h3 .span2, .our-frnch-main h3, .our-frnch-main .new-mumb-box h3 .span1, .our-frnch-main h3 .span1, .our-frnch-main .vadod-box h3, .our-frnch-main .pune-box h3 .span2 {width: 100%; margin: 0; position: relative; left: 0; right: 0; z-index: 11; line-height: 50px; margin: 0; text-align: center;}
+    .vadod-box {margin-right: 0; margin-bottom: 20px}
+    #testimonials .person-img {width: 30%;}
+    #testimonials .person-desc {width: 70%}
+    .t-left {padding-right: 4%}
+	.feature-colm {width: 50%}
+	.menu_icon {margin-top: 5%}
+	ul.trusted-logo li {width: 32%;box-sizing: border-box;}
+	.hm-txt span {font-size: 35px}
+	.ent-item {width: 35%;}
+	.training-module-bg {background-size: cover}
+	ul.other-mod-lst li {width: 100%;}
+	.training-module-bg h4 br {display: none}
+	ul.other-mod-lst {margin-top: 20px;}
+	ul.other-mod-lst li {margin-bottom: 50px}
+	ul.other-mod-lst li:before {left: 0; right: 0; margin: 0 auto;width: 15px; height: 35px; background-image: url(../images/dwn-flow.png); background-position-y: bottom;  bottom: -35px;
+    top: auto; }
+    .training-module-bg h4 {font-size: 13px}
+}
+
+@media only screen and (max-width:600px){
+	.abt_home_left ul li {width: 46%}
+	.franchisee_text, .learning_blue {width: 75%; padding-top: 1%; padding-bottom: 1%}
+	.advantage_section h2, .abt_home_left h2, .home-enquire-form h2 {font-size: 32px}
+	.abt_home_left h3, .advantage_section ul li span, .search_select, input.search_input, .abt_home_right small, .learning_blue p {font-size: 15px;}
+	#search_form_desktop input[type="submit"] {height: 25px; background-size: contain}
+	.cbu_container {background-position-x: 150px}
+	.cbu_left {width: 32%}
+	.franchisee-form .form-rw {width: 49%}
+    div#gallery {margin-top: 100px;}
+	#gallery .owl-nav, #testimonial-gallery .owl-nav, #nri-events .owl-nav {top: -31%;}
+	.job-desc-row h5 {font-size: 14px}
+	.job-colm1 {padding-right: 1%}
+	.videos-sec p{width: 100%;}
+	.team_mem{float: none;width: 100%;text-align: center;}
+	.team_mem img{width: 60%;}
+	.member_details{float: none;width: 100%; height: 300px; overflow: auto;}
+	.corporate_team_lightbox {width: 90%; padding: 20px 10px}
+	.subscriber-inputs input[type="text"] {width: 50%}
+	.learnings h3, .career-sec h3, .media h3 {font-size: 20px}
+	.subscriber-inputs input[type="submit"], .subscriber-inputs input[type="text"] {font-size: 14px}
+	ul.serve-col1 li, ul.serve-col2 li {width: 48%; margin-bottom: 5%}
+	ul.serve-col1:before, ul.serve-col2:before {display: none;}
+	ul.serve-col2 {padding: 0}
+	ul.serve-col1 li small, ul.serve-col2 li small {margin-top: 8px}
+	.cont-left, .cont-right, .career-form-left, .career-form-right {width: 100%; padding: 0}
+	.cont-right {border-left: none; border-top: 1px solid #ccc}
+	.home-enquire-form { width: 70%;}
+	.t-right .t-item {padding-right: 8%}
+	.featr-desc h4 {font-size: 17px; letter-spacing: 1px;line-height: normal; margin-bottom: 5px}
+	.inner_banner_container .slide-txt h1 {font-size: 24px}
+	.hm-txt span {font-size: 27px; line-height: 45px}
+	.hm-txt span img {height: 23%}
+	.research_container .sub-nav:before, .career-sec .sub-nav:before {top: 100%;}
+	.nri-services .tabcontent li span {font-size: 14px}
+	.nri-services .tabcontent li {width: 49%; vertical-align: top}
+	.nri-services .tabcontent li:nth-child(even) {border-right: none;}
+	.nri-services .tabcontent li:nth-child(odd) {padding-left: 0}
+	.ent-item {width: 42%;}
+	.ent-cont h3 {font-size: 16px}
+	ul.leader_list li {width: 49%}
+	ul.leader_list li:nth-child(even) {border-right: none;}
+	.teamleader-list li span {font-size: 20px}
+}
+
+@media only screen and (max-width:540px){
+	.learning_blue h2, .bottom_text h4 {font-size: 25px}
+	#owl_demo1 .owl-nav {bottom: 30%}
+	.blue-btn {letter-spacing: 0}
+	.slide-txt {margin-top: 38% !important}
+	.inner_banner_container .slide-txt h1 {font-size: 23px}
+	#gallery .owl-nav, #nri-events .owl-nav {top: -36%;}
+	.job-colm1 {width: 100%; border: none;border-bottom: 1px solid #e5e5e5;}
+	.application-form {width: 90%; padding: 10px 30px}
+	#apply-now-frame h4 {font-size: 19px; margin-bottom: 6px}
+	#apply-now-frame p {font-size: 11px; line-height: normal;}
+	#apply-now-frame form {margin-top: 10px}
+	#apply-now-frame input[type="text"], #apply-now-frame textarea {padding: 5px; margin-top: 6px}
+	#apply-now-frame textarea {height: 50px}
+	#apply-now-frame small{width: 50%}	
+    .t-left, .t-item, .t-right, .t-right .t-item {width: 100%; text-align: center; padding: 0 2% 5%;}
+    .t-left {margin-bottom: 5%}
+    .t-item {margin-bottom: 5%; border-bottom: 1px solid #ccc}
+    .t-right {border-left: none}
+    .feature-colm {width: 100%; margin-bottom: 30px}
+    .featr-desc ul li, .featr-desc ul li:first-child, .featr-desc ul li:nth-child(3) {width: 100%}
+    span.str, .feature-colm span {width: 10%}
+    .feature-colm:nth-child(2) span img {margin-left: -6px}
+    .feature-colm .featr-desc {position: relative; z-index: 1}
+    .slide-txt {display: block;}
+    .slide-txt .fr-main-left, .fr-main-right {width: 100%; padding: 0 2%}
+    .fr-main-right {padding-right: 0}
+    .slide-img, .slide-txt .l-col {width: 50%}
+    .slide-img { box-shadow: 0 3px 0 0 #ccc}
+    .slide-txt .r-col {width: 80%; padding: 0 2%;}
+    .slide-txt .l-col {margin: 2% 0;}
+    .disc-wrap {width: 92%}
+	#newdisclaim .disc-wrap{ width:92%;padding: 20px;height: 450px;overflow-y: scroll;}
+    .frnc-features-row {margin-bottom: 0}
+    .frnc_left {padding-bottom: 20px}
+    .ent-item {width: 46%;}
+    #testimonial-gallery .owl-nav, #gallery .owl-nav, #nri-events .owl-nav, #success-stories .owl-nav  {width: 80px;}
+    #gallery .owl-nav .owl-prev, #testimonial-gallery .owl-nav .owl-prev, #nri-events .owl-nav .owl-prev, #gallery .owl-nav .owl-next, #testimonial-gallery .owl-nav .owl-next, #nri-events .owl-nav .owl-next, #success-stories .owl-nav .owl-prev, #success-stories .owl-nav .owl-next {width: 35px; height: 35px; background-size: contain}
+    #nri-events .owl-nav {width: 90px}
+    .nri .acc-trigger:after {background-size: 40%}
+    .slide-txt .r-col h4 {width: 60%; font-size: 17px}
+    .training-module-bg .top-lst {width: 100%}
+    #success-stories, #success-stories.owl-carousel {margin-top: 100px}
+    ul.blog-items.area-in-list li {width: 88%; padding: 5%; margin-top: 7%}
+}
+
+@media only screen and (max-width:480px){
+	.logo {width: 32%}
+	.home_inner_banner .search_module, .hm-txt {margin-top: 38%}
+	.advantage_section h2, .abt_home_left h2, .franchisee_text h2 {font-size: 22px}
+	.franchisee_text p, .show_opportunity, .abt_home_right small {font-size: 15px; line-height: normal;}
+	.learning_blue {top: 120px;}
+	.explore_btn{margin-top: 138%; width: 67%}
+	.advantage_section ul li span {width: 260%; font-size: 13px; margin-top: 6%}
+	.home_bottom_section ul li {width: 100%}
+	footer ul.foot_links:first-child, footer ul.foot_links, footer ul.foot_links.last_child, footer ul.foot_links:nth-child(4) {width: 100%; min-height: auto; padding: 0 2%; margin-bottom: 20px; border-bottom: 1px solid #ccc}
+	.home_bottom_section {padding-bottom: 30px}
+	.social_media {width: 100%; text-align: center;}
+	.franchisee_text, .learning_blue {width: 70%; padding: 1% 2%}
+	.learning_blue h2, .bottom_text h4 {font-size: 20px}
+	#sliding_menu_js ul li a {font-size: 13px; padding-top: 10px; padding-bottom: 10px}
+	.menu_icon {padding: 2%}
+	.abt_home_left ul li {width: 100%; margin-left: 6%} 
+	.blue-btn {font-size: 12px}
+	.team_container ul li{width: 100%;}
+	ul.leader_list li, ul.values-list li{width: 100%; border-bottom: 1px #0077b9 dotted; border-right:none; padding: 20px 0}
+	.usa_container {padding: 20px 0}
+	ul.leader_bottom_list > li{width: 100%; border-bottom: 1px #0077b9 dotted; border-right:none;min-height: auto; padding-bottom: 30px; margin-bottom: 25px;}
+   .history_content{margin: 20px 0 50px;}
+    ul.leader_bottom_list > li:last-child{padding:0; margin:0;}
+    footer ul.foot_links li{text-align: center;}
+    .copyright{float: none; text-align: center;}
+    .social_media ul{width: 100%;display: inline-block; text-align: center;}
+    .social_media ul li{float: none; display: inline;}
+    ul.leader_list{margin-top: 0;}
+    footer ul.foot_links{border-right:none;}
+    footer .container, .teamleader-list li.col-6, .teamleader-list li.col-4{width: 100%; padding: 0;}
+    .sub-nav li{margin: 5px 12px;}
+    .sub-nav{padding: 6% 0;}
+    .learn-main img{width: 80%;}
+	#testimonials .person-img {width: 40%; float: none; margin: 0 auto}
+	#testimonials .person-desc {width: 90%; float: none; margin: 0 auto; padding-top: 10%}
+    .learnings h3, .career-sec h3 {font-size: 18px}    
+	.learn-main h5 {font-size: 15px;}
+    .video-colleft{width: 100%; float: none;border-bottom: 1px solid #ccc;padding: 0; padding: 15px 0 25px; border-right: 0;}
+    .video-colleft:nth-child(even){padding-left: 0;}
+    .video-colleft:last-child{border-bottom: none;}
+    .video_iframe_lightbox iframe{height: 300px;}
+    .video_iframe_lightbox{padding: 5px;}
+    .team_mem img {width: 60%;}
+    .member_details{ height: 200px; overflow: auto}
+    .subscriber-inputs input[type="text"] {width: 58%; padding: 12px 2%}
+    ul.serve-col1 li img, ul.serve-col2 li img {max-width: 65%}
+    ul.serve-col1 li small, ul.serve-col2 li small {font-size: 13px}
+    .home-enquire-form {width: 90%}
+    .home-enquire-form form {padding: 5px 10px 10px}
+    .home-enquire-form h2 {padding: 10px; font-size: 28px}
+    .home-enquire-form .form-row {margin-top: 10px;}
+    .home-enquire-form input[type="text"], .home-enquire-form {font-size: 13px}
+    .home-enquire-form small { width: 58%;}
+    .home-enquire-form input[type="checkbox"] {width: 12px; height: 12px; margin-right: 3%}    
+    .slide-img, .slide-txt .l-col {width: 100%; padding: 0 2%}
+    .slide-txt .l-col h2 {font-size: 17px}
+    .sub-nav li:after {display: none}
+    .hm-txt span {font-size: 20px; line-height: 35px;}
+    .nri .acc-trigger {font-size: 14px}
+    .nri-event-wrap {display: block}
+    #nri-events .event-img, #nri-events .event-info {width: 100%}
+    .ent-item {width: 49%;}
+    .top-rod.hidden1 {display: block;}
+    .evnts-main .top-rod.hidden, .evnts-main .top-rod.hide-mob {display: none}
+    .slide-txt .r-col h4 {right: 30%}
+    .hm-txt span img {height: 24%;}
+
+    
+	.enquire-sec .para {
+	    font-size: 14px;
+	    padding: 0 12%;
+	}
+
+    .map-view-wrp {
+	    margin-top: 20px;
+	}
+    .franchise-details .slide-txt .fr-main-left ul li img{
+    	width: 90px;
+    }
+
+    .franchise-details .slide-txt .fr-main-left ul li .name{
+    	font-size: 20px;
+    }
+
+    .franchise-details .slide-txt .fr-main-left ul li .add{
+    	font-size: 16px;
+    }
+    .find-office .form-wrp .select-wrp {
+	    width: 100%;
+	    margin: 10px 0;
+	}
+
+	.find-office .form-wrp input[type="button"]{
+	    width: 100%;
+	    padding: 10px;
+	}
+	.find-office .search {
+	    width: 92%;
+	}
+	.find-office .form-wrp form {
+	    flex-direction: column;
+	}
+
+	a.asses-btn {font-size: 15px}
+	.home_bottom_section img {width: 30px; vertical-align: middle !important;    margin-top: -6px;}
+	.form-row {width: 100%; padding: 0}
+	.rdolbl {display: block; margin-bottom: 10px}
+	.disc-wrap h2 {font-size: 17px}
+	.franchise-wrp .find-office .bottom-wrp .title{
+		font-size: 18px;
+	}
+
+	.frch-item {
+	    width: 44%;
+	}
+	.item-tit {
+	    min-height: 26vw !important;
+	}
+	.item-tit span {
+	    font-size: 11px;
+	    margin: 10px 0 3px;
+	}
+	.frch-item small{
+		font-size: 11px;
+	}
+	.item-tit a {
+	    bottom: -8vw;
+	    right: 0;
+	    left: 0;
+	}
+	.frch-item:nth-child(4),
+	.frch-item:nth-child(5) {
+	    margin-top: 16vw;
+	}
+	.itms-row:nth-child(3),
+	.itms-row:nth-child(4),
+	.itms-row:nth-child(5) {
+	    margin-top: 20vw;
+	}
+	.frch-item span.cm-soon {
+	    bottom: -5vw;
+	    width: 88%;
+	}
+
+	.our-frnch-main:first-child {
+	    margin-top: 0;
+	}
+
+	.home_bottom_section .container{
+	    padding: 50px 8%;
+	}
+
+	.home_bottom_section h4 {
+	    font-size: 14px;
+	}
+
+	.home_bottom_section h3 {
+	    font-size: 20px;
+	    margin: 20px 0 0;
+	}
+
+	.home_bottom_section span {
+	    font-size: 18px;
+	}
+
+	.home_bottom_section span img{
+	    vertical-align: top;
+	    width: 20px;
+	}
+
+	.home_bottom_section span small {
+		font-size: 14px;
+	}
+
+	.franchise-details .slide-txt .fr-main-left ul{
+	    flex-direction: column;
+	}
+
+	.franchise-details .slide-txt .fr-main-left ul li{
+		margin-right: 0;
+	    text-align: center;
+	    margin-top: 10px;
+	}
+	.franchise-wrp .find-office .top-wrp .wrp-02 ul li a {
+	    font-size: 12px;
+	}
+
+	.franchise-wrp .find-office .top-wrp .wrp-03 ul li:first-child{
+		width: 150px;
+	}
+	#franchisee-details-iframe .close_popup{
+		top: -10px;
+		right: -10px;
+		width: 33px;
+		height: 33px;
+		background-position: center;
+	}
+
+	.business-owner-wrp .owl-prev{
+		left: -32px;
+	}
+
+	.business-owner-wrp .owl-next{
+		right: -30px;
+	}
+
+	.item-tit{
+	    display: flex;
+	    align-items: center;
+	}
+
+	.item-tit > img{
+		display: block;
+	    width: 40px;
+	    top: 24px;
+	    position: absolute;
+	}
+	.item-tit span{
+	    width: 100%;
+	    text-align: center;
+	    background: #ebebeb;
+	    margin: 26px 0 0;
+	    padding: 40px 0 3px;
+	}
+	.frch-item small{
+	    width: 100%;
+    	height: 30px;
+	    text-align: center;
+	    background: #ebebeb;
+	}
+	.frch-item a{
+	    background-color: #ebebeb !important;
+	    width: 100%;
+	    border: 1px solid #dfdede;
+	    border-top: none;
+	    box-sizing: border-box;
+	    height: 41px;
+	    bottom: -13vw;
+	}
+
+	.specialities-wrp{
+	    flex-direction: column;
+	}
+	.specialities-wrp > div {
+		width: 100%;
+	}
+
+	.specialities-wrp .left div div:last-child{
+	    margin-right: 0;
+	}
+
+	.lead-form-wrp{
+		top: 100px;
+	}
+	.home_inner_banner .hm-txt {
+	    margin: 54% auto 30%;
+	}
+	.home_inner_banner .hm-txt img {
+	    width: 40%;
+	}
+	.home_inner_banner .hm-txt span {
+	    font-size: 6vw;
+	    width: 60vw;
+	    line-height: 8vw;
+	}
+}
+
+@media only screen and (max-width:420px){
+	#gallery .owl-nav, #testimonial-gallery .owl-nav{top: -22%;}
+	.franchisee-form .form-rw {width: 100%}
+	.item-tit {min-height: 145px;}
+	.nri-services div.tab a {font-size: 9px; padding: 14px 0}
+	.nri-services div.tab a small {display: block}
+	#nri-events .owl-nav{top: -18%;}
+	.event-info a {margin-bottom: 10px}	
+	.ent-item{width: 64%}
+}
+
+@media only screen and (max-width:375px){
+	.ent-item {width: 68%;}
+	.hm-txt span img {width: 20%; height: auto}
+}
+
+@media only screen and (max-width:360px){
+	.hm-txt span {font-size: 19px; line-height: 24px;}
+	/*.hm-txt span img {height: 24%}*/
+	.nri-services div.tab a {font-size: 9px;}
+	.nri-services .tabcontent li {width: 100%; border-right: none; border-bottom: 1px solid #ccc}
+	.nri-services .tabcontent li:last-child{border-bottom: none;}
+	.ent-item{width: 70%}
+	.slide-txt .r-col h4 {font-size: 14px}
+	.explore_btn {margin-top: 152%}
+}
+
+@media only screen and (max-width:320px){
+	.hm-txt span {font-size: 19px; line-height: 23px;}
+	/*.hm-txt span img {height: 18%;}*/
+	.ent-item {width: 76%;}
+	.item-tit {min-height: 125px;}
+}
+

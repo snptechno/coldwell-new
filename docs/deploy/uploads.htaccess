@@ -1,0 +1,8 @@
+# Uploaded files are data: never execute them, never list directories (audit SEC-01, ADM-04).
+Options -Indexes -ExecCGI
+<FilesMatch "\.(?i:php\d?|phtml|phar|pl|py|cgi|sh|asp|aspx|jsp|htaccess)$">
+    Require all denied
+</FilesMatch>
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>

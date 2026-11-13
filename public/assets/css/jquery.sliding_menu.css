@@ -1,0 +1,77 @@
+#sliding_menu_js{
+
+	position: fixed;
+	height: 100%;
+	width: 300px;
+	right: -320px;
+	/*left: 0px;*/
+	top: 0px;
+	background: rgba(0,0,0,0.9);
+	overflow: auto;
+	color: #fff;
+	z-index: 999;
+	text-align: center;
+
+
+  -webkit-box-shadow: 0px 1px 23px 2px #1f1f1f;
+          box-shadow: 0px 1px 23px 2px #1f1f1f;
+
+}
+
+
+/* Header */
+#sliding_menu_js .header{
+	position: relative;
+}
+
+/* Logo */
+#sliding_menu_js img{
+}
+
+/* Titulo */
+#sliding_menu_js h3{
+	font-size: 20px;
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+	text-align: center;
+	color: #000;
+	text-shadow: 0px 0px 3px rgba(255, 255, 255, 1);
+}
+
+#sliding_menu_js_btn h3{
+	font-size: 14px;
+}
+
+/* Menu - Items */
+#sliding_menu_js ul{
+	padding: 0px;
+}
+
+#sliding_menu_js ul li{
+	list-style-type: none;
+	/*border-bottom: 1px solid #dddddd;*/
+	font-size: 16px; color: #fefefe; display: block; text-transform: uppercase; text-align: right;
+}
+
+#sliding_menu_js ul li a{
+	text-decoration: none;
+	font-size: 14px; color: #fefefe; border-bottom: 1px #333333 solid; padding:14px 4%; display: block;letter-spacing: 1px;
+}
+
+
+#sliding_menu_js ul li a:hover,#sliding_menu_js ul li a.active{color:#8cc63f;}
+
+/* Over */
+#sliding_menu_js_over{
+	background: rgba(0,0,0,0.5);
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	top: 0px;
+	z-index: 998;
+	display: none;
+}
+
+
+#enq_btn {margin-right: 23px; margin-top: 25px; float: right;}
