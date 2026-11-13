@@ -26,4 +26,19 @@ class ProjectsModel extends BaseModel
         'is_luxurious',
         'created_date',
     ];
+
+    /**
+     * Names of the enabled projects, alphabetical, for the "I'm interested in"
+     * select of the contact enquiry form.
+     * CI3: inline query in views/home1.php:291.
+     *
+     * @return list<array{name: string}>
+     */
+    public function activeProjectNames(): array
+    {
+        return $this->select('name')
+            ->where('status', 1)
+            ->orderBy('name', 'ASC')
+            ->findAll();
+    }
 }

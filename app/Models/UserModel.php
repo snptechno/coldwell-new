@@ -17,4 +17,18 @@ class UserModel extends BaseModel
         'username',
         'password',
     ];
+
+    /**
+     * Admin user row matching username and password, or null
+     * (CI3: login_model::login). The stored value is the md5 of the password,
+     * as in CI3. Setting the session stays in the controller.
+     */
+    public function findByCredentials(string $username, string $password): ?array
+    {
+        return $this->builder()
+            ->where('username', $username)
+            ->where('password', md5($password))
+            ->get()
+            ->getRowArray();
+    }
 }

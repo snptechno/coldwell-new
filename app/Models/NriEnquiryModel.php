@@ -21,4 +21,28 @@ class NriEnquiryModel extends BaseModel
         'message',
         'created_on',
     ];
+
+    /**
+     * Insert one NRI enquiry and return its id (false on failure).
+     * CI3: Ui_model::nri_enquiry
+     *
+     * @param array<string, mixed> $data
+     */
+    public function addEnquiry(array $data): int|false
+    {
+        $id = $this->insert($data, true);
+
+        return $id === false ? false : (int) $id;
+    }
+
+    /**
+     * All rows, newest id first.
+     * CI3: home_model::show_nri_list
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function allNewestFirst(): array
+    {
+        return $this->orderBy('id', 'desc')->findAll();
+    }
 }

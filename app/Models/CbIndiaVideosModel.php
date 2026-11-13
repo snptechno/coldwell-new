@@ -20,4 +20,89 @@ class CbIndiaVideosModel extends BaseModel
         'is_active',
         'created_date',
     ];
+
+    // ------------------------------------------------------------------
+    // Step-4 port of home_model.php (cb_india_videos). See docs/port-map/videos.md.
+    // ------------------------------------------------------------------
+
+    /**
+     * Admin list, newest first.
+     * CI3: home_model::show_cb_india_videos() (home_model.php:1009).
+     */
+    public function allLatestFirst(): array
+    {
+        return $this->orderBy('id', 'DESC')->findAll();
+    }
+
+    /**
+     * One row for the admin edit form, or null.
+     * CI3: home_model::show_cb_india_video_by_id($id).
+     */
+    public function byId(int $id): ?array
+    {
+        return $this->builder()->where('id', $id)->get()->getRowArray();
+    }
+
+    /**
+     * Insert a video (title, description, video_url).
+     * CI3: home_model::add_cb_india_video($data) - returned the insert() boolean.
+     */
+    public function addVideo(array $data): bool
+    {
+        return (bool) $this->insert($data, false);
+    }
+
+    /**
+     * Update a video; returns the affected row count like CI3.
+     * CI3: home_model::update_cb_india_video($id, $data).
+     */
+    public function updateVideo(int $id, array $data): int
+    {
+        $this->update($id, $data);
+
+        return $this->db->affectedRows();
+    }
+
+    /**
+     * Delete a video by id.
+     * CI3: home_model::delete_cb_india_videos($id) - returned an undefined variable; now returns the delete result.
+     */
+    public function deleteVideo(int $id): bool
+    {
+        return (bool) $this->builder()->where('id', $id)->delete();
+    }
+
+    /**
+     * Enable (1) / disable (0) a video; returns the affected row count like CI3.
+     * CI3: home_model::change_status_cb_india_videos($id, $status).
+     */
+    public function changeStatus(int $id, int $status): int
+    {
+        $this->setStatus($id, $status, 'is_active');
+
+        return $this->db->affectedRows();
+    }
+
+    /**
+     * Active videos for the public page (no ORDER BY, as in CI3).
+     * CI3 in-view query: views/cb_india_videos.php:60.
+     */
+    public function activeVideos(): array
+    {
+        return $this->builder()
+            ->select('id, title, description, video_url')
+            ->where('is_active', 1)
+            ->get()
+            ->getResultArray();
+    }
+
+    /**
+     * Page meta (title, meta_description, meta_keywords) for the public page:
+     * `pages` row id 2, or null. Returned as an array (CI3 returned the row() object).
+     * CI3: Ui_model::cb_india_videos() (ui/Ui_model.php:21).
+     */
+    public function pageInfo(): ?array
+    {
+        return $this->db->table('pages')->where('id', 2)->get()->getRowArray();
+    }
 }

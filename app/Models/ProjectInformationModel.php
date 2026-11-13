@@ -23,4 +23,37 @@ class ProjectInformationModel extends BaseModel
         'towers',
         'created_date',
     ];
+
+    /**
+     * The information block (bedrooms, area, possession, ...) of one project.
+     * CI3: home_model::getSingle_projects_information().
+     */
+    public function findByProject(int $projectId): ?array
+    {
+        return $this->where('project_id', $projectId)->first();
+    }
+
+    /**
+     * Inserts the information block of a project; returns the new id.
+     * CI3: home_model::add_project_information().
+     */
+    public function addInformation(array $data): int
+    {
+        $this->insert($data);
+
+        return (int) $this->getInsertID();
+    }
+
+    /**
+     * Updates an information block by its own id; returns the affected row count.
+     * CI3: home_model::update_project_information().
+     */
+    public function updateInformation(int $id, array $data): int
+    {
+        $this->builder()
+            ->where('id', $id)
+            ->update(array_intersect_key($data, array_flip($this->allowedFields)));
+
+        return $this->db->affectedRows();
+    }
 }
