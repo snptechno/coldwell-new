@@ -13,7 +13,7 @@
     <article class="aos-all">
         <section>
             <div class="container">
-                <?= $this->include('partials/navigation') ?>
+                <?php $this->setVar('act', $page_active); // CI3: $data1['act'] for the navigation partial ?><?= $this->include('partials/navigation') ?>
             </div>
         </section>
         <section class="inner_banner_container">

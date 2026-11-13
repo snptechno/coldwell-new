@@ -5,9 +5,21 @@
 # On the live server the DocumentRoot points straight at public/ instead.
 
 Options -Indexes
+# Apache's automatic "add a slash to directories" would run after the rewrite into
+# public/ and leak "/public" in the redirect. Directory URLs show nothing anyway.
+DirectorySlash Off
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
+
+    # Canonical URLs: /page/ -> /page (301). Done here, before the request is mapped
+    # into public/, so the redirect target never contains "/public". (CI3 served
+    # /page/ and /page as duplicate pages; one canonical URL is better for SEO.)
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} !/(assets|uploads)/
+    RewriteCond %{REQUEST_URI} ^(.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
 

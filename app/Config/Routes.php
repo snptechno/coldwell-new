@@ -21,6 +21,13 @@ foreach (glob(APPPATH . 'Config/Routes/*.php') ?: [] as $file) {
     require $file;
 }
 
+// HEAD must answer wherever GET does (CI3 did; search engines and uptime monitors
+// use HEAD). CI4 only matches HEAD when it is registered, so mirror every public GET.
+// Registered before the admin group so admin routes keep their own rules.
+foreach ($routes->getRoutes('GET') as $from => $to) {
+    $routes->head($from, $to);
+}
+
 // Admin - every route in this group requires a logged-in admin (App\Filters\AdminAuth).
 // Login/logout stay outside the filter. Mutating actions will be POST-only.
 $routes->group('admin', ['filter' => 'adminauth'], static function (RouteCollection $routes): void {

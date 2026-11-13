@@ -1,3 +1,4 @@
+<?php $act ??= $page_active ?? null; // CI3 views passed $data1['act'] = $page_active; CI4 views get it here ?>
 <header>
       <div class="logo">
             <a href="<?php echo base_url(); ?>"><img src="<?php echo base_url(); ?>assets/images/logo.png"></a>
