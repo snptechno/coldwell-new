@@ -74,7 +74,17 @@ class Filters extends BaseFilters
     public array $globals = [
         'before' => [
             // 'honeypot',
-            'csrf',         // audit ADM-03/SEC-08: CI3 had CSRF off; every POST must carry a token
+            // audit ADM-03/SEC-08: CI3 had CSRF off; every POST must carry a token.
+            // Exception: the public site's READ-ONLY AJAX endpoints, which the unchanged
+            // front-end JS calls with POST and no token. They return public data and change
+            // nothing, so CSRF (which protects state changes) does not apply. Every endpoint
+            // that writes data (enquiry forms, newsletter, job applications, admin) stays protected.
+            'csrf' => ['except' => [
+                'load_more_news', 'load_more_newsletter', 'load_more_industry_news', 'load_more_knowledge_series',
+                'load_group_images_gallery', 'get_team_information',
+                'get_owner_info', 'get_specialist_info', 'home/get_owner_info', 'home/get_specialist_info',
+                'get_franchisee_location_by_city', 'get_franchisee_name', 'search_franchisee_by_location',
+            ]],
             'invalidchars', // rejects invalid UTF-8 / control chars in input
         ],
         'after' => [
