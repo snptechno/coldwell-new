@@ -36,3 +36,7 @@ $routes->post('load_more_news', 'Site\Media::loadMoreNews');
 $routes->post('load_more_industry_news', 'Site\Media::loadMoreIndustryNews');
 $routes->post('load_more_knowledge_series', 'Site\Media::loadMoreKnowledgeSeries');
 $routes->post('load_more_newsletter', 'Site\Media::loadMoreNewsletter');
+
+// Newsletter subscription POST (step 7: Site\Enquiry::newsletterSubscription).
+$routes->post('newsletter-subscription', 'Site\Enquiry::newsletterSubscription');
+$routes->post('newsletter_subscription', 'Site\Enquiry::newsletterSubscription');

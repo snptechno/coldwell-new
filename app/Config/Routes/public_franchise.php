@@ -35,3 +35,9 @@ $routes->post('get_franchisee_name', 'Site\Franchise::getFranchiseeName');
 // NOTE: needs 'get_all_franchisee_location' in the CSRF 'except' list of app/Config/Filters.php
 // (the JS sends no token); until then the POST is rejected by the CSRF filter.
 $routes->post('get_all_franchisee_location', 'Site\Franchise::getAllFranchiseeLocation');
+
+// Franchise enquiry POSTs (step 7: Site\Enquiry).
+$routes->post('franchisee-enquiry', 'Site\Enquiry::franchiseeEnquiry');
+$routes->post('franchisee_enquiry', 'Site\Enquiry::franchiseeEnquiry');
+$routes->post('franchisee-details-enquiry/(:num)', 'Site\Enquiry::franchiseeDetailsEnquiry/$1');
+$routes->post('franchisee_details_enquiry/(:num)', 'Site\Enquiry::franchiseeDetailsEnquiry/$1');

@@ -42,3 +42,13 @@ $routes->get('blog', 'Site\Pages::blog');
 // CI3 rendered a missing view (HTTP 500); now an explicit 404.
 $routes->get('test-page', 'Site\Pages::testPage');
 $routes->get('test_page', 'Site\Pages::testPage');
+
+// Enquiry POSTs (step 7: Site\Enquiry).
+$routes->post('nri-enquiry', 'Site\Enquiry::nriEnquiry');
+$routes->post('nri_enquiry', 'Site\Enquiry::nriEnquiry');
+$routes->post('contact-enquiry', 'Site\Enquiry::contactEnquiry');
+$routes->post('contact_enquiry', 'Site\Enquiry::contactEnquiry');
+$routes->post('home/contact_enquiry', 'Site\Enquiry::contactEnquiry');
+$routes->post('contact-enquiry-popup', 'Site\Enquiry::contactEnquiryPopup');
+$routes->post('contact_enquiry_popup', 'Site\Enquiry::contactEnquiryPopup');
+$routes->post('home/contact_enquiry_popup', 'Site\Enquiry::contactEnquiryPopup');

@@ -27,3 +27,8 @@ $routes->get('campus_recruitment', 'Site\Careers::campusRecruitment');
 // AJAX from views/corporate_team.php: $.ajax({url: baseUrl+'get_team_information', type: 'POST'}).
 // Only the underscore spelling is used by the JS (and is the one exempted from CSRF in Filters).
 $routes->post('get_team_information', 'Site\Careers::getTeamInformation');
+
+// Job application POST (step 7: Site\Enquiry::jobApplications, resume upload).
+// POST-only: in CI3 this method was reachable via GET and inserted an empty row.
+$routes->post('job-applications', 'Site\Enquiry::jobApplications');
+$routes->post('job_applications', 'Site\Enquiry::jobApplications');

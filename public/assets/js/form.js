@@ -69,12 +69,16 @@ $('#current_opening').validate({
 		form_data.append('resume_file', file_data);
 		form_data.append('applicant_fname', $('#applicant_fname').val());
 		form_data.append('applicant_lname', $('#applicant_lname').val());
-		form_data.append('gender', $('#gender').val());
+		form_data.append('gender', $('input[name=gender]:checked').val() || '');
 		form_data.append('applicant_mobile', $('#applicant_mobile').val());
 		form_data.append('applicant_phone', $('#applicant_phone').val());
 		form_data.append('applicant_email', $('#applicant_email').val());
 		form_data.append('applicant_address', $('#applicant_address').val());
 		form_data.append('job_id', $('#applicant_position').val());
+		var csrfField = $(form).find('input[type=hidden][name^=csrf]');
+		if (csrfField.length) {
+			form_data.append(csrfField.attr('name'), csrfField.val());
+		}
 
 		var resume_file;
 

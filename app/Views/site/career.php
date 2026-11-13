@@ -173,6 +173,7 @@
                     <span class="message " id="message_for_applicant"></span>
                     <p>Please fill in details to help us understand your requirements</p>
                     <form id="current_opening" name="current_opening" enctype="multipart/form-data"> 
+                        <?= csrf_field() ?>
                         <div class="career-form">
                             <div class="form-row">
                                 <input type="text" name="applicant_fname" id="applicant_fname" placeholder="First Name*">

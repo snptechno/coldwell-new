@@ -69,6 +69,7 @@
 			<a href="javascript:void(0);" class="close-home-enq"></a>
 			<h2>Enquire Now</h2>
 			<form id="enquire_popup">
+				<?= csrf_field() ?>
 				<span id="enquire_popup_response"></span>
 				<div class="form-row"><input type="text" name="name" id="" placeholder="Name*"></div>                            
 				<div class="form-row"><input type="text" name="email" id="" placeholder="Email*"></div>
