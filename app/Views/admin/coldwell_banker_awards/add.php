@@ -1,0 +1,124 @@
+<div class="row">
+	<!-- left column -->
+	<div class="col-md-12">
+	  <!-- general form elements -->
+	  <div class="box box-primary">
+		<div class="box-header with-border">
+		  <h3 class="box-title"><?php echo esc($form_title);?></h3>
+		</div>
+		<!-- /.box-header -->
+		<!-- form start -->
+		<form class="form-horizontal" autocomplete="off" enctype="multipart/form-data" name="news_from" id="news_from"  action="" method="post">
+			<?= csrf_field() ?>
+			<div class="form-group">
+				<label for="meta_description" class="col-sm-2 control-label">Title</label>
+				<div class="col-sm-10">
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="<?php
+                        if (!empty($awards_info)) {
+                            echo esc($awards_info['name']);
+                        }
+                        ?>" >
+                        <span id="title_error" class="text-red" style="display:block;"><?php echo validation_show_error('title');?></span>
+				</div>
+			</div>
+
+			<div class="box-body">
+				<div class="form-group">
+					<label for="exampleInputFile" class="col-sm-2 control-label">Image</label>
+					<div class="col-sm-10">
+						<input type="file" name="image" id="image">
+						<p class="help-block">Upload News image</p>
+						<span id="small_image_error" class="text-red"></span>
+					</div>
+                </div>
+				
+			</div>
+			<?php
+				if (!empty($awards_info) && !empty($awards_info['image'])){ ?>
+					<div class="col-sm-10 col-sm-offset-2">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<img src="<?php echo base_url(); ?>uploads/awards/<?php echo esc($awards_info['image']); ?>" width="100px" alt="<?php echo esc($awards_info['image']); ?>" >
+							</div>
+						</div>
+					</div>
+
+					<input type="hidden" value="<?php echo esc($awards_info['image'])?>" id="existing_image">
+
+				<?php } ?>
+
+				<input type="hidden" name="filetype" value="image" id="filetype">
+
+			<!-- /.box-body -->
+			<div class="box-footer">
+				<button type="submit" class="btn btn-info pull-right">Update</button>
+			</div>
+			<!-- /.box-footer -->
+		</form>
+	  </div>
+    </div>
+</div>
+
+
+<script>
+$(document).ready(function(){
+
+	$(document).on("submit","#news_from",function(){
+
+		var BASE_URL = '<?php echo base_url();?>';
+		  
+		var dRegExp = /^[A-z0-9 ]+$/;
+		var name_error = false;
+		var small_image_error = false;
+
+
+		var image = $('#image').val();
+		var title = $('#title').val();
+		var existing_image = $("#existing_image").val();
+
+		var check = image.split(".");
+
+      	var formdata = new FormData(this);
+
+      	if (title == "") {
+	        $('#title_error').show().html('Please provide title');
+	        title_error = true;
+	    }else{
+	        $('#title_error').show().html('');
+	        title_error = false;
+	    }
+		
+		if(image != "" && existing_image == undefined){
+
+	     	if(check[check.length-1] == 'jpg' || check[check.length-1] == 'JPEG' || check[check.length-1] == 'png'){    	
+		    		$('#small_image_error').show().html('');
+		        	small_image_error = false;
+
+		    }else{
+		    	$('#small_image_error').show().html('Please upload valid image');
+				small_image_error = true; 
+	    	
+		    }
+		}else{
+			if((existing_image == "" || existing_image == undefined)  && image == ""){
+				$('#small_image_error').show().html('Please upload valid image');
+				small_image_error = true; 
+
+			}else if((existing_image == "" || existing_image == undefined)  && image == ""){
+				$('#small_image_error').show().html('Please upload valid image');
+				small_image_error = false; 
+			}else{
+				$('#small_image_error').show().html('');
+				small_image_error = false; 
+			}
+	    }
+
+		if(!small_image_error && !title_error){
+			  return true;
+			}else{
+			  return false;
+			}
+
+		});
+});
+</script>
