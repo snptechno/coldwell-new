@@ -161,6 +161,8 @@ $routes->group('admin', ['filter' => 'adminauth'], static function (RouteCollect
     $routes->get('section/job_openings_list', 'Admin\Section::job_openings_list');
     $routes->match(['GET', 'POST'], 'section/update_job_opening', 'Admin\Section::update_job_opening');
     $routes->match(['GET', 'POST'], 'section/update_job_opening/(:num)', 'Admin\Section::update_job_opening/$1');
+    // The job list's edit icon links to /update_job_opening/{id}/{id}; CI3 ignored the extra segment.
+    $routes->match(['GET', 'POST'], 'section/update_job_opening/(:num)/(:num)', 'Admin\Section::update_job_opening/$1');
     $routes->match(['GET', 'POST'], 'section/save_job', 'Admin\Section::save_job');
     $routes->match(['GET', 'POST'], 'section/save_job/(:num)', 'Admin\Section::save_job/$1');
     $routes->match(['GET', 'POST'], 'section/add_job_opening', 'Admin\Section::add_job_opening');
