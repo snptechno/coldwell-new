@@ -481,7 +481,7 @@ $(document).ready(function(){
 });
 </script>
 
-<script src="http://maps.google.com/maps/api/js?key=AIzaSyA_p_yE6X7SI3hiXb40PZPs9RN0QRZweT4" type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?= esc((string) env("google.mapsKey", ""), "url") ?>" type="text/javascript"></script>
 <script>
 
 function map_view(load_view_type){

@@ -38,6 +38,8 @@ Every environment has its own `.env`. These are the keys used:
 | `session.cookieName` | `cw4_session` (avoids clashing with the old CI3 `ci_session` cookie) |
 | `security.*` | CSRF settings (session-based tokens) |
 | `email.*` | SMTP. Credentials live **only** here, never in PHP code. |
+| `razorpay.keyId` | Razorpay key for /quick-pay. Use a `rzp_test_...` key on staging and the live key only on live. If it is missing, the Pay button cannot open. |
+| `google.mapsKey` | Google Maps JavaScript API key for the /our-franchise map. Restrict it to the site's domains in Google Cloud. |
 
 ## Web server
 

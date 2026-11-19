@@ -39,11 +39,26 @@ class EnquiryMailer
 
             // In local/offline environments where SMTP credentials are not configured,
             // log the notification instead of hanging/failing on an unauthenticated SMTP socket.
-            if ($config->protocol === 'smtp' && trim($config->SMTPUser) === '') {
+            // A local relay (127.0.0.1 / localhost) may run without a login.
+            $localRelay = in_array(strtolower(trim($config->SMTPHost)), ['127.0.0.1', 'localhost', '::1'], true);
+            if ($config->protocol === 'smtp' && trim($config->SMTPUser) === '' && ! $localRelay) {
+                $recipients = is_array($to) ? implode(', ', $to) : $to;
+
+                // On live a missing SMTP login means lost leads: log an error and report failure.
+                if (ENVIRONMENT === 'production') {
+                    log_message('error', sprintf(
+                        'EnquiryMailer: email.SMTPUser is not configured; "%s" to %s was NOT sent.',
+                        $subject,
+                        $recipients,
+                    ));
+
+                    return false;
+                }
+
                 log_message('info', sprintf(
-                    'EnquiryMailer: skipping live SMTP send (no email.SMTPUser configured) for subject "%s" to %s.',
+                    'EnquiryMailer: skipping SMTP send (no email.SMTPUser configured) for subject "%s" to %s.',
                     $subject,
-                     is_array($to) ? implode(', ', $to) : $to,
+                    $recipients,
                 ));
 
                 return true;

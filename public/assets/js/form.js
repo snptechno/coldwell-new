@@ -295,38 +295,6 @@ $('#franchisee_contact').validate({
 	errorPlacement: function(error, element) {},
 	submitHandler: function(form) {
 		form.submit();
-		/*var full_name = $("#fname").val()+' '+$("#lname").val();
-		var email_id = $("#email").val();
-		var phone = $("#phone").val();
-		var interest = '';
-		$('.interest:checked').each(function () {
-            interest = $(this).val();
-            return false;
-       }); 
-
-		var name = full_name;
-		var email = email_id;
-		var mobile = phone;
-		var type = "Query - "+interest; // other options "Query - Buying", "Query - Renting", "Query - Selling" based on check box selected
-		var agentName = "Hemant Vyas";
-		var campaign="Online"
-		var source="Website"
-
-
-		var data = {OBJECT_TYPE:'message',OBJECT:{campaign: campaign_name,source:source, status:type,assign_to:agentName,contact:{name:name,email:email,mobile:mobile}}};
-		$.ajax({
-			type: "POST",
-			url: "http://bizhub.coldwellbanker.in/API",
-			data:{APIK:'75744a696857745070386563596a56676336536575513d3d',Action:'ADD',Data:JSON.stringify(data)},
-			cache: false,
-			crossDomain: true,
-			dataType: 'jsonp',
-			success: function (response) {
-				form.submit();
-			},
-			error: function (response) {}
-
-		});*/
 	}
 });
 

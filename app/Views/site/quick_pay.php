@@ -47,11 +47,11 @@ function quickpay(){
 		amount=amount*100;
 	}
 	var options = {
-		"key": "rzp_live_N8QNJaeZzGa2je",
+		"key": <?= json_encode((string) env("razorpay.keyId", "")) ?>,
 		"amount":amount, // 2000 paise = INR 20
 		"name": "Coldwell Banker",
 		"description": "India",
-		"image": "http://www.coldwellbanker.in/assets/images/logo.png",
+		"image": "<?= base_url() ?>assets/images/logo.png",
 		"handler": function (response){
 			alert('Your Payment Id is '+response.razorpay_payment_id);
 			document.getElementById('name').value='';
