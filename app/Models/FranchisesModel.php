@@ -161,20 +161,32 @@ class FranchisesModel extends BaseModel
     /**
      * Franchise search by the "title, location" autocomplete text (search_id 2).
      * The text is split on commas: part 0 is matched anywhere in the title,
-     * part 1 ('' when missing) is a LIKE pattern on location. The original
-     * operator precedence is kept:
-     *   (is_active = 1 AND title LIKE ...) OR location LIKE ...
-     * Values are bound as-is, so LIKE wildcards behave as before. No ORDER BY.
+     * part 1 (optional) narrows the results to locations that contain it.
+     * Only active franchises are returned, and the text is matched literally.
+     *
+     * Fixed (audit PUB-12): CI3 ran
+     *   is_active = 1 AND title LIKE '%p0%' OR location LIKE 'p1'
+     * without brackets, so an inactive franchise with that exact location was
+     * listed too. Part 1 also kept the space after the comma (" Whitefield"),
+     * so it never matched, and "%" or "_" in the text acted as wildcards.
+     * No ORDER BY, as before.
      * CI3: Ui_model::search_franchisee_by_location, $search_id == 2
      */
     public function searchByTitleOrLocation(string $search): array
     {
-        $parts = explode(',', $search);
+        $parts    = explode(',', $search, 2);
+        $title    = trim($parts[0]);
+        $location = trim($parts[1] ?? '');
 
-        return $this->db->query(
-            'SELECT * FROM franchises WHERE is_active = 1 AND title LIKE ? OR location LIKE ?',
-            ['%' . $parts[0] . '%', $parts[1] ?? '']
-        )->getResultArray();
+        $builder = $this->builder()
+            ->where('is_active', 1)
+            ->like('title', $title);
+
+        if ($location !== '') {
+            $builder->like('location', $location);
+        }
+
+        return $builder->get()->getResultArray();
     }
 
     /**

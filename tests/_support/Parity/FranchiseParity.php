@@ -168,22 +168,25 @@ class FranchiseParity implements ParitySuite
             ],
             [
                 'label'   => "Ui_model::search_franchisee_by_location(2, 'Brad Realty, Whitefield') (Ui_model.php:446)",
-                'old_sql' => "select * from franchises where is_active='1' and title LIKE '%Brad Realty%' OR location LIKE ' Whitefield'",
+                // PUB-12 fixed: compared against the intended (bracketed, trimmed, literal) query.
+                'old_sql' => "select * from franchises where is_active='1' and title LIKE '%Brad Realty%' and location LIKE '%Whitefield%'",
                 'new'     => static fn () => $franchises->searchByTitleOrLocation('Brad Realty, Whitefield'),
                 'compare' => 'set',
+                'note'    => 'PUB-12 fixed: AND instead of unbracketed OR, location trimmed',
             ],
             [
                 'label'   => "Ui_model::search_franchisee_by_location(2, 'Realty') no comma (Ui_model.php:446)",
-                'old_sql' => "select * from franchises where is_active='1' and title LIKE '%Realty%' OR location LIKE ''",
+                'old_sql' => "select * from franchises where is_active='1' and title LIKE '%Realty%'",
                 'new'     => static fn () => $franchises->searchByTitleOrLocation('Realty'),
                 'compare' => 'set',
-                'note'    => 'missing part 1 bound as empty string (PHP 8: undefined key)',
+                'note'    => 'PUB-12 fixed: no location filter when there is no comma',
             ],
             [
                 'label'   => "Ui_model::search_franchisee_by_location(2, 'Spaces,Andheri%') (Ui_model.php:446)",
-                'old_sql' => "select * from franchises where is_active='1' and title LIKE '%Spaces%' OR location LIKE 'Andheri%'",
+                'old_sql' => "select * from franchises where is_active='1' and title LIKE '%Spaces%' and location LIKE '%Andheri\\\\%%'",
                 'new'     => static fn () => $franchises->searchByTitleOrLocation('Spaces,Andheri%'),
                 'compare' => 'set',
+                'note'    => 'PUB-12 fixed: % in the text is literal, not a wildcard',
             ],
             [
                 'label'   => "Ui_model::get_franchisee_name('Realty') (Ui_model.php:475)",
