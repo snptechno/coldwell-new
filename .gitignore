@@ -126,4 +126,8 @@ _modules/*
 /phpunit.xml
 
 # Site uploads are data, not code (295 MB, live copy synced at deploy)
-/public/uploads/
+/public/uploads/*
+!/public/uploads/.htaccess
+!/public/uploads/resume/
+/public/uploads/resume/*
+!/public/uploads/resume/.htaccess
