@@ -66,6 +66,19 @@ class Exceptions extends BaseConfig
         'env',
     ];
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        // Ubuntu's production php.ini sets zend.exception_ignore_args = On, so trace
+        // frames have no 'args'. CI4 4.7.6's maskSensitiveData() reads $line['args']
+        // unconditionally and then fatals inside the error page. With no args there
+        // is nothing to mask, so turn masking off in that case.
+        if (filter_var(ini_get('zend.exception_ignore_args'), FILTER_VALIDATE_BOOLEAN)) {
+            $this->sensitiveDataInTrace = [];
+        }
+    }
+
     /**
      * --------------------------------------------------------------------------
      * WHETHER TO THROW AN EXCEPTION ON DEPRECATED ERRORS
