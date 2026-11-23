@@ -209,5 +209,8 @@ class BlogImportDrupal extends BaseCommand
             $dry ? '[dry run] ' : '',
             $stats['cat_new'], $stats['cat_upd'], $stats['post_new'], $stats['post_upd'], $stats['post_skip'], $stats['img_copied'], $stats['img_missing']
         ), 'green');
+        if (! $dry) {
+            \App\Libraries\BlogCache::clear(); // new/updated posts show immediately
+        }
     }
 }

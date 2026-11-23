@@ -160,9 +160,9 @@ class BlogPostsModel extends BaseModel
             ->orderBy('published_at', 'DESC')->findAll();
     }
 
-    public function incrementViews(int $id): void
+    public function incrementViews(int $id, int $by = 1): void
     {
-        $this->builder()->where('id', $id)->set('views', 'views + 1', false)->update();
+        $this->builder()->where('id', $id)->set('views', 'views + ' . max(1, $by), false)->update();
     }
 
     public function byLegacyNid(int $nid): ?array

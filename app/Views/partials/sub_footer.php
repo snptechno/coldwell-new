@@ -41,7 +41,7 @@
 			<?php
 			// Latest posts from the CI4 blog (replaces two hard-coded links to Drupal posts that no longer exist).
 			try {
-			    $footerPosts = model(\App\Models\BlogPostsModel::class)->recent(2);
+			    $footerPosts = \App\Libraries\BlogCache::remember('recent:2', static fn () => model(\App\Models\BlogPostsModel::class)->recent(2));
 			} catch (\Throwable $e) {
 			    $footerPosts = [];
 			}

@@ -3,6 +3,7 @@
 namespace App\Controllers\Site;
 
 use App\Controllers\BaseController;
+use App\Libraries\BlogCache;
 use App\Libraries\BlogContent;
 use App\Models\BlogCategoriesModel;
 use App\Models\BlogPostsModel;
@@ -32,7 +33,7 @@ class Blog extends BaseController
 
     public function category(string $slug): string
     {
-        $cat = model(BlogCategoriesModel::class)->activeBySlug($slug);
+        $cat = BlogCache::remember('cat:' . $slug, static fn () => model(BlogCategoriesModel::class)->activeBySlug($slug));
         if ($cat === null) {
             throw PageNotFoundException::forPageNotFound();
         }
@@ -43,11 +44,16 @@ class Blog extends BaseController
     private function listing(?array $cat): string
     {
         $posts = model(BlogPostsModel::class);
-        $rows  = $posts->publicPage(self::PER_PAGE, $cat !== null ? (int) $cat['id'] : null);
-        $pager = $posts->pager;
         $asked = $this->request->getGet('page');
         $page  = $asked === null ? 1 : (int) $asked;
-        $last  = max(1, $pager->getPageCount());
+        $catId = $cat !== null ? (int) $cat['id'] : null;
+        $list  = BlogCache::remember('list:' . ($catId ?? 0) . ':' . $page, static function () use ($posts, $catId): array {
+            $rows = $posts->publicPage(self::PER_PAGE, $catId);
+
+            return ['rows' => $rows, 'pages' => $posts->pager->getPageCount()];
+        });
+        $rows = $list['rows'];
+        $last = max(1, (int) $list['pages']);
         // ?page=0, ?page=abc and pages past the end are not real pages.
         if ($asked !== null && ((string) $page !== (string) $asked || $page < 1 || $page > $last)) {
             throw PageNotFoundException::forPageNotFound();
@@ -103,8 +109,8 @@ class Blog extends BaseController
             'last_page'   => $last,
             'page_url'    => $pageUrl,
             'crumbs'      => $crumbs,
-            'categories'  => model(BlogCategoriesModel::class)->listPublicWithCounts(),
-            'recent'      => $posts->recent(5),
+            'categories'  => $this->sidebarCategories(),
+            'recent'      => $this->recentPosts(5),
             'page_active' => 'blog',
         ]);
     }
@@ -112,7 +118,7 @@ class Blog extends BaseController
     public function show(string $slug): string|RedirectResponse
     {
         $model = model(BlogPostsModel::class);
-        $post  = $model->liveBySlug($slug);
+        $post  = BlogCache::remember('post:' . $slug, static fn () => $model->liveBySlug($slug));
         if ($post === null) {
             // Uppercase or stray characters: send to the canonical slug if one matches.
             $clean = BlogContent::slugify($slug);
@@ -125,7 +131,8 @@ class Blog extends BaseController
         if ($post['slug'] !== $slug) { // e.g. /blog/Garden-Homes (MySQL compares case-insensitively)
             return redirect()->to(base_url('blog/' . $post['slug']), 301);
         }
-        $model->incrementViews((int) $post['id']);
+        $postId = (int) $post['id'];
+        BlogCache::countView($postId, static fn (int $n) => $model->incrementViews($postId, $n));
 
         $url    = base_url('blog/' . $post['slug']);
         $image  = $post['og_image'] ?: $post['featured_image'];
@@ -185,17 +192,17 @@ class Blog extends BaseController
             'seo'         => $seo,
             'post'        => $post,
             'crumbs'      => $crumbs,
-            'related'     => $model->related($post, 3),
-            'categories'  => model(BlogCategoriesModel::class)->listPublicWithCounts(),
-            'recent'      => $model->recent(5),
+            'related'     => BlogCache::remember('related:' . $post['id'], static fn () => $model->related($post, 3)),
+            'categories'  => $this->sidebarCategories(),
+            'recent'      => $this->recentPosts(5),
             'page_active' => 'blog',
         ]);
     }
 
     public function feed(): ResponseInterface
     {
-        $rows = model(BlogPostsModel::class)->withCategory()->live()
-            ->orderBy('blog_posts.published_at', 'DESC')->findAll(20);
+        $rows = BlogCache::remember('feed', static fn () => model(BlogPostsModel::class)->withCategory()->live()
+            ->orderBy('blog_posts.published_at', 'DESC')->findAll(20));
 
         return $this->response
             ->setContentType('application/rss+xml', 'UTF-8')
@@ -210,10 +217,10 @@ class Blog extends BaseController
             'finding-a-home', 'selling-a-home', 'learning-development', 'contact-us', 'faq', 'privacy-policy', 'terms-and-conditions'] as $p) {
             $urls[] = ['loc' => base_url($p), 'changefreq' => 'monthly', 'priority' => $p === '' ? '1.0' : '0.6'];
         }
-        $posts  = model(BlogPostsModel::class)->forSitemap();
+        $posts  = BlogCache::remember('sitemap', static fn () => model(BlogPostsModel::class)->forSitemap());
         $latest = $posts[0]['updated_at'] ?? $posts[0]['published_at'] ?? null;
         $urls[] = ['loc' => base_url('blog'), 'lastmod' => $latest, 'changefreq' => 'weekly', 'priority' => '0.8'];
-        foreach (model(BlogCategoriesModel::class)->listPublicWithCounts() as $c) {
+        foreach ($this->sidebarCategories() as $c) {
             $urls[] = ['loc' => base_url('blog/category/' . $c['slug']), 'changefreq' => 'weekly', 'priority' => '0.5'];
         }
         foreach ($posts as $p) {
@@ -281,6 +288,18 @@ class Blog extends BaseController
         }
 
         return base_url('blog');
+    }
+
+    /** Sidebar categories with live-post counts (cached). */
+    private function sidebarCategories(): array
+    {
+        return BlogCache::remember('categories', static fn () => model(BlogCategoriesModel::class)->listPublicWithCounts());
+    }
+
+    /** Latest live posts (cached). */
+    private function recentPosts(int $limit): array
+    {
+        return BlogCache::remember('recent:' . $limit, static fn () => model(BlogPostsModel::class)->recent($limit));
     }
 
     /** Published and not scheduled in the future (a 301 to a 404 would waste the redirect). */

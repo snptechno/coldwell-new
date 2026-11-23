@@ -1,5 +1,6 @@
 <?php
 
+use App\Libraries\BlogCache;
 use App\Libraries\BlogContent;
 use App\Models\BlogCategoriesModel;
 use App\Models\BlogPostsModel;
@@ -28,6 +29,7 @@ final class BlogTest extends CIUnitTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        BlogCache::clear(); // the DB is rebuilt per test; cached rows must not carry over
         $this->catId = (int) (new BlogCategoriesModel())->insert([
             'name' => 'News', 'slug' => 'news', 'status' => 1, 'legacy_drupal_tid' => 35, 'legacy_alias' => 'categories/news',
         ]);
@@ -263,5 +265,29 @@ final class BlogTest extends CIUnitTestCase
         // Post pages too (different route/controller path).
         $post = $this->get('blog/garden-homes')->response()->getHeaderLine('Content-Security-Policy');
         $this->assertStringContainsString("object-src 'none'", $post);
+    }
+
+    public function testAdminEditShowsImmediatelyDespiteCache(): void
+    {
+        $this->get('blog/garden-homes')->assertSee('Garden Homes'); // warms the cache
+        $id = (int) (new BlogPostsModel())->where('slug', 'garden-homes')->first()['id'];
+        $this->adminPost('admin/blog/posts/edit/' . $id, [
+            'title' => 'Garden Homes Renamed', 'slug' => 'garden-homes', 'content' => '<p>x</p>', 'status' => '1',
+        ])->assertRedirect();
+        $this->get('blog/garden-homes')->assertSee('Garden Homes Renamed');
+        $this->get('blog')->assertSee('Garden Homes Renamed');
+    }
+
+    public function testViewsAreWrittenInBatches(): void
+    {
+        $model = new BlogPostsModel();
+        $id    = (int) $model->where('slug', 'garden-homes')->first()['id'];
+        $start = (int) $model->find($id)['views'];
+        for ($i = 1; $i < BlogCache::VIEWS_FLUSH_AT; $i++) {
+            $this->get('blog/garden-homes');
+        }
+        $this->assertSame($start, (int) (new BlogPostsModel())->find($id)['views'], 'no DB write before the batch is full');
+        $this->get('blog/garden-homes');
+        $this->assertSame($start + BlogCache::VIEWS_FLUSH_AT, (int) (new BlogPostsModel())->find($id)['views']);
     }
 }

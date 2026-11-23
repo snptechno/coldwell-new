@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Libraries\BlogCache;
 use App\Libraries\BlogContent;
 use App\Models\BlogCategoriesModel;
 use App\Models\BlogPostsModel;
@@ -126,6 +127,7 @@ class Blog extends BaseController
                 } else {
                     $newId = (int) $model->insert($data);
                 }
+                BlogCache::clear();
                 session()->setFlashdata('success_msg', 'Post saved.');
 
                 return redirect()->to(site_url('admin/blog/posts/edit/' . $newId));
@@ -169,6 +171,7 @@ class Blog extends BaseController
     public function post_status($id, $status): RedirectResponse
     {
         (new BlogPostsModel())->setStatus((int) $id, (int) $status);
+        BlogCache::clear();
         session()->setFlashdata('success_msg', (int) $status === 1 ? 'Post published.' : 'Post moved to draft.');
 
         return redirect()->back(303);
@@ -183,6 +186,7 @@ class Blog extends BaseController
             $this->unlinkUploadFile($row['featured_image']);
             $this->unlinkUploadFile($row['og_image']);
         }
+        BlogCache::clear();
         session()->setFlashdata('success_msg', 'Post deleted.');
 
         return redirect()->to(site_url('admin/blog/posts'), 303);
@@ -264,6 +268,7 @@ class Blog extends BaseController
                     'status'           => (int) $post['status'] === 1 ? 1 : 0,
                 ];
                 $existing ? $model->update($editId, $data) : $model->insert($data);
+                BlogCache::clear();
                 session()->setFlashdata('success_msg', 'Category saved.');
 
                 return redirect()->to(site_url('admin/blog/categories'));
@@ -281,6 +286,7 @@ class Blog extends BaseController
     public function category_status($id, $status): RedirectResponse
     {
         (new BlogCategoriesModel())->setStatus((int) $id, (int) $status);
+        BlogCache::clear();
         session()->setFlashdata('success_msg', 'Updated successfully');
 
         return redirect()->to(site_url('admin/blog/categories'), 303);
@@ -289,6 +295,7 @@ class Blog extends BaseController
     public function category_delete($id): RedirectResponse
     {
         (new BlogCategoriesModel())->deleteCategory((int) $id);
+        BlogCache::clear();
         session()->setFlashdata('success_msg', 'Category deleted. Its posts are now uncategorised.');
 
         return redirect()->to(site_url('admin/blog/categories'), 303);
