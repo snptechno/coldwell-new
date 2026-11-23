@@ -4,7 +4,7 @@
 <head>
 	<?= $this->include('partials/seo_meta') ?>
 	<?= $this->include('partials/header') ?>
-	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/blog.css') ?>" />
+	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/blog.css') . '?v=' . filemtime(FCPATH . 'assets/css/blog.css') ?>" />
 	<?= $this->include('partials/ga_code_header') ?>
 </head>
 

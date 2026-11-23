@@ -4,6 +4,12 @@
 .blog-page .inner_banner_container h1 { color: #fff; }
 .blog-sec { float: left; width: 100%; padding: 30px 0 60px; background: #fff; }
 .blog-sec .container { box-sizing: border-box; }
+/* style.css floats every <nav>; without this the flex layout shrinks beside the floated breadcrumb. */
+.blog-sec .blog-breadcrumb { float: none; width: auto; display: block !important; position: static; }
+.blog-layout { clear: both; width: 100%; }
+/* style.css also makes <header> absolute and floats <section>; reset them inside blog content. */
+.blog-sec .blog-layout header, .blog-sec .blog-layout section, .blog-sec .blog-layout aside, .blog-sec .blog-layout figure { position: static; float: none; width: auto; height: auto; }
+.blog-sec .blog-post > header { padding: 0; margin: 0; background: none; box-shadow: none; z-index: auto; }
 .blog-breadcrumb ol { list-style: none; margin: 0 0 24px; padding: 0; font-size: 13px; color: #777; }
 .blog-breadcrumb li { display: inline; }
 .blog-breadcrumb li + li:before { content: "\203A"; padding: 0 8px; color: #aaa; }
