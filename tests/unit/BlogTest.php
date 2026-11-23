@@ -174,4 +174,81 @@ final class BlogTest extends CIUnitTestCase
         $r->assertStatus(200);
         $r->assertJSONFragment(['slug' => 'garden-homes', 'available' => false, 'suggestion' => 'garden-homes-2']);
     }
+
+    private function adminPost(string $url, array $data)
+    {
+        return $this->withSession(['admin_user' => 'tester'])->post($url, $data + [csrf_token() => csrf_hash()]);
+    }
+
+    public function testAdminCreatesPostWithAutoSlugAndSeo(): void
+    {
+        $r = $this->adminPost('admin/blog/posts/add', [
+            'title' => 'New Launch In Pune!', 'slug' => '', 'content' => '<p>Hello <script>alert(1)</script>world</p>',
+            'status' => '1', 'published_at' => '2020-01-02T10:30', 'category_id' => (string) $this->catId,
+            'meta_title' => 'Pune launch', 'meta_description' => 'Meta for Pune.', 'noindex' => '1',
+        ]);
+        $r->assertRedirect();
+        $row = (new BlogPostsModel())->where('slug', 'new-launch-in-pune')->first();
+        $this->assertNotNull($row, 'post was saved with auto slug');
+        $this->assertStringNotContainsString('<script', $row['content']);
+        $this->assertSame('2020-01-02 10:30:00', $row['published_at']);
+        $this->assertSame(1, (int) $row['noindex']);
+        $this->assertStringEndsWith('admin/blog/posts/edit/' . $row['id'], $r->getRedirectUrl());
+
+        $page = $this->get('blog/new-launch-in-pune');
+        $page->assertStatus(200);
+        $page->assertSee('Pune launch');
+        $this->assertStringContainsString('<meta name="robots" content="noindex, follow"', $page->getBody());
+    }
+
+    public function testAdminAutoSlugAvoidsDuplicates(): void
+    {
+        $this->adminPost('admin/blog/posts/add', ['title' => 'Garden Homes', 'content' => '<p>x</p>', 'status' => '0']);
+        $this->assertNotNull((new BlogPostsModel())->where('slug', 'garden-homes-2')->first());
+    }
+
+    public function testAdminRejectsTakenSlugAndMissingTitle(): void
+    {
+        $model  = new BlogPostsModel();
+        $before = $model->countAllResults();
+        $r = $this->adminPost('admin/blog/posts/add', ['title' => 'Other', 'slug' => 'garden-homes', 'content' => '<p>x</p>', 'status' => '1']);
+        $r->assertStatus(200);
+        $r->assertSee('already used');
+        $r = $this->adminPost('admin/blog/posts/add', ['title' => '', 'content' => '<p>x</p>', 'status' => '1']);
+        $r->assertStatus(200);
+        $this->assertSame($before, (new BlogPostsModel())->countAllResults());
+    }
+
+    public function testAdminEditKeepsOwnSlugAndUpdates(): void
+    {
+        $id = (int) (new BlogPostsModel())->where('slug', 'garden-homes')->first()['id'];
+        $r  = $this->adminPost('admin/blog/posts/edit/' . $id, [
+            'title' => 'Garden Homes Updated', 'slug' => 'garden-homes', 'content' => '<p>New body</p>', 'status' => '1',
+        ]);
+        $r->assertRedirect();
+        $row = (new BlogPostsModel())->find($id);
+        $this->assertSame('Garden Homes Updated', $row['title']);
+        $this->assertSame('garden-homes', $row['slug']);
+        $this->assertSame('2015-03-03 10:00:00', $row['published_at'], 'empty date keeps original');
+    }
+
+    public function testAdminStatusDeleteAndCategorySave(): void
+    {
+        $id = (int) (new BlogPostsModel())->where('slug', 'garden-homes')->first()['id'];
+        $this->adminPost("admin/blog/posts/status/{$id}/0", [])->assertRedirect();
+        $this->get('blog/garden-homes')->assertStatus(404);
+        $this->adminPost("admin/blog/posts/delete/{$id}", [])->assertRedirect();
+        $this->assertNull((new BlogPostsModel())->find($id));
+
+        $this->adminPost('admin/blog/categories/add', ['name' => 'Market Trends', 'slug' => '', 'status' => '1'])->assertRedirect();
+        $this->assertNotNull((new BlogCategoriesModel())->where('slug', 'market-trends')->first());
+    }
+
+    public function testAdminWriteWithoutLoginIsRejected(): void
+    {
+        $before = (new BlogPostsModel())->countAllResults();
+        $r = $this->withSession([])->post('admin/blog/posts/add', ['title' => 'Hack', 'content' => 'x', 'status' => '1', csrf_token() => csrf_hash()]);
+        $r->assertRedirect();
+        $this->assertSame($before, (new BlogPostsModel())->countAllResults());
+    }
 }
