@@ -35,7 +35,7 @@ $siteHost = parse_url(base_url(), PHP_URL_HOST);
       <div class="box box-primary">
         <div class="box-header with-border">
           <h3 class="box-title"><?= esc($form_title) ?></h3>
-          <?php if ($p !== [] && (int) $p['status'] === 1): ?>
+          <?php if ($p !== [] && (int) $p['status'] === 1 && ! empty($p['published_at']) && strtotime($p['published_at']) <= time()): ?>
             <a href="<?= base_url('blog/' . $p['slug']) ?>" target="_blank" rel="noopener" class="pull-right"><i class="fa fa-external-link"></i> View post</a>
           <?php endif; ?>
         </div>

@@ -252,7 +252,7 @@ class Blog extends BaseController
         if (in_array($lower, ['rss.xml', 'articles/feed', 'blog/feed', 'feed'], true)) {
             return base_url('blog/feed');
         }
-        if (preg_match('#^node/(\d+)#', $lower, $m) && ($p = $posts->byLegacyNid((int) $m[1])) && (int) $p['status'] === 1) {
+        if (preg_match('#^node/(\d+)#', $lower, $m) && ($p = $posts->byLegacyNid((int) $m[1])) && $this->isLive($p)) {
             return base_url('blog/' . $p['slug']);
         }
         if (preg_match('#^taxonomy/term/(\d+)#', $lower, $m) && ($c = $cats->byLegacyTid((int) $m[1])) && (int) $c['status'] === 1) {
@@ -267,7 +267,7 @@ class Blog extends BaseController
             return base_url('blog');
         }
         // Aliases: content/{slug}, categories/{slug} (or anything else stored at import).
-        if (($p = $posts->byLegacyAlias($lower)) && (int) $p['status'] === 1) {
+        if (($p = $posts->byLegacyAlias($lower)) && $this->isLive($p)) {
             return base_url('blog/' . $p['slug']);
         }
         if (($c = $cats->byLegacyAlias($lower)) && (int) $c['status'] === 1) {
@@ -281,6 +281,12 @@ class Blog extends BaseController
         }
 
         return base_url('blog');
+    }
+
+    /** Published and not scheduled in the future (a 301 to a 404 would waste the redirect). */
+    private function isLive(array $p): bool
+    {
+        return (int) $p['status'] === 1 && ! empty($p['published_at']) && strtotime((string) $p['published_at']) <= time();
     }
 
     /** @param list<array{0: string, 1: string}> $crumbs */
