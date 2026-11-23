@@ -35,6 +35,7 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
         'adminauth'     => \App\Filters\AdminAuth::class, // protects the "admin" route group
+        'secheaders'    => \App\Filters\SecurityHeaders::class, // CSP on the blog (public + admin)
     ];
 
     /**
@@ -121,5 +122,8 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+        // CSP on the blog's public pages and its admin (see App\Filters\SecurityHeaders).
+        'secheaders' => ['after' => ['blog', 'blog/*', 'blogs', 'blogs/*', 'sitemap.xml', 'admin/blog', 'admin/blog/*']],
+    ];
 }

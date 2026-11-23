@@ -18,6 +18,15 @@ class Login extends BaseController
         $password = $this->request->getPost('password');
 
         if ($username !== null && $password !== null) {
+            // Brute-force throttle: at most 5 login attempts per minute per IP.
+            $throttler = \Config\Services::throttler();
+            if ($throttler->check(md5('admin-login-' . $this->request->getIPAddress()), 5, MINUTE) === false) {
+                session()->setFlashdata('error', ' Too many login attempts. Please wait '
+                    . $throttler->getTokenTime() . ' seconds and try again.');
+
+                return redirect()->to(site_url('admin/login/'));
+            }
+
             $user = (new UserModel())->findByCredentials((string) $username, (string) $password);
             if ($user !== null && isset($user['id']) && (int) $user['id'] > 0) {
                 // ADM-05: Regenerate session ID on login to prevent session fixation.

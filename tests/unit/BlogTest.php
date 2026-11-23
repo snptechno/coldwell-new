@@ -251,4 +251,17 @@ final class BlogTest extends CIUnitTestCase
         $r->assertRedirect();
         $this->assertSame($before, (new BlogPostsModel())->countAllResults());
     }
+
+    public function testBlogPagesSendContentSecurityPolicy(): void
+    {
+        $csp = $this->get('blog')->response()->getHeaderLine('Content-Security-Policy');
+        $this->assertStringContainsString("base-uri 'self'", $csp);
+        $this->assertStringContainsString("object-src 'none'", $csp);
+        $this->assertStringContainsString("form-action 'self'", $csp);
+        $this->assertStringContainsString("frame-ancestors 'self'", $csp);
+
+        // Post pages too (different route/controller path).
+        $post = $this->get('blog/garden-homes')->response()->getHeaderLine('Content-Security-Policy');
+        $this->assertStringContainsString("object-src 'none'", $post);
+    }
 }
