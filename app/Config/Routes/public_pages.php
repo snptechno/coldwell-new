@@ -36,8 +36,7 @@ $routes->get('nri', 'Site\Pages::nri');
 $routes->get('contact-us', 'Site\Pages::contactUs');
 $routes->get('contact_us', 'Site\Pages::contactUs');
 
-// CI3 redirect() answers a GET with 307.
-$routes->get('blog', 'Site\Pages::blog');
+// /blog is now the CI4 blog: see public_blog.php (Site\Blog).
 
 // CI3 rendered a missing view (HTTP 500); now an explicit 404.
 $routes->get('test-page', 'Site\Pages::testPage');

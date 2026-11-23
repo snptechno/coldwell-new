@@ -85,6 +85,9 @@ class Filters extends BaseFilters
                 'get_owner_info', 'get_specialist_info', 'home/get_owner_info', 'home/get_specialist_info',
                 'get_all_franchisee_location', // map markers on /our-franchise
                 'get_franchisee_location_by_city', 'get_franchisee_name', 'search_franchisee_by_location',
+                // CKEditor 4.5 image upload posts from an iframe without the field; Admin\Blog::upload_image
+                // checks the token from the query string itself, and the route needs an admin login.
+                'admin/blog/upload-image',
             ]],
             'invalidchars', // rejects invalid UTF-8 / control chars in input
         ],

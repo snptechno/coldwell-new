@@ -137,12 +137,6 @@ class Pages extends BaseController
         ] + $this->enquiryFlash());
     }
 
-    /** CI3: Home::blog (Home.php:765): redirect(base_url().'blogs/articles/'), which CI3 sends as 307 for GET. */
-    public function blog(): ResponseInterface
-    {
-        return redirect()->to(base_url() . 'blogs/articles/', 307);
-    }
-
     /**
      * CI3: Home::test_page (Home.php:783) loaded views/test-page.php, which does not exist,
      * so the URL answered HTTP 500. It is a proper 404 now.

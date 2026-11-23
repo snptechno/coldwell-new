@@ -21,6 +21,21 @@
 
         <li class="treeview">
           <a href="#">
+            <i class="fa fa-pencil-square-o"></i>
+            <span>Blog</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo base_url(); ?>admin/blog/posts"><i class="fa fa-circle-o"></i> Posts</a></li>
+            <li><a href="<?php echo base_url(); ?>admin/blog/posts/add"><i class="fa fa-circle-o"></i> Add New Post</a></li>
+            <li><a href="<?php echo base_url(); ?>admin/blog/categories"><i class="fa fa-circle-o"></i> Categories</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
             <i class="fa fa-book"></i>
             <span>Manage Learning Section</span>
             <span class="pull-right-container">

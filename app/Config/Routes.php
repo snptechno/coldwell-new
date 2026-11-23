@@ -244,10 +244,26 @@ $routes->group('admin', ['filter' => 'adminauth'], static function (RouteCollect
     $routes->get('section/export_franchisee_enquiries_to_excell/(:segment)', 'Admin\Section::export_franchisee_enquiries_to_excell/$1');
     $routes->match(['GET', 'POST'], 'section/export_franchisee_project_enquiries_to_excell', 'Admin\Section::export_franchisee_project_enquiries_to_excell');
     $routes->get('section/export_franchisee_project_enquiries_to_excell/(:segment)', 'Admin\Section::export_franchisee_project_enquiries_to_excell/$1');
+    // Blog (App\Controllers\Admin\Blog) - replaces the Drupal admin at /blogs. Writes are POST + CSRF.
+    $routes->get('blog/posts', 'Admin\Blog::posts');
+    $routes->match(['GET', 'POST'], 'blog/posts/add', 'Admin\Blog::post_form');
+    $routes->match(['GET', 'POST'], 'blog/posts/edit/(:num)', 'Admin\Blog::post_form/$1');
+    $routes->post('blog/posts/status/(:num)/(:num)', 'Admin\Blog::post_status/$1/$2');
+    $routes->post('blog/posts/delete/(:num)', 'Admin\Blog::post_delete/$1');
+    $routes->post('blog/upload-image', 'Admin\Blog::upload_image');
+    $routes->get('blog/slug-check', 'Admin\Blog::slug_check');
+    $routes->get('blog/categories', 'Admin\Blog::categories');
+    $routes->match(['GET', 'POST'], 'blog/categories/add', 'Admin\Blog::category_form');
+    $routes->match(['GET', 'POST'], 'blog/categories/edit/(:num)', 'Admin\Blog::category_form/$1');
+    $routes->post('blog/categories/status/(:num)/(:num)', 'Admin\Blog::category_status/$1/$2');
+    $routes->post('blog/categories/delete/(:num)', 'Admin\Blog::category_delete/$1');
 });
 
 // HEAD must answer wherever GET does (CI3 did; search engines and uptime monitors
 // use HEAD). CI4 only matches HEAD when it is registered, so mirror every GET route.
+// The GET route's options (above all the 'adminauth' group filter) must be copied too,
+// otherwise HEAD /admin/... would run admin controllers without a login.
 foreach ($routes->getRoutes('GET') as $from => $to) {
-    $routes->head($from, $to);
+    $options = $routes->getRoutesOptions($from, 'GET');
+    $routes->head($from, $to, array_intersect_key($options, array_flip(['filter', 'namespace', 'hostname', 'subdomain', 'priority'])));
 }
