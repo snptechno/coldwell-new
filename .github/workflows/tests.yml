@@ -79,5 +79,8 @@ jobs:
       - name: Generate a throwaway encryption key
         run: echo "encryption_key=hex2bin:$(openssl rand -hex 32)" >> "$GITHUB_ENV"
 
+      # --no-coverage: phpunit.dist.xml always requests a coverage report and has
+      # failOnWarning="true", so without Xdebug/PCOV the "No code coverage driver"
+      # warning would fail the job even when every test passes.
       - name: Run PHPUnit
-        run: vendor/bin/phpunit --colors=always
+        run: vendor/bin/phpunit --colors=always --no-coverage
