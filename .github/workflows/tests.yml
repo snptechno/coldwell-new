@@ -1,0 +1,83 @@
+name: Tests
+
+on:
+  push:
+    branches: [main, 'feature/**']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  phpunit:
+    name: PHPUnit (PHP 8.3, MySQL 8.0)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+          MYSQL_DATABASE: coldwell
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1"
+          --health-interval=5s --health-timeout=5s --health-retries=30
+
+    # The same settings as the local .env (which is not in git), pointed at the
+    # MySQL service. CodeIgniter reads "a.b.c" settings from a_b_c variables.
+    env:
+      CI_ENVIRONMENT: testing
+      app_appTimezone: Asia/Kolkata
+      database_default_hostname: 127.0.0.1
+      database_default_port: 3306
+      database_default_database: coldwell
+      database_default_username: root
+      database_default_password: ''
+      database_default_DBDriver: MySQLi
+      database_default_charset: utf8mb4
+      database_default_DBCollat: utf8mb4_general_ci
+      database_default_strictOn: 'false'
+      database_tests_hostname: 127.0.0.1
+      database_tests_port: 3306
+      database_tests_database: coldwell_tests
+      database_tests_username: root
+      database_tests_password: ''
+      database_tests_DBDriver: MySQLi
+      database_tests_DBPrefix: tests_
+      database_tests_charset: utf8mb4
+      database_tests_DBCollat: utf8mb4_general_ci
+      security_csrfProtection: cookie
+      security_tokenName: csrf_cw
+      security_headerName: X-CSRF-TOKEN
+      security_cookieName: csrf_cw_cookie
+      session_cookieName: cw4_session
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: intl, mbstring, mysqli, gd, fileinfo
+          coverage: none
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache/files
+          key: composer-${{ hashFiles('composer.lock') }}
+
+      - run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Create the databases (structure only) and test fixtures
+        run: |
+          mysql -h 127.0.0.1 -uroot -e "CREATE DATABASE IF NOT EXISTS coldwell_tests CHARACTER SET utf8mb4"
+          mysql -h 127.0.0.1 -uroot coldwell < tests/_support/Database/ci/coldwell_schema.sql
+          mysql -h 127.0.0.1 -uroot coldwell < tests/_support/Database/ci/ci_fixtures.sql
+
+      - name: Generate a throwaway encryption key
+        run: echo "encryption_key=hex2bin:$(openssl rand -hex 32)" >> "$GITHUB_ENV"
+
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit --colors=always
