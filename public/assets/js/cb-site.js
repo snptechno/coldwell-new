@@ -287,6 +287,22 @@
     });
   });
 
+  /* ---------- careers: Apply pre-selects the role; résumé drop zone shows the file name ---------- */
+  document.querySelectorAll('[data-apply-job]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var sel = document.querySelector('[data-apply-select]');
+      if (sel) { sel.value = btn.getAttribute('data-apply-job'); setTimeout(function () { sel.focus({ preventScroll: true }); }, 400); }
+    });
+  });
+  document.querySelectorAll('[data-drop]').forEach(function (drop) {
+    var input = drop.querySelector('input[type=file]'), name = drop.querySelector('[data-drop-name]');
+    if (!input || !name) return;
+    var base = name.textContent;
+    input.addEventListener('change', function () { name.textContent = input.files && input.files[0] ? input.files[0].name : base; });
+    ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function () { drop.classList.add('is-over'); }); });
+    ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function () { drop.classList.remove('is-over'); }); });
+  });
+
   /* ---------- album viewer (native <dialog>, photos load on open) ---------- */
   document.querySelectorAll('[data-album]').forEach(function (link) {
     var dlg = document.getElementById(link.getAttribute('data-album'));

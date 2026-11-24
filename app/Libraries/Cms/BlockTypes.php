@@ -131,6 +131,7 @@ final class BlockTypes
                 'body'      => ['label' => 'Text', 'type' => 'textarea', 'max' => 600],
                 'cta_label' => ['label' => 'Button label', 'type' => 'text', 'max' => 60],
                 'cta_url'   => ['label' => 'Button link', 'type' => 'url', 'max' => 255],
+                'cta_tone'  => ['label' => 'Button style', 'type' => 'select', 'options' => ['gold' => 'Gold (primary)', 'light' => 'Light (secondary)'], 'default' => 'gold'],
             ],
             'groups' => [
                 'photo' => ['label' => 'Stacked photos', 'max' => 3, 'fields' => [
@@ -212,7 +213,7 @@ final class BlockTypes
             'label' => 'Icon cards (values)',
             'help'  => 'Centred heading and white icon cards. "Row" fits up to 5 per row (About > Our Values); "3-column grid" highlights the first card in navy (Franchise > Why partner with us).',
             'settings' => [
-                'layout'  => ['label' => 'Layout', 'type' => 'select', 'options' => ['row' => 'Row (up to 5)', 'grid3' => '3-column grid, first card highlighted'], 'default' => 'row'],
+                'layout'  => ['label' => 'Layout', 'type' => 'select', 'options' => ['row' => 'Row (up to 5)', 'grid3' => '3-column grid, first card highlighted', 'grid4' => '4-column grid, first card highlighted'], 'default' => 'row'],
                 'eyebrow' => ['label' => 'Eyebrow', 'type' => 'text', 'max' => 60],
                 'title' => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
                 'lead'  => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
@@ -433,6 +434,28 @@ final class BlockTypes
                 'lead'      => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
                 'cta_label' => ['label' => 'Button label', 'type' => 'text', 'max' => 40],
                 'cta_url'   => ['label' => 'Button link', 'type' => 'url', 'max' => 255],
+            ],
+            'groups' => [],
+        ],
+        'job_openings' => [
+            'label' => 'Current job openings (automatic)',
+            'help'  => 'Open positions from Admin > Job Openings, in tabs by type with counts. Rows expand to show requirements and key duties; Apply jumps to the application form with the role selected.',
+            'settings' => [
+                'title' => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'lead'  => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
+                'empty' => ['label' => 'Text when there are no openings', 'type' => 'text', 'max' => 200],
+            ],
+            'groups' => [],
+        ],
+        'job_apply_form' => [
+            'label' => 'Job application form',
+            'help'  => 'Navy panel with the job application form (position, name, gender, mobile, email, address, résumé upload). Saved to Job Applications and emailed to HR. Link to it with #apply.',
+            'settings' => [
+                'eyebrow'  => ['label' => 'Eyebrow', 'type' => 'text', 'max' => 60],
+                'title'    => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'lead'     => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 400],
+                'cv_email' => ['label' => 'Careers email for CVs', 'type' => 'text', 'max' => 120, 'hint' => 'Shown as "No matching role? Send your CV to …". Leave empty to hide.'],
+                'button'   => ['label' => 'Button label', 'type' => 'text', 'max' => 40, 'default' => 'Submit Application'],
             ],
             'groups' => [],
         ],

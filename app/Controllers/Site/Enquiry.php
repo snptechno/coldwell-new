@@ -462,7 +462,10 @@ class Enquiry extends BaseController
         $phone     = trim($this->postString('applicant_phone'));
         $email     = trim($this->postString('applicant_email'));
         $address   = trim($this->postString('applicant_address'));
-        $jobId     = (int) $this->request->getPost('job_id');
+        $jobId     = (int) $this->postString('job_id');
+        // CMS careers page (source=cms): redirect back to its #apply form with a message instead
+        // of the plain-text reply the legacy AJAX form expects.
+        $fromCms   = $this->request->getPost('source') === 'cms';
 
         if (
             $firstName === ''
@@ -473,17 +476,22 @@ class Enquiry extends BaseController
             || $address === ''
             || $jobId <= 0
         ) {
-            return $this->response->setContentType('text/plain')->setBody('error');
+            return $this->jobReply(false, $fromCms, 'Please fill in all required fields: name, gender, mobile, a valid email, address and the position.');
+        }
+
+        $job = model(JobsModel::class)->findJob($jobId);
+        if ($job === null) {
+            return $this->jobReply(false, $fromCms, 'That position is no longer open. Please choose another one.');
         }
 
         $file = $this->request->getFile('resume_file');
         if ($file === null || ! $file->isValid() || $file->hasMoved()) {
-            return $this->response->setContentType('text/plain')->setBody('error');
+            return $this->jobReply(false, $fromCms, 'Please attach your résumé.');
         }
 
         $size = $file->getSize();
         if ($size <= 0 || $size >= self::RESUME_MAX_BYTES) {
-            return $this->response->setContentType('text/plain')->setBody('error');
+            return $this->jobReply(false, $fromCms, 'The résumé must be smaller than 2 MB.');
         }
 
         $clientExt = strtolower($file->getClientExtension());
@@ -492,7 +500,7 @@ class Enquiry extends BaseController
             ! in_array($clientExt, self::RESUME_EXTENSIONS, true)
             || ! isset(self::RESUME_MIMES[$mimeType])
         ) {
-            return $this->response->setContentType('text/plain')->setBody('error');
+            return $this->jobReply(false, $fromCms, 'The résumé must be a PDF, DOC, DOCX or RTF file.');
         }
 
         $safeExt   = self::RESUME_MIMES[$mimeType];
@@ -503,7 +511,7 @@ class Enquiry extends BaseController
 
         $newFilename = time() . mt_rand(1000, 999999) . '.' . $safeExt;
         if (! $file->move($uploadDir, $newFilename)) {
-            return $this->response->setContentType('text/plain')->setBody('error');
+            return $this->jobReply(false, $fromCms, 'Your résumé could not be saved. Please try again.');
         }
 
         $applicationsModel = model(JobApplicationsModel::class);
@@ -520,7 +528,6 @@ class Enquiry extends BaseController
         ]);
         $applicationsModel->setResume($insertId, $newFilename);
 
-        $job          = model(JobsModel::class)->findJob($jobId);
         $positionName = (string) ($job['position'] ?? 'Position #' . $jobId);
         $fullName     = trim($firstName . ' ' . $lastName);
 
@@ -543,7 +550,18 @@ class Enquiry extends BaseController
             $uploadDir . DIRECTORY_SEPARATOR . $newFilename,
         );
 
-        return $this->response->setContentType('text/plain')->setBody('success');
+        return $this->jobReply(true, $fromCms, 'Thank you — your application has been received. Our HR team will contact you if your profile matches.');
+    }
+
+    /** Plain-text reply for the legacy AJAX form; redirect + flash to #apply for the CMS form. */
+    private function jobReply(bool $ok, bool $fromCms, string $message): ResponseInterface
+    {
+        if (! $fromCms) {
+            return $this->response->setContentType('text/plain')->setBody($ok ? 'success' : 'error');
+        }
+        session()->setFlashdata(['job_msg' => $message, 'job_ok' => $ok]);
+
+        return redirect()->to($this->cmsNewsletterReturn() . '#apply');
     }
 
     /** Validate resume signatures against the allowed extension and detected type. */

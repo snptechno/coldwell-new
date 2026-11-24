@@ -12,16 +12,17 @@ helper('cb');
 $vals  = $items['value'] ?? [];
 $id    = 'cb-values-title' . $sfx;
 $icons = \App\Libraries\Cms\BlockTypes::ICONS;
-$grid3 = ($s['layout'] ?? 'row') === 'grid3';
+$grid4 = ($s['layout'] ?? 'row') === 'grid4';
+$grid3 = ($s['layout'] ?? 'row') === 'grid3' || $grid4;
 ?>
-<section class="cb-values<?= $grid3 ? ' cb-values--grid3' : '' ?>" aria-labelledby="<?= esc($id, 'attr') ?>">
+<section class="cb-values<?= $grid3 ? ' cb-values--grid3' : '' ?><?= $grid4 ? ' cb-values--grid4' : '' ?>" aria-labelledby="<?= esc($id, 'attr') ?>">
   <div class="cb-wrap">
     <div class="cb-head cb-reveal">
       <?php if (trim($s['eyebrow'] ?? '') !== ''): ?><p class="cb-eyebrow cb-eyebrow--center"><?= esc(trim($s['eyebrow'])) ?></p><?php endif ?>
       <h2 class="cb-h2" id="<?= esc($id, 'attr') ?>"><?= esc(trim($s['title'] ?? '')) ?></h2>
       <?php if (trim($s['lead'] ?? '') !== ''): ?><p class="cb-p"><?= esc(trim($s['lead'])) ?></p><?php endif ?>
     </div>
-    <ul class="cb-values__row" style="--n:<?= $grid3 ? 3 : max(1, min(5, count($vals))) ?>">
+    <ul class="cb-values__row" style="--n:<?= $grid4 ? 4 : ($grid3 ? 3 : max(1, min(5, count($vals)))) ?>">
       <?php foreach ($vals as $i => $v): $ic = isset($icons[$v['kicker'] ?? '']) ? $v['kicker'] : 'star'; ?>
       <li class="cb-vcard cb-reveal<?= $grid3 && $i === 0 ? ' cb-vcard--feature' : '' ?>">
         <span class="cb-vcard__icon"><?= cb_icon($ic) ?></span>

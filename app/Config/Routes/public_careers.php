@@ -8,7 +8,7 @@
  * @var CodeIgniter\Router\RouteCollection $routes
  */
 
-$routes->get('career', 'Site\Careers::career');
+// 'career' is a CMS page (CareersPageSeeder), served by the CMS catch-all route.
 
 $routes->get('franchisees-openings', 'Site\Careers::franchiseesOpenings');
 $routes->get('franchisees_openings', 'Site\Careers::franchiseesOpenings');

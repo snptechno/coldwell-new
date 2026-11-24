@@ -156,7 +156,7 @@ final class CmsPagesTest extends CIUnitTestCase
         $this->assertNull($this->page('other'));
 
         // reserved slugs (fixed list and public routes)
-        foreach (['admin', 'blog', 'home', 'uploads', 'career', 'partner-with-us'] as $slug) {
+        foreach (['admin', 'blog', 'home', 'uploads', 'corporate-team', 'partner-with-us'] as $slug) {
             $r = $this->adminPost('admin/cms/pages/add', $this->pageData(['title' => 'Typed Title', 'slug' => $slug]));
             $r->assertStatus(200);
             $r->assertSee('reserved');

@@ -38,7 +38,7 @@ $id    = 'cb-expertise-title' . $sfx;
         <?php foreach ($miles as $m): ?><li><b><?= esc($m['title']) ?></b> <?= esc($m['subtitle']) ?></li><?php endforeach ?>
       </ul>
       <?php endif ?>
-      <?= cb_pill($s['cta_label'] ?? '', $s['cta_url'] ?? '', 'gold') ?>
+      <?= cb_pill($s['cta_label'] ?? '', $s['cta_url'] ?? '', ($s['cta_tone'] ?? 'gold') === 'light' ? 'light' : 'gold') ?>
     </div>
   </div>
 </section>
