@@ -182,7 +182,7 @@ final class BlogContent
                     continue;
                 }
             }
-            if ($tag === 'a' && $child->getAttribute('target') === '_blank') {
+            if ($tag === 'a' && strtolower(trim($child->getAttribute('target'))) === '_blank') {
                 $child->setAttribute('rel', 'noopener noreferrer');
             }
         }
@@ -192,6 +192,9 @@ final class BlogContent
     {
         $url = trim(html_entity_decode($url, ENT_QUOTES | ENT_HTML5, 'UTF-8'));
         $url = (string) preg_replace('/[\x00-\x20]+/', '', $url);
+        if (str_starts_with($url, '//') || str_contains($url, '\\')) {
+            return false; // protocol-relative / backslash URLs leave the site
+        }
         if ($url === '' || str_starts_with($url, '#') || str_starts_with($url, '/')) {
             return true;
         }

@@ -267,3 +267,8 @@ foreach ($routes->getRoutes('GET') as $from => $to) {
     $options = $routes->getRoutesOptions($from, 'GET');
     $routes->head($from, $to, array_intersect_key($options, array_flip(['filter', 'namespace', 'hostname', 'subdomain', 'priority'])));
 }
+
+// CMS pages and articles (Site\CmsPage, docs/CMS.md). Catch-all for one lowercase slug
+// segment: it MUST stay the last route in this file so every route above still wins.
+$routes->get('([a-z0-9][a-z0-9-]*)', 'Site\CmsPage::show/$1', ['filter' => 'secheaders']);
+$routes->head('([a-z0-9][a-z0-9-]*)', 'Site\CmsPage::show/$1', ['filter' => 'secheaders']); // HEAD mirror: the loop above ran before this route

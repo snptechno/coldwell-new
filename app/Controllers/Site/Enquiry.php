@@ -155,9 +155,9 @@ class Enquiry extends BaseController
      */
     public function contactEnquiryPopup(): ResponseInterface
     {
-        $name     = trim((string) $this->request->getPost('name'));
-        $email    = trim((string) $this->request->getPost('email'));
-        $phone    = trim((string) $this->request->getPost('phone'));
+        $name     = trim($this->postString('name'));
+        $email    = trim($this->postString('email'));
+        $phone    = trim($this->postString('phone'));
         $interest = $this->request->getPost('interest');
 
         if (is_array($interest)) {
@@ -203,9 +203,9 @@ class Enquiry extends BaseController
      */
     public function franchiseeEnquiry(): ResponseInterface
     {
-        $name     = trim((string) $this->request->getPost('name'));
-        $email    = trim((string) $this->request->getPost('email'));
-        $phone    = trim((string) $this->request->getPost('phone'));
+        $name     = trim($this->postString('name'));
+        $email    = trim($this->postString('email'));
+        $phone    = trim($this->postString('phone'));
         $industry = trim((string) ($this->request->getPost('interested') ?? ''));
         $location = trim((string) ($this->request->getPost('loc') ?? ''));
 
@@ -265,11 +265,11 @@ class Enquiry extends BaseController
         $franchiseId = (int) $id;
         $franchise   = $franchiseId > 0 ? model(FranchisesModel::class)->find($franchiseId) : null;
 
-        $fname    = trim((string) $this->request->getPost('fname'));
-        $lname    = trim((string) $this->request->getPost('lname'));
+        $fname    = trim($this->postString('fname'));
+        $lname    = trim($this->postString('lname'));
         $name     = trim($fname . ' ' . $lname);
-        $email    = trim((string) $this->request->getPost('email'));
-        $phone    = trim((string) $this->request->getPost('phone'));
+        $email    = trim($this->postString('email'));
+        $phone    = trim($this->postString('phone'));
         $interest = $this->request->getPost('interest');
 
         if (is_array($interest)) {
@@ -325,11 +325,11 @@ class Enquiry extends BaseController
      */
     public function nriEnquiry(): ResponseInterface
     {
-        $name    = trim((string) $this->request->getPost('name'));
-        $email   = trim((string) $this->request->getPost('email'));
-        $phone   = trim((string) $this->request->getPost('phone'));
-        $message = trim((string) $this->request->getPost('message'));
-        $country = trim((string) $this->request->getPost('nri_country'));
+        $name    = trim($this->postString('name'));
+        $email   = trim($this->postString('email'));
+        $phone   = trim($this->postString('phone'));
+        $message = trim($this->postString('message'));
+        $country = trim($this->postString('nri_country'));
 
         if ($name === '' || ! filter_var($email, FILTER_VALIDATE_EMAIL) || $phone === '' || $message === '' || $country === '') {
             return $this->response->setContentType('text/plain')->setBody('Error');
@@ -369,9 +369,24 @@ class Enquiry extends BaseController
      */
     public function newsletterSubscription(): ResponseInterface
     {
-        $email = trim((string) $this->request->getPost('email'));
+        $email = trim($this->postString('email'));
+        // The redesigned home page's newsletter band posts source=home and expects to return
+        // to its #newsletter anchor (allow-list, never a free redirect target).
+        $fromHome = $this->request->getPost('source') === 'home';
+        $back     = site_url('/');
+        // CMS pages post source=cms and return to the page they came from: only a
+        // same-origin site path taken from the referer, otherwise the home page.
+        if ($this->request->getPost('source') === 'cms') {
+            $fromHome = true;
+            $back     = $this->cmsNewsletterReturn();
+        }
 
         if ($email === '' || ! filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if ($fromHome) {
+                session()->setFlashdata(['newsletter_msg' => 'Please enter a valid email address.', 'newsletter_ok' => false]);
+
+                return redirect()->to($back . '#newsletter');
+            }
             session()->setFlashdata('class', 'message_error');
             session()->setFlashdata('message', 'Please enter a valid email address.');
 
@@ -383,10 +398,28 @@ class Enquiry extends BaseController
             'created_date' => date('Y-m-d H:i:s'),
         ]);
 
+        if ($fromHome) {
+            session()->setFlashdata(['newsletter_msg' => 'Thank you — you are subscribed to Coldwell Banker India updates.', 'newsletter_ok' => true]);
+
+            return redirect()->to($back . '#newsletter');
+        }
         session()->setFlashdata('class', 'message_success');
         session()->setFlashdata('message', 'Your enquiry has been successfully submitted!');
 
         return redirect()->to(site_url('newsletter') . '#media');
+    }
+
+    /** Same-origin CMS page path from the referer (no query/fragment), else the home page URL. */
+    private function cmsNewsletterReturn(): string
+    {
+        $referer = trim((string) $this->request->getServer('HTTP_REFERER'));
+        $base    = rtrim(site_url('/'), '/') . '/';
+        if ($referer === '' || ! str_starts_with($referer, $base)) {
+            return site_url('/');
+        }
+        $rest = substr((string) parse_url($referer, PHP_URL_PATH), strlen((string) parse_url($base, PHP_URL_PATH)));
+
+        return preg_match('#^[a-z0-9][a-z0-9-]{0,189}$#', $rest) ? site_url($rest) : site_url('/');
     }
 
     /**
@@ -402,13 +435,13 @@ class Enquiry extends BaseController
      */
     public function jobApplications(): ResponseInterface
     {
-        $firstName = trim((string) $this->request->getPost('applicant_fname'));
-        $lastName  = trim((string) $this->request->getPost('applicant_lname'));
-        $gender    = strtolower(trim((string) $this->request->getPost('gender')));
-        $mobile    = trim((string) $this->request->getPost('applicant_mobile'));
-        $phone     = trim((string) $this->request->getPost('applicant_phone'));
-        $email     = trim((string) $this->request->getPost('applicant_email'));
-        $address   = trim((string) $this->request->getPost('applicant_address'));
+        $firstName = trim($this->postString('applicant_fname'));
+        $lastName  = trim($this->postString('applicant_lname'));
+        $gender    = strtolower(trim($this->postString('gender')));
+        $mobile    = trim($this->postString('applicant_mobile'));
+        $phone     = trim($this->postString('applicant_phone'));
+        $email     = trim($this->postString('applicant_email'));
+        $address   = trim($this->postString('applicant_address'));
         $jobId     = (int) $this->request->getPost('job_id');
 
         if (
@@ -512,5 +545,16 @@ class Enquiry extends BaseController
         $seg   = $slug !== '' ? 'coldwell-banker-' . $slug : 'coldwell-banker';
 
         return site_url('our-franchise-details/' . $seg . '/' . $franchiseId);
+    }
+
+    /**
+     * A POST field as a string; arrays (e.g. email[]=x) become '' instead of raising
+     * "Array to string conversion" (HTTP 500) before validation runs.
+     */
+    private function postString(string $key): string
+    {
+        $v = $this->request->getPost($key);
+
+        return is_string($v) ? $v : '';
     }
 }

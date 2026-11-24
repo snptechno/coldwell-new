@@ -124,6 +124,6 @@ class Filters extends BaseFilters
      */
     public array $filters = [
         // CSP on the blog's public pages and its admin (see App\Filters\SecurityHeaders).
-        'secheaders' => ['after' => ['blog', 'blog/*', 'blogs', 'blogs/*', 'sitemap.xml', 'admin/blog', 'admin/blog/*']],
+        'secheaders' => ['after' => ['blog', 'blog/*', 'blogs', 'blogs/*', 'sitemap.xml', 'admin/blog', 'admin/blog/*', '/', 'index', 'index/*', 'admin/cms', 'admin/cms/*']],
     ];
 }

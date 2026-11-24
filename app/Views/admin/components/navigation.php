@@ -21,6 +21,22 @@
 
         <li class="treeview">
           <a href="#">
+            <i class="fa fa-sitemap"></i>
+            <span>CMS</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?= esc(site_url('admin/cms/pages'), 'attr') ?>"><i class="fa fa-circle-o"></i> Pages</a></li>
+            <li><a href="<?= esc(site_url('admin/cms/pages') . '?type=article', 'attr') ?>"><i class="fa fa-circle-o"></i> Articles</a></li>
+            <li><a href="<?= esc(site_url('admin/cms/menus'), 'attr') ?>"><i class="fa fa-circle-o"></i> Menus</a></li>
+            <li><a href="<?= esc(site_url('admin/cms/settings'), 'attr') ?>"><i class="fa fa-circle-o"></i> Site settings</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
             <i class="fa fa-pencil-square-o"></i>
             <span>Blog</span>
             <span class="pull-right-container">
