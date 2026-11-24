@@ -7,8 +7,10 @@
  * @var CodeIgniter\Router\RouteCollection $routes
  */
 
-$routes->get('learning-development', 'Site\Learning::learningDevelopment');
-$routes->get('learning_development', 'Site\Learning::learningDevelopment');
+// Learning & Development is a CMS page (slug learning-development, served by the catch-all in
+// Routes.php; seeded by LearningPageSeeder). Site\Learning::learningDevelopment and
+// views/site/learning_development.php stay for rollback.
+$routes->get('learning_development', static fn () => redirect()->to(site_url('learning-development'), 301));
 
 // AJAX: the old JS (commented out in views/learning_development.php:221) POSTs group_id to
 // baseUrl + 'load_group_images_gallery'. Only this spelling is CSRF-exempt in app/Config/Filters.php.

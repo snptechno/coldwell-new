@@ -125,7 +125,9 @@ final class BlockTypes
             'label' => 'Photo stack + text',
             'help'  => 'Three overlapping photos beside a heading, text, milestone chips and a button.',
             'settings' => [
+                'logo'      => ['label' => 'Logo above heading (optional)', 'type' => 'image', 'hint' => 'Shown in a white chip, e.g. the Coldwell Banker University logo.'],
                 'title'     => ['label' => 'Heading', 'type' => 'textarea', 'required' => true, 'max' => 160],
+                'quote'     => ['label' => 'Quote (optional)', 'type' => 'textarea', 'max' => 400, 'hint' => 'Shown with a gold rule before the text.'],
                 'body'      => ['label' => 'Text', 'type' => 'textarea', 'max' => 600],
                 'cta_label' => ['label' => 'Button label', 'type' => 'text', 'max' => 60],
                 'cta_url'   => ['label' => 'Button link', 'type' => 'url', 'max' => 255],
@@ -380,6 +382,57 @@ final class BlockTypes
                 'right_title' => ['label' => 'Newsletter heading', 'type' => 'text', 'max' => 80, 'default' => 'Newsletter Archive'],
                 'right_lead'  => ['label' => 'Newsletter text', 'type' => 'text', 'max' => 160],
                 'limit'       => ['label' => 'Items per list', 'type' => 'number', 'max' => 2, 'default' => '4'],
+            ],
+            'groups' => [],
+        ],
+        'overview' => [
+            'label' => 'Overview statement + audience chips',
+            'help'  => 'Centred eyebrow, large statement, supporting text and a row of chips (one per line).',
+            'settings' => [
+                'eyebrow'   => ['label' => 'Eyebrow', 'type' => 'text', 'max' => 60],
+                'statement' => ['label' => 'Statement', 'type' => 'textarea', 'required' => true, 'max' => 400],
+                'body'      => ['label' => 'Text', 'type' => 'textarea', 'max' => 800],
+                'chips'     => ['label' => 'Chips (one per line)', 'type' => 'textarea', 'max' => 400],
+            ],
+            'groups' => [],
+        ],
+        'numbered_cards' => [
+            'label' => 'Numbered cards (programs)',
+            'help'  => 'Soft panel with centred heading and numbered white cards (3 per row); the first number is gold. Tags: comma-separated.',
+            'settings' => [
+                'title' => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'lead'  => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
+            ],
+            'groups' => [
+                'card' => ['label' => 'Cards', 'max' => 12, 'fields' => [
+                    'title'    => ['label' => 'Title', 'type' => 'text', 'required' => true, 'max' => 80],
+                    'subtitle' => ['label' => 'Text', 'type' => 'text', 'max' => 200],
+                    'kicker'   => ['label' => 'Tags (comma-separated)', 'type' => 'text', 'max' => 120],
+                ]],
+            ],
+        ],
+        'event_calendar' => [
+            'label' => 'Training calendar (automatic)',
+            'help'  => 'Navy panel listing UPCOMING training events (Admin > Learning > Events). Past events are never shown; with none upcoming, the "no batches" text and button show instead.',
+            'settings' => [
+                'title'       => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'lead'        => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
+                'limit'       => ['label' => 'Events shown', 'type' => 'number', 'max' => 2, 'default' => '5'],
+                'cta_label'   => ['label' => 'Button label', 'type' => 'text', 'max' => 40, 'default' => 'Register Interest'],
+                'cta_url'     => ['label' => 'Button link', 'type' => 'url', 'max' => 255],
+                'empty_title' => ['label' => 'Text when no batch is scheduled', 'type' => 'text', 'max' => 160],
+                'empty_lead'  => ['label' => 'Supporting text when none', 'type' => 'textarea', 'max' => 300],
+            ],
+            'groups' => [],
+        ],
+        'album_gallery' => [
+            'label' => 'Photo albums (automatic)',
+            'help'  => 'Album bento from Learning > Gallery: newest album large, next four in a grid. Each album opens its photos in a viewer.',
+            'settings' => [
+                'title'     => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'lead'      => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
+                'cta_label' => ['label' => 'Button label', 'type' => 'text', 'max' => 40],
+                'cta_url'   => ['label' => 'Button link', 'type' => 'url', 'max' => 255],
             ],
             'groups' => [],
         ],

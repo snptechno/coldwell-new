@@ -287,6 +287,20 @@
     });
   });
 
+  /* ---------- album viewer (native <dialog>, photos load on open) ---------- */
+  document.querySelectorAll('[data-album]').forEach(function (link) {
+    var dlg = document.getElementById(link.getAttribute('data-album'));
+    if (!dlg || typeof dlg.showModal !== 'function') return; // no <dialog>: the link opens the cover image
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      dlg.querySelectorAll('img[data-src]').forEach(function (im) { im.src = im.getAttribute('data-src'); im.removeAttribute('data-src'); });
+      dlg.showModal(); document.body.classList.add('cb-lock');
+    });
+    dlg.addEventListener('close', function () { document.body.classList.remove('cb-lock'); link.focus(); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+    var x = dlg.querySelector('[data-close]'); if (x) x.addEventListener('click', function () { dlg.close(); });
+  });
+
   /* ---------- reveal on scroll ---------- */
   var reveals = document.querySelectorAll('.cb-reveal');
   if (!reduce && 'IntersectionObserver' in window) {

@@ -29,7 +29,9 @@ $id    = 'cb-expertise-title' . $sfx;
     </div>
     <?php endif ?>
     <div class="cb-expertise__copy cb-reveal">
+      <?php if (($logo = cb_picture($s['logo'] ?? '', 'Coldwell Banker University', ['height' => '53'])) !== ''): ?><span class="cb-fcard__logo cb-logo-chip"><?= $logo ?></span><?php endif ?>
       <h2 class="cb-h2 cb-pre" id="<?= esc($id, 'attr') ?>"><?= esc(trim($s['title'] ?? '')) ?></h2>
+      <?php if (trim($s['quote'] ?? '') !== ''): ?><blockquote class="cb-quote-rule"><p><?= esc(trim($s['quote'])) ?></p></blockquote><?php endif ?>
       <?php if (trim($s['body'] ?? '') !== ''): ?><p class="cb-p"><?= esc(trim($s['body'])) ?></p><?php endif ?>
       <?php if ($miles !== []): ?>
       <ul class="cb-milestones">
