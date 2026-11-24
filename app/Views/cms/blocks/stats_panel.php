@@ -13,6 +13,29 @@ $stats = array_slice($items['stat'] ?? [], 0, 4);
 $id    = 'cb-stats-title' . $sfx;
 $split = ($s['layout'] ?? 'center') === 'split';
 $icons = \App\Libraries\Cms\BlockTypes::ICONS;
+// Live network counts: {offices} / {cities} in figures and text are replaced from the franchises table.
+$live  = static function (string $v): string {
+    static $map = null;
+    if (! str_contains($v, '{')) {
+        return $v;
+    }
+    if ($map === null) {
+        $o   = \App\Libraries\Cms\Offices::all();
+        $map = ['{offices}' => (string) count($o), '{cities}' => (string) count(\App\Libraries\Cms\Offices::cities($o))];
+    }
+
+    return strtr($v, $map);
+};
+foreach ($stats as $k => &$st) {
+    $had         = str_contains((string) $st['title'], '{');
+    $st['title'] = $live((string) $st['title']);
+    if ($had && in_array(trim($st['title']), ['0', ''], true)) {
+        unset($stats[$k]); // live count unavailable: hide the figure rather than show "0"
+    }
+}
+unset($st);
+$stats = array_values($stats);
+$s['body'] = $live((string) ($s['body'] ?? ''));
 ?>
 <?php if ($split): ?>
 <section class="cb-split" aria-labelledby="<?= esc($id, 'attr') ?>">

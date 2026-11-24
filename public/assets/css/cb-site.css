@@ -1050,3 +1050,4 @@ a.cb-channel[href*="franchise"] b+span{color:var(--cb-blue);}
   .cb-viewer__grid{grid-template-columns:1fr;padding:12px;}
 }
 @media (max-width:389px){ .cb-stack__dots button{width:32px;height:32px;} }
+.cb-finder{scroll-margin-top:20px;}

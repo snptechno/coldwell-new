@@ -19,7 +19,7 @@ $default = array_key_first($cities) ?? '';
 $dir     = ($s['layout'] ?? 'finder') === 'directory';
 $lead    = strtr(trim($s['lead'] ?? ''), ['{offices}' => (string) count($offices), '{cities}' => (string) count($cities)]);
 ?>
-<section class="cb-finder<?= $dir ? ' cb-finder--dir' : '' ?>" aria-labelledby="<?= esc($id, 'attr') ?>" data-finder data-default="<?= esc($default, 'attr') ?>">
+<section class="cb-finder<?= $dir ? ' cb-finder--dir' : '' ?>" id="offices<?= esc($sfx, 'attr') ?>" aria-labelledby="<?= esc($id, 'attr') ?>" data-finder data-default="<?= esc($default, 'attr') ?>">
   <div class="cb-wrap">
     <div class="cb-head cb-head--split cb-reveal">
       <div>

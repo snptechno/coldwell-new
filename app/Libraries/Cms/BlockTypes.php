@@ -167,7 +167,7 @@ final class BlockTypes
             ],
             'groups' => [
                 'stat' => ['label' => 'Figures', 'max' => 4, 'fields' => [
-                    'title'    => ['label' => 'Figure', 'type' => 'text', 'required' => true, 'max' => 20, 'hint' => 'Only publish verified figures.'],
+                    'title'    => ['label' => 'Figure', 'type' => 'text', 'required' => true, 'max' => 20, 'hint' => 'Only publish verified figures. {offices} and {cities} show live counts of open franchise offices.'],
                     'subtitle' => ['label' => 'Label', 'type' => 'text', 'required' => true, 'max' => 60],
                     'kicker'   => ['label' => 'Icon (split layout)', 'type' => 'select', 'options' => self::ICONS, 'default' => 'pin'],
                 ]],

@@ -8,8 +8,10 @@
  * @var CodeIgniter\Router\RouteCollection $routes
  */
 
-$routes->get('our-franchise', 'Site\Franchise::ourFranchise');
-$routes->get('our_franchise', 'Site\Franchise::ourFranchise');
+// Our Network is a CMS page (slug our-franchise, served by the catch-all in Routes.php; seeded by
+// NetworkPageSeeder). Site\Franchise::ourFranchise and views/site/our_franchisee.php stay for
+// rollback; the office detail pages below are unchanged.
+$routes->get('our_franchise', static fn () => redirect()->to(site_url('our-franchise'), 301));
 
 // CI3: $route['our-franchise-details/(:any)/(:num)'] plus the catch-all; the name segment is ignored.
 $routes->get('our-franchise-details/(:segment)/(:num)', 'Site\Franchise::ourFranchiseDetails/$1/$2');
