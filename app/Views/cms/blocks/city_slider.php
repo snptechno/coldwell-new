@@ -29,7 +29,7 @@ if ($cities === []) {
       <?php foreach ($cities as $i => $c): ?>
       <li id="<?= esc($cid . $i, 'attr') ?>">
         <a class="cb-city" <?= cb_link_attrs(trim((string) $c['cta_url']) !== '' ? $c['cta_url'] : 'our-franchise') ?>>
-          <?= cb_picture($c['image'], (string) $c['image_alt'], ['width' => '896', 'height' => '1200']) ?>
+          <?= cb_picture($c['image'], (string) $c['image_alt'], ['width' => '896', 'height' => '1200', 'sizes' => '(max-width: 1199px) 300px, 387px']) ?>
           <div><h3><?= esc($c['title']) ?></h3><?php if (trim((string) $c['subtitle']) !== ''): ?><p><?= esc($c['subtitle']) ?></p><?php endif ?></div>
           <div class="cb-city__foot"><span><?= esc((string) $c['body']) ?></span><span class="cb-city__go" aria-hidden="true"><?= cb_icon('diag') ?></span></div>
         </a>

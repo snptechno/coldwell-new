@@ -59,15 +59,46 @@ if (! function_exists('cb_picture')) {
         if ($src === '') {
             return '';
         }
-        $webp = CmsUrl::webpUrl($image);
+        $webp  = CmsUrl::webpUrl($image);
+        // `sizes` (CSS display width) lets the browser pick the smallest WEBP variant
+        // (name-320/640/960.webp, generated next to seeded photos) that is still sharp.
+        $sizes = $attr['sizes'] ?? '100vw';
+        unset($attr['sizes']);
         $attr += ['loading' => 'lazy', 'decoding' => 'async'];
         $a = '';
         foreach ($attr as $k => $v) {
             $a .= ' ' . $k . '="' . esc($v, 'attr') . '"';
         }
         $img = '<img src="' . esc($src, 'attr') . '" alt="' . esc($alt, 'attr') . '"' . $a . '>';
+        if ($webp === '') {
+            return $img;
+        }
 
-        return $webp !== '' ? '<picture><source type="image/webp" srcset="' . esc($webp, 'attr') . '">' . $img . '</picture>' : $img;
+        return '<picture><source type="image/webp" srcset="' . esc(cb_webp_srcset((string) $image, $webp), 'attr') . '" sizes="' . esc($sizes, 'attr') . '">' . $img . '</picture>';
+    }
+}
+
+if (! function_exists('cb_webp_srcset')) {
+    /** "x-320.webp 320w, x-640.webp 640w, x.webp 1536w" for a seeded image whose variants exist (memoised per request). */
+    function cb_webp_srcset(string $image, string $webpUrl): string
+    {
+        static $memo = [];
+        if (isset($memo[$image])) {
+            return $memo[$image];
+        }
+        $root  = rtrim(FCPATH, '\\/') . '/';
+        $file  = (string) preg_replace('/\.jpe?g$/i', '.webp', $image);
+        $parts = [];
+        foreach ([320, 640, 960] as $w) {
+            $v = substr($file, 0, -5) . '-' . $w . '.webp';
+            if (is_file($root . $v)) {
+                $parts[] = base_url($v) . ' ' . $w . 'w';
+            }
+        }
+        $size    = @getimagesize($root . $file);
+        $parts[] = $webpUrl . ($size ? ' ' . $size[0] . 'w' : '');
+
+        return $memo[$image] = count($parts) > 1 ? implode(', ', $parts) : $webpUrl;
     }
 }
 

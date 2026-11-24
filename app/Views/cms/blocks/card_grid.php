@@ -24,7 +24,7 @@ if ($grow === []) {
         <?php foreach ($grow as $g): ?>
         <li class="cb-gcard">
           <div class="cb-gcard__img">
-            <?= cb_picture($g['image'], (string) $g['image_alt'], ['width' => '928', 'height' => '1152']) ?>
+            <?= cb_picture($g['image'], (string) $g['image_alt'], ['width' => '928', 'height' => '1152', 'sizes' => '(max-width: 767px) 280px, (max-width: 1199px) 300px, 363px']) ?>
             <?php if (trim((string) $g['badge']) !== ''): ?><span class="cb-badge<?= stripos((string) $g['badge'], 'flagship') !== false ? ' cb-badge--flagship' : '' ?>"><?= esc($g['badge']) ?></span><?php endif ?>
           </div>
           <div class="cb-gcard__body">

@@ -28,7 +28,7 @@ if ($news === []) {
       <?php foreach ($news as $n): ?>
       <li>
         <a class="cb-ncard" href="<?= esc($n['href'], 'attr') ?>"<?= $n['external'] ? ' target="_blank" rel="noopener"' : '' ?>>
-          <div class="cb-ncard__img"><?= cb_picture($n['image'], $n['alt'], ['width' => '960', 'height' => '536']) ?></div>
+          <div class="cb-ncard__img"><?= cb_picture($n['image'], $n['alt'], ['width' => '960', 'height' => '536', 'sizes' => '(max-width: 1199px) 320px, 384px']) ?></div>
           <p class="cb-ncard__meta"><span class="cb-chip"><?= esc($n['category']) ?></span><span><?= esc($n['meta']) ?></span></p>
           <h3><?= esc($n['title']) ?><?php if ($n['external']): ?><span class="cb-sr"> (opens in a new tab)</span><?php endif ?></h3>
         </a>

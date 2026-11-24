@@ -17,7 +17,7 @@ $id    = 'cb-expertise-title' . $sfx;
     <?php if ($stack !== []): ?>
     <div class="cb-stack cb-reveal" data-stack>
       <?php foreach ($stack as $p): ?>
-      <figure class="cb-stack__img"><?= cb_picture($p['image'], (string) $p['image_alt'], ['width' => '440', 'height' => '600']) ?></figure>
+      <figure class="cb-stack__img"><?= cb_picture($p['image'], (string) $p['image_alt'], ['width' => '440', 'height' => '600', 'sizes' => '(max-width: 767px) 160px, 250px']) ?></figure>
       <?php endforeach ?>
       <?php if (count($stack) > 1): ?>
       <div class="cb-stack__dots">

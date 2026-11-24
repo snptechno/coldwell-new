@@ -24,7 +24,7 @@ $id       = 'cb-leaders-title' . $sfx;
 
     <?php if ($featured): ?>
     <article class="cb-leader-feat cb-reveal">
-      <div class="cb-leader-feat__img"><?= cb_picture($featured['image'], (string) ($featured['image_alt'] ?: $featured['title']), ['width' => '1323', 'height' => '487']) ?></div>
+      <div class="cb-leader-feat__img"><?= cb_picture($featured['image'], (string) ($featured['image_alt'] ?: $featured['title']), ['width' => '1323', 'height' => '487', 'sizes' => '(max-width: 1199px) 100vw, 700px']) ?></div>
       <div class="cb-leader-feat__copy">
         <p class="cb-eyebrow cb-eyebrow--gold"><?= esc((string) $featured['subtitle']) ?></p>
         <h3><?= esc((string) $featured['title']) ?></h3>
@@ -37,7 +37,7 @@ $id       = 'cb-leaders-title' . $sfx;
     <ul class="cb-leader-grid">
       <?php foreach ($people as $p): ?>
       <li class="cb-leader cb-reveal">
-        <div class="cb-leader__img"><?= cb_picture($p['image'], (string) ($p['image_alt'] ?: $p['title']), ['width' => '661', 'height' => '519']) ?></div>
+        <div class="cb-leader__img"><?= cb_picture($p['image'], (string) ($p['image_alt'] ?: $p['title']), ['width' => '661', 'height' => '519', 'sizes' => '(max-width: 767px) 50vw, (max-width: 1199px) 50vw, 384px']) ?></div>
         <h3><?= esc((string) $p['title']) ?></h3>
         <p><?= esc((string) $p['subtitle']) ?></p>
       </li>

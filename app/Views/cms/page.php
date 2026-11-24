@@ -73,7 +73,8 @@ $render = static function (array $block, int $index) use (&$seen, $page, $is_hom
   <link rel="canonical" href="<?= esc($canonical, 'attr') ?>">
   <link rel="shortcut icon" href="<?= esc(base_url('assets/images/favicon.ico'), 'attr') ?>">
   <?php if ($heroImg !== '' && ($hw = CmsUrl::webpUrl($heroImg)) !== ''): ?>
-  <link rel="preload" as="image" href="<?= esc($hw, 'attr') ?>" type="image/webp" fetchpriority="high">
+  <?php /* same srcset/sizes as the hero <picture>, so phones preload the small variant instead of the full image */ ?>
+  <link rel="preload" as="image" href="<?= esc($hw, 'attr') ?>" imagesrcset="<?= esc(cb_webp_srcset($heroImg, $hw), 'attr') ?>" imagesizes="100vw" type="image/webp" fetchpriority="high">
   <?php endif ?>
   <link rel="preload" as="font" href="<?= esc(base_url('assets/fonts/raleway-light-webfont.woff2'), 'attr') ?>" type="font/woff2" crossorigin>
   <link rel="preload" as="font" href="<?= esc(base_url('assets/fonts/raleway-bold-webfont.woff2'), 'attr') ?>" type="font/woff2" crossorigin>

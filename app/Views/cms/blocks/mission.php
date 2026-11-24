@@ -16,7 +16,7 @@ $id     = 'cb-mission-title' . $sfx;
   <?php if ($thumbs !== []): ?>
   <ul class="cb-thumbs cb-reveal">
     <?php foreach ($thumbs as $t): ?>
-    <li><?= cb_picture($t['image'], (string) $t['image_alt'], ['width' => '150', 'height' => '120']) ?></li>
+    <li><?= cb_picture($t['image'], (string) $t['image_alt'], ['width' => '150', 'height' => '120', 'sizes' => '150px']) ?></li>
     <?php endforeach ?>
   </ul>
   <?php endif ?>

@@ -25,7 +25,7 @@ if (\App\Libraries\Cms\CmsUrl::href($vUrl) === '') {
     <div class="cb-hero__slides" aria-hidden="true">
       <?php foreach ($slides as $i => $sl): ?>
       <div class="cb-slide<?= $i === 0 ? ' is-active' : '' ?>">
-        <div class="cb-slide__img"><?= cb_picture($sl['image'], '', ['loading' => $i === 0 ? 'eager' : 'lazy', 'fetchpriority' => $i === 0 ? 'high' : 'low', 'width' => '1536', 'height' => '864']) ?></div>
+        <div class="cb-slide__img"><?= cb_picture($sl['image'], '', ['loading' => $i === 0 ? 'eager' : 'lazy', 'fetchpriority' => $i === 0 ? 'high' : 'low', 'width' => '1536', 'height' => '864', 'sizes' => '100vw']) ?></div>
         <div class="cb-slide__shade"></div>
       </div>
       <?php endforeach ?>
