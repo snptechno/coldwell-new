@@ -7,8 +7,9 @@
  * @var CodeIgniter\Router\RouteCollection $routes
  */
 
-$routes->get('media-center', 'Site\Media::mediaCenter');
-$routes->get('media_center', 'Site\Media::mediaCenter');
+// Media Center is a CMS page (slug media-center, served by the catch-all in Routes.php; seeded by
+// MediaPageSeeder). Site\Media::mediaCenter and views/site/media_center.php stay for rollback.
+$routes->get('media_center', static fn () => redirect()->to(site_url('media-center'), 301));
 $routes->get('industry-news', 'Site\Media::industryNews');
 $routes->get('industry_news', 'Site\Media::industryNews');
 $routes->get('knowledge-series', 'Site\Media::knowledgeSeries');

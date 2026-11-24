@@ -238,6 +238,55 @@
     apply(root.getAttribute('data-default') || '');
   });
 
+  /* ---------- news feed: filter tabs + Load More ---------- */
+  document.querySelectorAll('[data-feed]').forEach(function (root) {
+    var page = parseInt(root.getAttribute('data-page'), 10) || 6;
+    var items = Array.prototype.slice.call(root.querySelectorAll('[data-feed-list] > li'));
+    var tabs = Array.prototype.slice.call(root.querySelectorAll('.cb-tab[data-cat]'));
+    var more = root.querySelector('[data-feed-more]');
+    var cat = '', shown = page;
+    var render = function () {
+      var match = items.filter(function (li) { return !cat || li.getAttribute('data-cat') === cat; });
+      items.forEach(function (li) { li.hidden = true; li.classList.remove('is-more'); });
+      match.forEach(function (li, i) { li.hidden = i >= shown; });
+      if (more) more.parentNode.hidden = match.length <= shown;
+    };
+    tabs.forEach(function (t, k) {
+      t.addEventListener('click', function () {
+        cat = t.getAttribute('data-cat'); shown = page;
+        tabs.forEach(function (o) { var on = o === t; o.setAttribute('aria-selected', on ? 'true' : 'false'); o.tabIndex = on ? 0 : -1; });
+        render();
+      });
+      t.addEventListener('keydown', function (e) {
+        var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (!d) return;
+        e.preventDefault(); var n = tabs[(k + d + tabs.length) % tabs.length]; n.focus(); n.click();
+      });
+    });
+    if (more) more.addEventListener('click', function () {
+      var firstNew = shown; shown += page; render();
+      var match = items.filter(function (li) { return !cat || li.getAttribute('data-cat') === cat; });
+      var a = match[firstNew] && match[firstNew].querySelector('a'); if (a) a.focus({ preventScroll: true });
+    });
+    render();
+  });
+
+  /* ---------- tab panels (video gallery) ---------- */
+  document.querySelectorAll('[data-vtabs]').forEach(function (root) {
+    var tabs = Array.prototype.slice.call(root.querySelectorAll('[role="tab"]'));
+    tabs.forEach(function (t, k) {
+      t.addEventListener('click', function () {
+        tabs.forEach(function (o) {
+          var on = o === t, p = document.getElementById(o.getAttribute('aria-controls'));
+          o.setAttribute('aria-selected', on ? 'true' : 'false'); o.tabIndex = on ? 0 : -1; if (p) p.hidden = !on;
+        });
+      });
+      t.addEventListener('keydown', function (e) {
+        var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (!d) return;
+        e.preventDefault(); var n = tabs[(k + d + tabs.length) % tabs.length]; n.focus(); n.click();
+      });
+    });
+  });
+
   /* ---------- reveal on scroll ---------- */
   var reveals = document.querySelectorAll('.cb-reveal');
   if (!reduce && 'IntersectionObserver' in window) {

@@ -326,6 +326,63 @@ final class BlockTypes
             ],
             'groups' => [],
         ],
+        'featured_news' => [
+            'label' => 'Featured news story (automatic)',
+            'help'  => 'Large photo + story from CB India News. Leave the news ID empty for the latest item, or enter the ID of a news row (Admin > CB India News) to pin it.',
+            'settings' => [
+                'eyebrow'   => ['label' => 'Badge', 'type' => 'text', 'max' => 60, 'default' => 'Featured · CB India News'],
+                'news_id'   => ['label' => 'News ID to pin (optional)', 'type' => 'number', 'max' => 10],
+                'cta_label' => ['label' => 'Button label', 'type' => 'text', 'max' => 40, 'default' => 'Read Article'],
+                'image'     => ['label' => 'Photo', 'type' => 'image', 'hint' => 'Library photo; publisher screenshots are not used.'],
+                'image_alt' => ['label' => 'Photo description (alt)', 'type' => 'text', 'max' => 255],
+            ],
+            'groups' => [],
+        ],
+        'news_feed' => [
+            'label' => 'News feed with filter tabs (automatic)',
+            'help'  => 'Newest items from CB India News, Industry News, Awards, Research, Videos and Newsletter, with filter tabs and Load More.',
+            'settings' => [
+                'title'      => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'per_source' => ['label' => 'Items per source', 'type' => 'number', 'max' => 3, 'default' => '12', 'hint' => '1-30.'],
+                'page_size'  => ['label' => 'Cards shown before "Load More"', 'type' => 'number', 'max' => 2, 'default' => '6'],
+            ],
+            'groups' => [],
+        ],
+        'awards_list' => [
+            'label' => 'Awards & recognition (automatic)',
+            'help'  => 'Soft panel: photo of the latest award with a photo, and the newest awards list (Admin > Awards).',
+            'settings' => [
+                'title'     => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'lead'      => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
+                'limit'     => ['label' => 'Awards listed', 'type' => 'number', 'max' => 2, 'default' => '5'],
+                'cta_label' => ['label' => 'Button label', 'type' => 'text', 'max' => 40],
+                'cta_url'   => ['label' => 'Button link', 'type' => 'url', 'max' => 255],
+            ],
+            'groups' => [],
+        ],
+        'video_gallery' => [
+            'label' => 'Video gallery with tabs (automatic)',
+            'help'  => 'Featured video + list per category (CB India, Featured, Finding a Home, Selling a Home, Testimonials), from the video admin screens. Opens YouTube.',
+            'settings' => [
+                'title'     => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'lead'      => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
+                'cta_label' => ['label' => 'Button label', 'type' => 'text', 'max' => 40],
+                'cta_url'   => ['label' => 'Button link', 'type' => 'url', 'max' => 255],
+            ],
+            'groups' => [],
+        ],
+        'archive_lists' => [
+            'label' => 'Research + newsletter archive (automatic)',
+            'help'  => 'Two cards: newest research reports (PDF) and newsletter editions.',
+            'settings' => [
+                'left_title'  => ['label' => 'Research heading', 'type' => 'text', 'max' => 80, 'default' => 'Research & Reports'],
+                'left_lead'   => ['label' => 'Research text', 'type' => 'text', 'max' => 160],
+                'right_title' => ['label' => 'Newsletter heading', 'type' => 'text', 'max' => 80, 'default' => 'Newsletter Archive'],
+                'right_lead'  => ['label' => 'Newsletter text', 'type' => 'text', 'max' => 160],
+                'limit'       => ['label' => 'Items per list', 'type' => 'number', 'max' => 2, 'default' => '4'],
+            ],
+            'groups' => [],
+        ],
         'rich_text' => [
             'label' => 'Text (rich text)',
             'help'  => 'Heading and formatted text in the content column.',
