@@ -85,7 +85,8 @@
 .cb-arrows{display:flex;gap:10px;}
 
 /* carousel track: native scroll-snap, bleeds past the side padding to the screen edge */
-.cb-track{display:grid;grid-auto-flow:column;gap:20px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
+.cb-track{position:relative; /* contains absolutely positioned .cb-sr text in off-screen cards (else page overflow) */
+  display:grid;grid-auto-flow:column;gap:20px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
   scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;}
 .cb-track::-webkit-scrollbar{display:none;}
 .cb-track>*{scroll-snap-align:start;}
@@ -399,8 +400,13 @@ body.cb-lock{overflow:hidden;}
   .cb-footer__bottom{flex-direction:column;gap:12px;}
   .cb-footer__brand{flex:0 0 calc(50% - 20px);}
 }
+/* small phones: zoom (unlike transform) also shrinks the layout box, so nothing overflows */
 @media (max-width:389px){
-  .cb-stack{transform:scale(.88);transform-origin:top center;margin-bottom:-36px;}
+  .cb-stack{zoom:.86;}
+  .cb-pill{white-space:normal;text-align:left;line-height:1.25;max-width:100%;}
+}
+@media (max-width:349px){
+  .cb-stack{zoom:.78;}
 }
 
 /* ================= CMS inner pages (page_hero, header bar, rich text, article) ================= */
