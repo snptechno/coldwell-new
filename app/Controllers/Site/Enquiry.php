@@ -36,17 +36,6 @@ use CodeIgniter\HTTP\ResponseInterface;
  */
 class Enquiry extends BaseController
 {
-    /** Allowed resume MIME types mapped to canonical extensions (`SEC-01`). */
-    private const RESUME_MIMES = [
-        'application/pdf'                                                         => 'pdf',
-        'application/msword'                                                      => 'doc',
-        'application/vnd.ms-office'                                               => 'doc',
-        'application/CDFV2'                                                       => 'doc',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
-        'application/rtf'                                                         => 'rtf',
-        'text/rtf'                                                                => 'rtf',
-    ];
-
     /** Allowed resume client extensions (`SEC-01`). */
     private const RESUME_EXTENSIONS = ['pdf', 'doc', 'docx', 'rtf'];
 
@@ -108,12 +97,22 @@ class Enquiry extends BaseController
             return $this->response->setContentType('text/plain')->setBody('1');
         }
 
-        $name    = trim((string) ($post['name'] ?? ''));
-        $email   = trim((string) ($post['email'] ?? ''));
-        $phone   = trim((string) ($post['phone'] ?? ''));
-        $message = trim((string) ($post['message'] ?? ''));
+        $name    = trim($this->postString('name'));
+        $email   = trim($this->postString('email'));
+        $phone   = trim($this->postString('phone'));
+        $message = trim($this->postString('message'));
+        // "I am interested in" chips (CMS contact form): allow-listed values only, saved to interested_in.
+        $allowed  = ['Franchise', 'Join as Agent', 'Buying', 'Selling', 'Renting'];
+        $interest = $this->request->getPost('interest');
+        $interest = implode(', ', array_values(array_intersect($allowed, is_array($interest) ? array_filter($interest, 'is_string') : [])));
+        $fromCms  = $this->request->getPost('source') === 'cms';
 
         if ($name === '' || ! filter_var($email, FILTER_VALIDATE_EMAIL) || $phone === '' || $message === '') {
+            if ($fromCms) {
+                session()->setFlashdata(['enquiry_msg' => 'Please fill in your name, a valid email, phone number and message.', 'enquiry_ok' => false]);
+
+                return redirect()->to($this->cmsNewsletterReturn() . '#contact-form');
+            }
             session()->setFlashdata('class', 'message_error');
             session()->setFlashdata('message', 'Please fill in all required fields with a valid email address.');
 
@@ -121,17 +120,19 @@ class Enquiry extends BaseController
         }
 
         model(ContactEnquiryModel::class)->addEnquiry([
-            'name'    => $name,
-            'email'   => $email,
-            'phone'   => $phone,
-            'message' => $message,
+            'name'          => $name,
+            'email'         => $email,
+            'phone'         => $phone,
+            'message'       => mb_substr($message, 0, 5000),
+            'interested_in' => $interest,
         ]);
 
         $html = '<html><body>'
             . '<p>Name : ' . esc($name) . '</p>'
             . '<p>Email : ' . esc($email) . '</p>'
             . '<p>Mobile No. : ' . esc($phone) . '</p>'
-            . '<p>Message : ' . esc($message) . '</p>'
+            . ($interest !== '' ? '<p>Interested in : ' . esc($interest) . '</p>' : '')
+            . '<p>Message : ' . nl2br(esc($message)) . '</p>'
             . '</body></html>';
 
         $this->mailer->send(
@@ -142,6 +143,11 @@ class Enquiry extends BaseController
             $name,
         );
 
+        if ($fromCms) {
+            session()->setFlashdata(['enquiry_msg' => 'Thank you — your message has been sent. Our team will get back to you shortly.', 'enquiry_ok' => true]);
+
+            return redirect()->to($this->cmsNewsletterReturn() . '#contact-form');
+        }
         session()->setFlashdata('class', 'message_success');
         session()->setFlashdata('message', 'Your enquiry has been successfully submitted!');
 
@@ -538,6 +544,60 @@ class Enquiry extends BaseController
         );
 
         return $this->response->setContentType('text/plain')->setBody('success');
+    }
+
+    /** Validate resume signatures against the allowed extension and detected type. */
+    private function resumeContentMatches(string $path, string $extension, string $mime): bool
+    {
+        $handle = @fopen($path, 'rb');
+        if ($handle === false) {
+            return false;
+        }
+        $header = fread($handle, 8);
+        fclose($handle);
+
+        return match ($extension) {
+            'pdf' => $mime === 'application/pdf' && is_string($header) && str_starts_with($header, '%PDF-'),
+            'doc' => in_array($mime, ['application/msword', 'application/vnd.ms-office', 'application/cdfv2', 'application/x-ole-storage'], true)
+                && is_string($header) && str_starts_with($header, "\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1"),
+            'rtf' => in_array($mime, ['application/rtf', 'text/rtf', 'text/plain'], true)
+                && is_string($header) && str_starts_with(ltrim($header), '{\\rtf'),
+            'docx' => $this->isValidDocx($path, $mime, $header),
+            default => false,
+        };
+    }
+
+    private function isValidDocx(string $path, string $mime, string|false $header): bool
+    {
+        if (! is_string($header) || ! str_starts_with($header, "PK\x03\x04")
+            || ! in_array($mime, ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip', 'application/x-zip'], true)
+            || ! class_exists(\ZipArchive::class)) {
+            return false;
+        }
+
+        $zip = new \ZipArchive();
+        if ($zip->open($path) !== true) {
+            return false;
+        }
+        $contentTypes = $zip->locateName('[Content_Types].xml') !== false;
+        $document = $zip->locateName('word/document.xml') !== false;
+        $hasMacros = $zip->locateName('word/vbaProject.bin') !== false;
+        $uncompressedBytes = 0;
+        if ($zip->numFiles > 1000) {
+            $zip->close();
+            return false;
+        }
+        for ($index = 0; $index < $zip->numFiles; $index++) {
+            $stat = $zip->statIndex($index);
+            $uncompressedBytes += (int) ($stat['size'] ?? 0);
+            if ($uncompressedBytes > 20_000_000) {
+                $zip->close();
+                return false;
+            }
+        }
+        $zip->close();
+
+        return $contentTypes && $document && ! $hasMacros;
     }
 
     /**

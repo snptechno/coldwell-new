@@ -22,6 +22,7 @@ final class BlockTypes
         'pin' => 'Location pin', 'building' => 'Office building', 'people' => 'People', 'shield' => 'Shield (trust)',
         'bulb' => 'Light bulb (innovation)', 'handshake' => 'Handshake (collaboration)', 'chart' => 'Chart (business)',
         'heart' => 'Heart (customer)', 'globe' => 'Globe', 'award' => 'Award', 'star' => 'Star',
+        'mail' => 'Envelope (email)', 'phone' => 'Phone', 'clock' => 'Clock',
     ];
 
     private const LINK_HINT = 'Site page path (e.g. contact-us) or a full https:// link.';
@@ -219,6 +220,8 @@ final class BlockTypes
                     'kicker'   => ['label' => 'Icon', 'type' => 'select', 'options' => self::ICONS, 'default' => 'shield'],
                     'title'    => ['label' => 'Title', 'type' => 'text', 'required' => true, 'max' => 60],
                     'subtitle' => ['label' => 'Text', 'type' => 'text', 'max' => 160],
+                    'cta_label' => ['label' => 'Button label (optional)', 'type' => 'text', 'max' => 40],
+                    'cta_url'   => ['label' => 'Button link', 'type' => 'url', 'max' => 255],
                 ]],
             ],
         ],
@@ -238,10 +241,13 @@ final class BlockTypes
         ],
         'office_finder' => [
             'label' => 'Franchise office finder (automatic)',
-            'help'  => 'Heading, city / area finder and office cards, filled automatically from Franchises (open offices only). Opens on the city with the most offices.',
+            'help'  => 'Office cards filled automatically from Franchises (open offices only), opening on the city with the most offices. "Finder" adds city / area selects (Franchise page); "Directory" shows city tabs with office counts and phone numbers (Contact page). {offices} and {cities} in the lead text are replaced with live counts.',
             'settings' => [
-                'title' => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
-                'lead'  => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
+                'layout'    => ['label' => 'Layout', 'type' => 'select', 'options' => ['finder' => 'Finder (selects + cards)', 'directory' => 'Directory (tabs with counts + phones)'], 'default' => 'finder'],
+                'title'     => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'lead'      => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
+                'cta_label' => ['label' => 'Button label (directory)', 'type' => 'text', 'max' => 40],
+                'cta_url'   => ['label' => 'Button link', 'type' => 'url', 'max' => 255],
             ],
             'groups' => [],
         ],
@@ -285,6 +291,38 @@ final class BlockTypes
                 'lead'    => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 400],
                 'phone'   => ['label' => 'Phone number', 'type' => 'text', 'max' => 40, 'hint' => 'Leave empty to use the footer phone from Site settings.'],
                 'button'  => ['label' => 'Button label', 'type' => 'text', 'max' => 40, 'default' => 'Send Request'],
+            ],
+            'groups' => [],
+        ],
+        'contact_panel' => [
+            'label' => 'Contact channels + message form',
+            'help'  => 'Heading and contact cards on the left, the contact message form on the right (saved to Contact Enquiry and emailed to info@). Link to the form with #contact-form.',
+            'settings' => [
+                'title'      => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'lead'       => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
+                'form_title' => ['label' => 'Form heading', 'type' => 'text', 'max' => 80, 'default' => 'Send Us a Message'],
+                'form_lead'  => ['label' => 'Form text', 'type' => 'text', 'max' => 160],
+                'button'     => ['label' => 'Button label', 'type' => 'text', 'max' => 40, 'default' => 'Submit Enquiry'],
+            ],
+            'groups' => [
+                'channel' => ['label' => 'Contact cards', 'max' => 6, 'fields' => [
+                    'kicker'  => ['label' => 'Icon', 'type' => 'select', 'options' => self::ICONS, 'default' => 'pin'],
+                    'title'   => ['label' => 'Title', 'type' => 'text', 'required' => true, 'max' => 60],
+                    'body'    => ['label' => 'Text', 'type' => 'textarea', 'required' => true, 'max' => 300],
+                    'cta_url' => ['label' => 'Link (optional)', 'type' => 'url', 'max' => 255, 'hint' => 'mailto:, tel:, a site page or https:// link. The whole card becomes clickable.'],
+                ]],
+            ],
+        ],
+        'location' => [
+            'label' => 'Office location (map + address)',
+            'help'  => 'Soft panel with a map on the left and the address, hours and a directions button on the right. Without a map embed link a styled map placeholder with a pin is shown.',
+            'settings' => [
+                'eyebrow'   => ['label' => 'Map label', 'type' => 'text', 'max' => 80],
+                'title'     => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'address'   => ['label' => 'Address', 'type' => 'textarea', 'required' => true, 'max' => 300],
+                'hours'     => ['label' => 'Opening hours', 'type' => 'text', 'max' => 80, 'hint' => 'Leave empty until confirmed.'],
+                'cta_label' => ['label' => 'Button label', 'type' => 'text', 'max' => 40, 'default' => 'Get Directions'],
+                'map_embed' => ['label' => 'Google Maps embed link', 'type' => 'url', 'max' => 600, 'hint' => 'The src of a Google Maps "Embed a map" iframe (https://www.google.com/maps/embed?pb=...). Other links are ignored.'],
             ],
             'groups' => [],
         ],

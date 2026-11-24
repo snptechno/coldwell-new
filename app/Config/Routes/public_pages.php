@@ -35,8 +35,9 @@ $routes->get('area_insights', 'Site\Pages::areaInsights');
 
 $routes->get('nri', 'Site\Pages::nri');
 
-$routes->get('contact-us', 'Site\Pages::contactUs');
-$routes->get('contact_us', 'Site\Pages::contactUs');
+// Contact Us is a CMS page (slug contact-us, served by the catch-all in Routes.php; seeded by
+// ContactPageSeeder). Site\Pages::contactUs and views/site/contact_us.php stay for rollback.
+$routes->get('contact_us', static fn () => redirect()->to(site_url('contact-us'), 301));
 
 // /blog is now the CI4 blog: see public_blog.php (Site\Blog).
 

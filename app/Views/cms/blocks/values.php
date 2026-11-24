@@ -27,6 +27,7 @@ $grid3 = ($s['layout'] ?? 'row') === 'grid3';
         <span class="cb-vcard__icon"><?= cb_icon($ic) ?></span>
         <h3><?= esc((string) $v['title']) ?></h3>
         <?php if (trim((string) $v['subtitle']) !== ''): ?><p><?= esc((string) $v['subtitle']) ?></p><?php endif ?>
+        <?php if (($pill = cb_pill((string) ($v['cta_label'] ?? ''), $v['cta_url'] ?? '', $grid3 && $i === 0 ? 'gold' : 'light', 'cb-pill--sm')) !== ''): ?><div class="cb-vcard__cta"><?= $pill ?></div><?php endif ?>
       </li>
       <?php endforeach ?>
     </ul>
