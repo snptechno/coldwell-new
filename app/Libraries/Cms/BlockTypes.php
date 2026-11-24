@@ -17,6 +17,13 @@ namespace App\Libraries\Cms;
  */
 final class BlockTypes
 {
+    /** Icon choices for icon-bearing items (keys of cb_icon()). */
+    public const ICONS = [
+        'pin' => 'Location pin', 'building' => 'Office building', 'people' => 'People', 'shield' => 'Shield (trust)',
+        'bulb' => 'Light bulb (innovation)', 'handshake' => 'Handshake (collaboration)', 'chart' => 'Chart (business)',
+        'heart' => 'Heart (customer)', 'globe' => 'Globe', 'award' => 'Award', 'star' => 'Star',
+    ];
+
     private const LINK_HINT = 'Site page path (e.g. contact-us) or a full https:// link.';
 
     public const TYPES = [
@@ -143,6 +150,75 @@ final class BlockTypes
                 'cta_url'   => ['label' => 'Button link', 'type' => 'url', 'max' => 255],
             ],
             'groups' => [],
+        ],
+        'stats_panel' => [
+            'label' => 'Statement / intro + figures',
+            'help'  => '"Centred": eyebrow, large statement and a row of figures (About › Our Purpose). "Split": soft panel with heading, text and button on the left and figure cards with icons on the right (About › Coldwell Banker India).',
+            'settings' => [
+                'layout'    => ['label' => 'Layout', 'type' => 'select', 'options' => ['center' => 'Centred statement + figure row', 'split' => 'Split panel + figure cards'], 'default' => 'center'],
+                'eyebrow'   => ['label' => 'Eyebrow', 'type' => 'text', 'max' => 60],
+                'title'     => ['label' => 'Heading', 'type' => 'text', 'max' => 120, 'hint' => 'Used by the split layout.'],
+                'body'      => ['label' => 'Statement / text', 'type' => 'textarea', 'required' => true, 'max' => 800],
+                'cta_label' => ['label' => 'Button label', 'type' => 'text', 'max' => 60],
+                'cta_url'   => ['label' => 'Button link', 'type' => 'url', 'max' => 255],
+            ],
+            'groups' => [
+                'stat' => ['label' => 'Figures', 'max' => 4, 'fields' => [
+                    'title'    => ['label' => 'Figure', 'type' => 'text', 'required' => true, 'max' => 20, 'hint' => 'Only publish verified figures.'],
+                    'subtitle' => ['label' => 'Label', 'type' => 'text', 'required' => true, 'max' => 60],
+                    'kicker'   => ['label' => 'Icon (split layout)', 'type' => 'select', 'options' => self::ICONS, 'default' => 'pin'],
+                ]],
+            ],
+        ],
+        'leaders' => [
+            'label' => 'Leadership',
+            'help'  => 'Heading row with a button, a featured leader (the first person, wide photo on navy) and a 3-column grid of the others.',
+            'settings' => [
+                'title'     => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'lead'      => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
+                'cta_label' => ['label' => 'Button label', 'type' => 'text', 'max' => 60],
+                'cta_url'   => ['label' => 'Button link', 'type' => 'url', 'max' => 255],
+            ],
+            'groups' => [
+                'person' => ['label' => 'People', 'max' => 16, 'fields' => [
+                    'title'     => ['label' => 'Name', 'type' => 'text', 'required' => true, 'max' => 80],
+                    'subtitle'  => ['label' => 'Role', 'type' => 'text', 'required' => true, 'max' => 120, 'hint' => 'The first person is featured; their role shows as the gold eyebrow.'],
+                    'body'      => ['label' => 'Short bio (featured person only)', 'type' => 'textarea', 'max' => 500],
+                    'image'     => ['label' => 'Photo', 'type' => 'image', 'required' => true, 'hint' => 'Real photo only. Featured: landscape ~1400×680; others ~770×600.'],
+                    'image_alt' => ['label' => 'Photo description (alt)', 'type' => 'text', 'max' => 255],
+                ]],
+            ],
+        ],
+        'feature_cards' => [
+            'label' => 'Feature cards on navy panel',
+            'help'  => 'Navy panel with centred heading and 2-column glass cards. A card can show a logo; lines in its text that start with "- " become a gold checklist.',
+            'settings' => [
+                'title' => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'lead'  => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
+            ],
+            'groups' => [
+                'card' => ['label' => 'Cards', 'max' => 8, 'fields' => [
+                    'title'     => ['label' => 'Title', 'type' => 'text', 'required' => true, 'max' => 80],
+                    'body'      => ['label' => 'Text', 'type' => 'textarea', 'required' => true, 'max' => 1200, 'hint' => 'Start a line with "- " to make it a checklist item.'],
+                    'image'     => ['label' => 'Logo (optional)', 'type' => 'image', 'hint' => 'Shown in a white chip. PNG/JPG, about 300×110.'],
+                    'image_alt' => ['label' => 'Logo description (alt)', 'type' => 'text', 'max' => 255],
+                ]],
+            ],
+        ],
+        'values' => [
+            'label' => 'Icon cards (values)',
+            'help'  => 'Centred heading and a row of white icon cards (up to 5 per row on desktop).',
+            'settings' => [
+                'title' => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'lead'  => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
+            ],
+            'groups' => [
+                'value' => ['label' => 'Cards', 'max' => 10, 'fields' => [
+                    'kicker'   => ['label' => 'Icon', 'type' => 'select', 'options' => self::ICONS, 'default' => 'shield'],
+                    'title'    => ['label' => 'Title', 'type' => 'text', 'required' => true, 'max' => 60],
+                    'subtitle' => ['label' => 'Text', 'type' => 'text', 'max' => 160],
+                ]],
+            ],
         ],
         'rich_text' => [
             'label' => 'Text (rich text)',

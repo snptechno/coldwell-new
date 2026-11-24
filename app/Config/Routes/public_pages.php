@@ -25,8 +25,10 @@ $routes->get('refund', 'Site\Pages::refund');
 $routes->get('quick-pay', 'Site\Pages::quickPay');
 $routes->get('quick_pay', 'Site\Pages::quickPay');
 
-$routes->get('about-coldwell-banker', 'Site\Pages::aboutColdwellBanker');
-$routes->get('about_coldwell_banker', 'Site\Pages::aboutColdwellBanker');
+// About Us is a CMS page (slug about-coldwell-banker, served by the catch-all in Routes.php;
+// seeded by AboutPageSeeder). The old underscore spelling redirects. Site\Pages::aboutColdwellBanker
+// and views/site/about_coldwell_banker.php stay for rollback.
+$routes->addRedirect('about_coldwell_banker', 'about-coldwell-banker', 301);
 
 $routes->get('area-insights', 'Site\Pages::areaInsights');
 $routes->get('area_insights', 'Site\Pages::areaInsights');

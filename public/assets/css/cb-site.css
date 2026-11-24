@@ -411,10 +411,10 @@ body.cb-lock{overflow:hidden;}
 
 /* ================= CMS inner pages (page_hero, header bar, rich text, article) ================= */
 /* compact page hero: same card as the home hero, shorter */
-.cb-hero__card--page{min-height:560px;}
-.cb-phero__copy{display:flex;flex-direction:column;gap:20px;max-width:760px;}
-.cb-phero__copy .cb-eyebrow{color:#fff;}
-.cb-phero__copy .cb-lead{max-width:600px;color:rgba(255,255,255,.88);}
+.cb-hero__card--page{min-height:500px;}
+.cb-phero__copy{display:flex;flex-direction:column;gap:20px;max-width:1000px;}
+.cb-phero__copy .cb-eyebrow{color:var(--cb-gold);}
+.cb-phero__copy .cb-lead{max-width:620px;color:rgba(255,255,255,.82);}
 .cb-hero__card--page .cb-slide__img img{transform:none;}
 /* header bar: the nav on a navy-deep rounded bar when the first block is not a hero */
 .cb-hbar{padding:var(--cb-inset) var(--cb-inset) 0;}
@@ -464,3 +464,117 @@ body.cb-lock{overflow:hidden;}
 }
 
 @media (max-width:1199px){ .cb-gcard__foot{flex-wrap:nowrap;} }
+
+/* =====================================================================
+   About page blocks (Figma 73:58): stats_panel, leaders, feature_cards, values
+   ===================================================================== */
+.cb-eyebrow--gold{color:var(--cb-gold);}
+
+/* stats_panel — centre ("Our Purpose") */
+.cb-purpose{padding:110px var(--cb-side) 100px;display:flex;flex-direction:column;align-items:center;gap:40px;text-align:center;}
+.cb-purpose .cb-statement{max-width:860px;}
+.cb-figrow{display:grid;grid-template-columns:repeat(var(--n,4),1fr);width:100%;max-width:1040px;padding:28px 0;border-radius:24px;box-shadow:inset 0 0 0 1px var(--cb-line);}
+.cb-figrow li{display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 12px;}
+.cb-figrow li+li{border-left:1px solid var(--cb-line);}
+.cb-figrow b{font:normal 40px/1.17 var(--cb-bold);color:var(--cb-navy);}
+.cb-figrow span{font:normal 14px/1.5 var(--cb-medium);color:var(--cb-muted);}
+
+/* stats_panel — split ("About Coldwell Banker India") */
+.cb-split{padding:0 var(--cb-inset);}
+.cb-split__panel{background:var(--cb-surface);border-radius:var(--cb-r-panel);padding:100px;display:grid;grid-template-columns:minmax(0,740px) 380px;justify-content:space-between;gap:80px;align-items:center;max-width:1400px;margin:0 auto;}
+.cb-split__copy{display:flex;flex-direction:column;gap:24px;align-items:flex-start;}
+.cb-split__stats{display:flex;flex-direction:column;gap:16px;}
+.cb-icard{display:flex;align-items:center;gap:20px;padding:22px 24px;border-radius:20px;background:#fff;box-shadow:var(--cb-shadow-card);}
+.cb-icard__icon{width:52px;height:52px;border-radius:50%;background:var(--cb-navy);color:#fff;display:grid;place-items:center;flex:none;}
+.cb-icard__icon svg{width:22px;height:22px;}
+.cb-icard b{display:block;font:normal 34px/1.18 var(--cb-bold);color:var(--cb-navy);}
+.cb-icard b+span{display:block;font:normal 14px/1.5 var(--cb-medium);color:var(--cb-muted);margin-top:2px;}
+
+/* leaders */
+.cb-leaders{padding:120px 0;}
+.cb-leaders .cb-head--split{margin-bottom:44px;}
+.cb-leaders .cb-head--split .cb-p{max-width:542px;}
+.cb-leader-feat{display:grid;grid-template-columns:700px 1fr;align-items:center;min-height:340px;border-radius:24px;overflow:hidden;background:var(--cb-navy);margin-bottom:44px;}
+.cb-leader-feat__img{align-self:stretch;min-height:340px;}
+.cb-leader-feat__img img{width:100%;height:100%;object-fit:cover;}
+.cb-leader-feat__copy{display:flex;flex-direction:column;gap:14px;padding:0 56px;}
+.cb-leader-feat__copy h3{font:normal 34px/1.18 var(--cb-bold);color:#fff;}
+.cb-leader-feat__copy p:not(.cb-eyebrow){font:normal 17px/1.65 var(--cb-light);color:rgba(255,255,255,.78);}
+.cb-leader-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:44px 24px;}
+.cb-leader{display:flex;flex-direction:column;gap:4px;}
+.cb-leader__img{height:300px;border-radius:20px;overflow:hidden;margin-bottom:12px;background:var(--cb-surface);}
+.cb-leader__img img{width:100%;height:100%;object-fit:cover;object-position:50% 25%;transition:transform .8s var(--cb-ease);}
+.cb-leader:hover .cb-leader__img img{transform:scale(1.04);}
+.cb-leader h3{font:normal 20px/1.15 var(--cb-bold);color:var(--cb-navy);}
+.cb-leader p{font:normal 14px/1.5 var(--cb-medium);color:var(--cb-muted);}
+
+/* feature_cards ("Why Coldwell Banker") */
+.cb-features{padding:0 var(--cb-inset);}
+.cb-features__panel{position:relative;isolation:isolate;overflow:hidden;max-width:1400px;margin:0 auto;padding:100px;border-radius:var(--cb-r-panel);background:var(--cb-navy);}
+.cb-features__panel::before{content:"";position:absolute;z-index:-1;width:800px;height:800px;right:-160px;top:-360px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,119,185,.45),rgba(0,119,185,0));}
+.cb-features .cb-head{margin-bottom:44px;gap:24px;}
+.cb-features .cb-h2{color:#fff;}
+.cb-features .cb-head .cb-p{color:rgba(255,255,255,.78);max-width:620px;}
+.cb-features__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:1200px;margin:0 auto;}
+.cb-fcard{display:flex;flex-direction:column;align-items:flex-start;gap:18px;padding:36px;border-radius:24px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);}
+.cb-fcard__logo{display:inline-flex;padding:10px 14px;border-radius:14px;background:#fff;}
+.cb-fcard__logo img{height:50px;width:auto;}
+.cb-fcard h3{display:flex;align-items:center;gap:10px;font:normal 22px/1.3 var(--cb-bold);letter-spacing:-.005em;color:#fff;}
+.cb-fcard h3::before{content:"";width:24px;height:2px;background:var(--cb-gold);flex:none;}
+.cb-fcard p{font:normal 17px/1.65 var(--cb-light);color:rgba(255,255,255,.78);}
+.cb-checklist{display:flex;flex-direction:column;gap:10px;}
+.cb-checklist li{display:flex;align-items:center;gap:10px;font:normal 15px/1.35 var(--cb-medium);color:#fff;}
+.cb-checklist span{width:20px;height:20px;border-radius:50%;background:var(--cb-gold);color:var(--cb-navy);display:grid;place-items:center;flex:none;}
+.cb-checklist svg{width:12px;height:12px;}
+
+/* values */
+.cb-values{padding:120px 0;}
+.cb-values .cb-head{margin-bottom:44px;}
+.cb-values__row{display:grid;grid-template-columns:repeat(var(--n,5),1fr);gap:20px;}
+.cb-vcard{display:flex;flex-direction:column;gap:16px;padding:32px 28px;border-radius:22px;background:#fff;box-shadow:inset 0 0 0 1px var(--cb-line);transition:transform .3s var(--cb-ease),box-shadow .3s;}
+.cb-vcard:hover{transform:translateY(-4px);box-shadow:inset 0 0 0 1px var(--cb-line),var(--cb-shadow-card);}
+.cb-vcard__icon{width:56px;height:56px;border-radius:50%;background:var(--cb-navy);color:#fff;display:grid;place-items:center;}
+.cb-vcard__icon svg{width:24px;height:24px;}
+.cb-vcard h3{font:normal 22px/1.3 var(--cb-bold);letter-spacing:-.005em;color:var(--cb-navy);}
+.cb-vcard p{font:normal 14px/1.5 var(--cb-medium);color:var(--cb-muted);}
+
+@media (max-width:1199px){
+  .cb-purpose{padding:var(--cb-sec) var(--cb-side);}
+  .cb-figrow{grid-template-columns:repeat(2,1fr);row-gap:24px;}
+  .cb-figrow li:nth-child(odd){border-left:0;}
+  .cb-split__panel{grid-template-columns:1fr;padding:80px 40px;gap:40px;}
+  .cb-split__stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
+  .cb-leaders,.cb-values{padding:var(--cb-sec) 0;}
+  .cb-leader-feat{grid-template-columns:1fr;}
+  .cb-leader-feat__img{min-height:0;aspect-ratio:1323/560;}
+  .cb-leader-feat__copy{padding:32px 32px 36px;}
+  .cb-leader-grid{grid-template-columns:repeat(2,1fr);}
+  .cb-features__panel{padding:80px 40px;}
+  .cb-features__grid{grid-template-columns:1fr;}
+  .cb-values__row{grid-template-columns:repeat(3,1fr);}
+}
+@media (max-width:767px){
+  .cb-figrow{padding:20px 0;}
+  .cb-figrow b{font-size:32px;}
+  .cb-split__panel{padding:56px 20px;border-radius:26px;}
+  .cb-split__stats{grid-template-columns:1fr;}
+  .cb-icard b{font-size:28px;}
+  .cb-leaders .cb-head--split{margin-bottom:28px;}
+  .cb-leader-feat{margin-bottom:32px;}
+  .cb-leader-feat__copy{padding:24px 20px 28px;}
+  .cb-leader-feat__copy h3{font-size:28px;}
+  .cb-leader-grid{grid-template-columns:1fr 1fr;gap:28px 14px;}
+  .cb-leader__img{height:auto;aspect-ratio:384/300;}
+  .cb-leader h3{font-size:17px;}
+  .cb-leader p{font-size:13px;}
+  .cb-features__panel{padding:56px 16px;border-radius:26px;}
+  .cb-fcard{padding:24px 20px;}
+  .cb-values__row{grid-template-columns:1fr 1fr;gap:14px;}
+  .cb-vcard{padding:24px 18px;}
+  .cb-vcard h3{font-size:19px;}
+}
+@media (max-width:389px){
+  .cb-leader-grid,.cb-values__row{grid-template-columns:1fr;}
+}
+
+.cb-leader-feat__img img{object-position:72% 28%;} /* keep the MD's face in frame when the wide photo is cropped */
