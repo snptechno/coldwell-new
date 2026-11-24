@@ -37,6 +37,9 @@ if (! function_exists('cb_icon')) {
             'award' => '<circle cx="8" cy="6" r="4.2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.6 9.4l-1.2 5 3.6-1.8 3.6 1.8-1.2-5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>',
             'star' => '<path d="M8 1.8l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.6l-3.8 2 .7-4.3-3.1-3 4.3-.6z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>',
             'check' => '<path d="M4.4 8.3l2.4 2.3 4.8-5.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+            'phone' => '<path d="M5.6 2.2l1.5 3.1-1.3 1.2a8 8 0 0 0 3.7 3.7l1.2-1.3 3.1 1.5-.5 2.4c-.1.5-.6.9-1.1.9A10.9 10.9 0 0 1 2.3 3.9c0-.5.4-1 .9-1.1z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>',
+            'plus'  => '<path d="M8 3.5v9M3.5 8h9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+            'minus' => '<path d="M3.5 8h9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
             'link'   => '<path d="M6.6 9.4l2.8-2.8M7.2 4.6l1.1-1.1a2.6 2.6 0 0 1 3.7 3.7l-1.1 1.1M8.8 11.4l-1.1 1.1a2.6 2.6 0 0 1-3.7-3.7l1.1-1.1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
         ][$name] ?? '';
 

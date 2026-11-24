@@ -207,18 +207,86 @@ final class BlockTypes
         ],
         'values' => [
             'label' => 'Icon cards (values)',
-            'help'  => 'Centred heading and a row of white icon cards (up to 5 per row on desktop).',
+            'help'  => 'Centred heading and white icon cards. "Row" fits up to 5 per row (About > Our Values); "3-column grid" highlights the first card in navy (Franchise > Why partner with us).',
             'settings' => [
+                'layout'  => ['label' => 'Layout', 'type' => 'select', 'options' => ['row' => 'Row (up to 5)', 'grid3' => '3-column grid, first card highlighted'], 'default' => 'row'],
+                'eyebrow' => ['label' => 'Eyebrow', 'type' => 'text', 'max' => 60],
                 'title' => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
                 'lead'  => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
             ],
             'groups' => [
-                'value' => ['label' => 'Cards', 'max' => 10, 'fields' => [
+                'value' => ['label' => 'Cards', 'max' => 12, 'fields' => [
                     'kicker'   => ['label' => 'Icon', 'type' => 'select', 'options' => self::ICONS, 'default' => 'shield'],
                     'title'    => ['label' => 'Title', 'type' => 'text', 'required' => true, 'max' => 60],
                     'subtitle' => ['label' => 'Text', 'type' => 'text', 'max' => 160],
                 ]],
             ],
+        ],
+        'steps' => [
+            'label' => 'Numbered steps (process)',
+            'help'  => 'Soft panel with centred heading and numbered steps joined by a line; the last step is gold.',
+            'settings' => [
+                'title' => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'lead'  => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
+            ],
+            'groups' => [
+                'step' => ['label' => 'Steps', 'max' => 6, 'fields' => [
+                    'title'    => ['label' => 'Step title', 'type' => 'text', 'required' => true, 'max' => 60],
+                    'subtitle' => ['label' => 'Text', 'type' => 'text', 'max' => 160],
+                ]],
+            ],
+        ],
+        'office_finder' => [
+            'label' => 'Franchise office finder (automatic)',
+            'help'  => 'Heading, city / area finder and office cards, filled automatically from Franchises (open offices only). Opens on the city with the most offices.',
+            'settings' => [
+                'title' => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'lead'  => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
+            ],
+            'groups' => [],
+        ],
+        'testimonials' => [
+            'label' => 'Testimonial cards',
+            'help'  => 'Soft panel with heading and 2-column quote cards. Only publish real, approved quotes.',
+            'settings' => [
+                'title' => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'lead'  => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
+            ],
+            'groups' => [
+                'quote' => ['label' => 'Quotes', 'max' => 8, 'fields' => [
+                    'body'      => ['label' => 'Quote', 'type' => 'textarea', 'required' => true, 'max' => 600],
+                    'title'     => ['label' => 'Name', 'type' => 'text', 'required' => true, 'max' => 80],
+                    'subtitle'  => ['label' => 'Franchise, city', 'type' => 'text', 'max' => 120],
+                    'image'     => ['label' => 'Photo (optional)', 'type' => 'image', 'hint' => 'Square, about 200x200. Real photo only.'],
+                    'image_alt' => ['label' => 'Photo description (alt)', 'type' => 'text', 'max' => 255],
+                ]],
+            ],
+        ],
+        'faq' => [
+            'label' => 'FAQ accordion',
+            'help'  => 'Heading and text on the left, expandable questions on the right. The first question opens by default.',
+            'settings' => [
+                'title' => ['label' => 'Heading', 'type' => 'textarea', 'required' => true, 'max' => 120],
+                'lead'  => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 300],
+            ],
+            'groups' => [
+                'qa' => ['label' => 'Questions', 'max' => 20, 'fields' => [
+                    'title' => ['label' => 'Question', 'type' => 'text', 'required' => true, 'max' => 200],
+                    'body'  => ['label' => 'Answer', 'type' => 'textarea', 'required' => true, 'max' => 2000],
+                ]],
+            ],
+        ],
+        'enquiry_form' => [
+            'label' => 'Request a call back (franchise enquiry form)',
+            'help'  => 'Navy panel with text and phone on the left and the franchise enquiry form on the right. Submissions go to Franchisee Enquiry and email the franchise team. Link to it with #callback.',
+            'settings' => [
+                'eyebrow' => ['label' => 'Eyebrow', 'type' => 'text', 'max' => 60],
+                'title'   => ['label' => 'Heading', 'type' => 'text', 'required' => true, 'max' => 120],
+                'lead'    => ['label' => 'Lead text', 'type' => 'textarea', 'max' => 400],
+                'phone'   => ['label' => 'Phone number', 'type' => 'text', 'max' => 40, 'hint' => 'Leave empty to use the footer phone from Site settings.'],
+                'button'  => ['label' => 'Button label', 'type' => 'text', 'max' => 40, 'default' => 'Send Request'],
+            ],
+            'groups' => [],
         ],
         'rich_text' => [
             'label' => 'Text (rich text)',

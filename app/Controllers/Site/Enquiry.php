@@ -206,10 +206,18 @@ class Enquiry extends BaseController
         $name     = trim($this->postString('name'));
         $email    = trim($this->postString('email'));
         $phone    = trim($this->postString('phone'));
-        $industry = trim((string) ($this->request->getPost('interested') ?? ''));
-        $location = trim((string) ($this->request->getPost('loc') ?? ''));
+        $industry = trim($this->postString('interested') ?: $this->postString('industry'));
+        $location = trim($this->postString('loc') ?: $this->postString('location'));
+        $profession = mb_substr(trim($this->postString('profession')), 0, 120);
+        // CMS "Request a Call Back" block (source=cms): return to the same page's #callback form.
+        $fromCms = $this->request->getPost('source') === 'cms';
 
         if ($name === '' || ! filter_var($email, FILTER_VALIDATE_EMAIL) || $phone === '') {
+            if ($fromCms) {
+                session()->setFlashdata(['enquiry_msg' => 'Please fill in your name, a valid email address and phone number.', 'enquiry_ok' => false]);
+
+                return redirect()->to($this->cmsNewsletterReturn() . '#callback');
+            }
             if ($this->request->isAJAX()) {
                 return $this->response->setContentType('text/plain')->setBody('Error');
             }
@@ -223,7 +231,7 @@ class Enquiry extends BaseController
             'name'       => $name,
             'email'      => $email,
             'phone'      => $phone,
-            'profession' => '',
+            'profession' => $profession,
             'industry'   => $industry,
             'location'   => $location,
         ]);
@@ -232,6 +240,7 @@ class Enquiry extends BaseController
             . '<p>Name : ' . esc($name) . '</p>'
             . '<p>Email : ' . esc($email) . '</p>'
             . '<p>Mobile No. : ' . esc($phone) . '</p>'
+            . ($profession !== '' ? '<p>Profession : ' . esc($profession) . '</p>' : '')
             . '<p>Interested in : ' . esc($industry) . '</p>'
             . '<p>Location : ' . esc($location) . '</p>'
             . '</body></html>';
@@ -244,6 +253,11 @@ class Enquiry extends BaseController
             $name,
         );
 
+        if ($fromCms) {
+            session()->setFlashdata(['enquiry_msg' => 'Thank you — our franchise team will call you back shortly.', 'enquiry_ok' => true]);
+
+            return redirect()->to($this->cmsNewsletterReturn() . '#callback');
+        }
         if ($this->request->isAJAX()) {
             return $this->response->setContentType('text/plain')->setBody('Success');
         }
@@ -412,7 +426,7 @@ class Enquiry extends BaseController
     /** Same-origin CMS page path from the referer (no query/fragment), else the home page URL. */
     private function cmsNewsletterReturn(): string
     {
-        $referer = trim((string) $this->request->getServer('HTTP_REFERER'));
+        $referer = trim($this->request->getHeaderLine('Referer') ?: (string) $this->request->getServer('HTTP_REFERER'));
         $base    = rtrim(site_url('/'), '/') . '/';
         if ($referer === '' || ! str_starts_with($referer, $base)) {
             return site_url('/');

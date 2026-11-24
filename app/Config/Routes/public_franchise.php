@@ -17,10 +17,16 @@ $routes->get('our_franchise_details/(:segment)/(:num)', 'Site\Franchise::ourFran
 
 // Broken in CI3 (HTTP 500: missing views map / partner_with_us / franchise_details): now a 404.
 $routes->get('map', 'Site\Franchise::map');
-$routes->get('partner-with-us', 'Site\Franchise::partnerWithUs');
-$routes->get('partner_with_us', 'Site\Franchise::partnerWithUs');
-$routes->get('franchise-details', 'Site\Franchise::franchiseDetails');
-$routes->get('franchise_details', 'Site\Franchise::franchiseDetails');
+// Franchise is now a CMS page (slug franchise-details, served by the catch-all in Routes.php,
+// seeded by FranchisePageSeeder). The partner-with-us pages never worked (CI3 500, then 404), so
+// they and the underscore spelling 301 to the CMS page / its call-back form.
+// Closures, not addRedirect(): Routes.php mirrors every GET route as HEAD by controller name,
+// which turns addRedirect() targets into a bogus controller (and the dashed spelling then fell
+// through to the CMS catch-all as a 404).
+// Written out literally (not in a loop) so Admin\CmsPages::reservedSlugs() still sees these URLs.
+$routes->get('franchise_details', static fn () => redirect()->to(site_url('franchise-details'), 301));
+$routes->get('partner-with-us', static fn () => redirect()->to(site_url('franchise-details'), 301));
+$routes->get('partner_with_us', static fn () => redirect()->to(site_url('franchise-details'), 301));
 
 // AJAX from views/our_franchisee_details.php: $.ajax({url: baseUrl + 'get_owner_info' | 'get_specialist_info', type: 'POST'}).
 // ("home/get_owner_info" is only used by the unused view our_franchisee_details-24-05-2017.php and is a 404 in CI3.)

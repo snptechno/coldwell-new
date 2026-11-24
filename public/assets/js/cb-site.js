@@ -193,6 +193,51 @@
     });
   });
 
+  /* ---------- franchise office finder (tabs + city/area selects) ---------- */
+  document.querySelectorAll('[data-finder]').forEach(function (root) {
+    var items = Array.prototype.slice.call(root.querySelectorAll('[data-finder-list] > li'));
+    var tabs = Array.prototype.slice.call(root.querySelectorAll('.cb-tab[data-city]'));
+    var citySel = root.querySelector('[data-finder-city]');
+    var areaSel = root.querySelector('[data-finder-area]');
+    var form = root.querySelector('[data-finder-form]');
+    var count = root.querySelector('[data-finder-count]');
+    if (!items.length) return;
+    var areaOpts = areaSel ? Array.prototype.slice.call(areaSel.options).slice(1) : [];
+    var apply = function (city, id) {
+      var n = 0;
+      items.forEach(function (li) {
+        var show = id ? li.getAttribute('data-id') === id : (!city || li.getAttribute('data-city') === city);
+        li.hidden = !show; if (show) n++;
+      });
+      tabs.forEach(function (t) {
+        var on = t.getAttribute('data-city') === (city || '');
+        t.setAttribute('aria-selected', on ? 'true' : 'false'); t.tabIndex = on ? 0 : -1;
+      });
+      if (citySel) citySel.value = city || '';
+      areaOpts.forEach(function (o) { o.hidden = !!city && o.getAttribute('data-city') !== city; });
+      if (count) count.textContent = n + (n === 1 ? ' office' : ' offices') + (city ? ' in ' + city : '');
+    };
+    tabs.forEach(function (t, k) {
+      t.addEventListener('click', function () { if (areaSel) areaSel.value = ''; apply(t.getAttribute('data-city')); });
+      t.addEventListener('keydown', function (e) {
+        var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (!d) return;
+        e.preventDefault(); var n = tabs[(k + d + tabs.length) % tabs.length]; n.focus(); n.click();
+      });
+    });
+    if (citySel) citySel.addEventListener('change', function () { if (areaSel) areaSel.value = ''; apply(citySel.value); });
+    if (form) form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var id = areaSel && areaSel.value;
+      if (id) {
+        var opt = areaSel.options[areaSel.selectedIndex];
+        apply(opt.getAttribute('data-city'), id);
+        var hit = root.querySelector('[data-finder-list] > li[data-id="' + id + '"] a');
+        if (hit) hit.focus({ preventScroll: true });
+      } else { apply(citySel ? citySel.value : ''); }
+    });
+    apply(root.getAttribute('data-default') || '');
+  });
+
   /* ---------- reveal on scroll ---------- */
   var reveals = document.querySelectorAll('.cb-reveal');
   if (!reduce && 'IntersectionObserver' in window) {

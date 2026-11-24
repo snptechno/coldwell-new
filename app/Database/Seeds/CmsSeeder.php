@@ -38,7 +38,7 @@ class CmsSeeder extends Seeder
     {
         $values = [
             'nav_cta_label'        => 'Franchise Enquiry',
-            'nav_cta_url'          => 'partner-with-us',
+            'nav_cta_url'          => 'franchise-details#callback',
             // Real corporate contacts from the current Contact Us page (contact_us.php).
             'footer_email'         => 'info@coldwellbanker.in',
             'footer_phone'         => '+91-8587819200',
@@ -69,7 +69,7 @@ class CmsSeeder extends Seeder
             'slide' => [
                 ['kicker' => 'Coldwell Banker India  ·  Since 1906', 'title' => "Global Legacy.\nIndian Ambition.",
                  'body' => 'The Indian arm of one of the world’s most recognised real estate brands — empowering entrepreneurs, agents and partners to build enduring real estate businesses.',
-                 'cta_label' => 'Partner With Us', 'cta_url' => 'partner-with-us', 'image' => self::IMG . 'hero.jpg',
+                 'cta_label' => 'Partner With Us', 'cta_url' => 'franchise-details#callback', 'image' => self::IMG . 'hero.jpg',
                  'image_alt' => 'Contemporary glass residence with a reflecting pool at blue hour'],
                 ['kicker' => 'Franchise opportunity', 'title' => "Own a Territory.\nCarry a Global Brand.",
                  'body' => 'Build your real estate business with Coldwell Banker’s systems, training and brand recognition behind you.',

@@ -354,7 +354,7 @@ final class CmsMenusTest extends CIUnitTestCase
         $r->assertSee('value="Typed label"', null);
         $r->assertSee('value="javascript:alert(1)"', null);
         $this->assertSame('Franchise Enquiry', Cms::setting('nav_cta_label'));
-        $this->assertSame('partner-with-us', (new CmsSettingsModel())->map()['nav_cta_url']);
+        $this->assertSame('franchise-details#callback', (new CmsSettingsModel())->map()['nav_cta_url']);
     }
 
     public function testSettingsSave(): void
