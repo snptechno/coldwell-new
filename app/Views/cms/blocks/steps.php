@@ -9,8 +9,9 @@
  */
 $steps = $items['step'] ?? [];
 $id    = 'cb-steps-title' . $sfx;
+$plain = ($s['style'] ?? 'panel') === 'plain'; // NRI › How It Works sits on white after a soft panel
 ?>
-<section class="cb-steps" aria-labelledby="<?= esc($id, 'attr') ?>">
+<section class="cb-steps<?= $plain ? ' cb-steps--plain' : '' ?>" aria-labelledby="<?= esc($id, 'attr') ?>">
   <div class="cb-steps__panel">
     <div class="cb-head cb-reveal">
       <h2 class="cb-h2" id="<?= esc($id, 'attr') ?>"><?= esc(trim($s['title'] ?? '')) ?></h2>

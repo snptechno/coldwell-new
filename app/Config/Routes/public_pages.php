@@ -9,18 +9,19 @@
  * @var CodeIgniter\Router\RouteCollection $routes
  */
 
-$routes->get('faq', 'Site\Pages::faq');
+// FAQ, the legal pages and the site map are CMS pages (FaqPageSeeder, LegalPagesSeeder,
+// SiteMapPageSeeder), served by the catch-all in Routes.php. Old spellings redirect; the
+// Site\Pages methods and views stay for rollback.
+$routes->get('privacy_policy', static fn () => redirect()->to(site_url('privacy-policy'), 301));
+$routes->get('privacy', static fn () => redirect()->to(site_url('privacy-policy'), 301));
+$routes->get('terms_and_conditions', static fn () => redirect()->to(site_url('terms-and-conditions'), 301));
+$routes->get('terms', static fn () => redirect()->to(site_url('terms-and-conditions'), 301));
+$routes->get('site_map', static fn () => redirect()->to(site_url('site-map'), 301));
 
-$routes->get('privacy-policy', 'Site\Pages::privacyPolicy');
-$routes->get('privacy_policy', 'Site\Pages::privacyPolicy');
-$routes->get('privacy', 'Site\Pages::privacyPolicy');
-
-$routes->get('terms-and-conditions', 'Site\Pages::termsAndConditions');
-$routes->get('terms_and_conditions', 'Site\Pages::termsAndConditions');
-$routes->get('terms', 'Site\Pages::termsAndConditions');
-
-$routes->get('disclaimer', 'Site\Pages::disclaimer');
-$routes->get('refund', 'Site\Pages::refund');
+// CB Training Program is a CMS page (slug cb-training-program, TrainingPageSeeder). The CMS
+// catch-all only matches lowercase slugs, so the CI3 spelling redirects.
+$routes->get('CB-training-program', static fn () => redirect()->to(site_url('cb-training-program'), 301));
+$routes->get('CB_training_program', static fn () => redirect()->to(site_url('cb-training-program'), 301));
 
 $routes->get('quick-pay', 'Site\Pages::quickPay');
 $routes->get('quick_pay', 'Site\Pages::quickPay');
@@ -30,10 +31,12 @@ $routes->get('quick_pay', 'Site\Pages::quickPay');
 // and views/site/about_coldwell_banker.php stay for rollback.
 $routes->get('about_coldwell_banker', static fn () => redirect()->to(site_url('about-coldwell-banker'), 301));
 
-$routes->get('area-insights', 'Site\Pages::areaInsights');
-$routes->get('area_insights', 'Site\Pages::areaInsights');
+// Area Insights is a CMS page (slug area-insights, served by the catch-all in Routes.php;
+// seeded by GroupBPagesSeeder). Site\Pages::areaInsights stays for rollback.
+$routes->get('area_insights', static fn () => redirect()->to(site_url('area-insights'), 301));
 
-$routes->get('nri', 'Site\Pages::nri');
+// NRI Services is a CMS page (slug nri, served by the catch-all in Routes.php; seeded by
+// NriPageSeeder, Figma 134:600). Site\Pages::nri and views/site/nri.php stay for rollback.
 
 // Contact Us is a CMS page (slug contact-us, served by the catch-all in Routes.php; seeded by
 // ContactPageSeeder). Site\Pages::contactUs and views/site/contact_us.php stay for rollback.

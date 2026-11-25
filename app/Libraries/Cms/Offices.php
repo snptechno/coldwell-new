@@ -58,4 +58,30 @@ final class Offices
 
         return $c;
     }
+
+    /**
+     * Resolve a requested city query (e.g. "Delhi", "Delhi NCR", "delhi (ncr)") to the
+     * canonical key in $cities, or '' when no city matches.
+     *
+     * @param array<string, int> $cities
+     */
+    public static function matchCity(?string $requested, array $cities): string
+    {
+        $q = strtolower(trim((string) preg_replace('/\s+/', ' ', str_replace(['(NCR)', '(ncr)'], 'NCR', (string) $requested))));
+        if ($q === '' || $cities === []) {
+            return '';
+        }
+        foreach (array_keys($cities) as $city) {
+            if (strtolower($city) === $q) {
+                return $city;
+            }
+        }
+        foreach (array_keys($cities) as $city) {
+            if (str_contains(strtolower($city), $q) || str_contains($q, strtolower($city))) {
+                return $city;
+            }
+        }
+
+        return '';
+    }
 }

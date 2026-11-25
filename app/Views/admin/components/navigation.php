@@ -59,7 +59,6 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?php echo base_url(); ?>admin/section/learning_overview"><i class="fa fa-circle-o"></i> Manage Overview</a></li>
             <li><a href="<?php echo base_url(); ?>admin/section/learning_events/"><i class="fa fa-circle-o"></i> Manage Events</a></li>
             <li><a href="<?php echo base_url(); ?>admin/section/learning_gallery/"><i class="fa fa-circle-o"></i> Manage Gallery</a></li>
             <li><a href="<?php echo base_url(); ?>admin/section/learning_gallery_thumbnails/"><i class="fa fa-circle-o"></i> Manage Gallery Thumb</a></li>
@@ -80,18 +79,7 @@
          </ul>
         </li>
 
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-book"></i>
-            <span>Manage Corporate Teams</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-        <ul class="treeview-menu">
-            <li><a href="<?php echo base_url(); ?>admin/section/manage_corporate_teams"><i class="fa fa-circle-o"></i>List</a></li>
-          </ul>
-        </li>
+        <?php /* Legacy "Manage Corporate Teams" hidden — now managed in CMS > Pages > Corporate Team */ ?>
 
         <li class="treeview">
           <a href="#">
@@ -150,29 +138,11 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="<?php echo base_url(); ?>admin/section/job_openings_list/"><i class="fa fa-circle-o"></i> Manage Jobs</a></li>
-            <li><a href="<?php echo base_url(); ?>admin/section/manage_testimonials/"><i class="fa fa-circle-o"></i> Manage Testimonials</a></li>
-            <li><a href="<?php echo base_url(); ?>admin/section/life_at_coldwell_banker/"><i class="fa fa-circle-o"></i> Life at coldwell banker</a></li>
-            <li><a href="<?php echo base_url(); ?>admin/section/success_stories_videos/"><i class="fa fa-circle-o"></i>Success Story Videos</a></li>
+            <li><a href="<?php echo base_url(); ?>admin/section/job_application_list/"><i class="fa fa-circle-o"></i> Job Applications</a></li>
           </ul>
       </li>
 
-		  <li class="treeview">
-          <a href="#">
-            <i class="fa fa-book"></i>
-            <span>Manage Job Applications</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="<?php echo base_url(); ?>admin/section/job_application_list/"><i class="fa fa-circle-o"></i> List</a></li>
-          </ul>
-      </li>
-		<li>
-			<a href="<?php echo base_url(); ?>admin/section/list_pages">
-				<i class="fa fa-file"></i> <span>Manage Pages</span>
-			</a>
-		</li>
+      <?php /* Legacy "Manage Pages", "Careers Testimonials", "Life at Coldwell Banker", and "Success Story Videos" hidden — now managed in CMS > Pages */ ?>
 
     <li>
       <a href="<?php echo base_url(); ?>admin/section/franchisee_enquiry">

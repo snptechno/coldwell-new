@@ -3,6 +3,9 @@
 namespace App\Controllers\Site;
 
 use App\Controllers\BaseController;
+use App\Libraries\Cms\BlockTypes;
+use App\Libraries\Cms\Cms;
+use App\Libraries\Cms\CmsUrl;
 use App\Models\AwardsModel;
 use App\Models\ColdwellBankerIndustryNewsModel;
 use App\Models\ColdwellBankerKnowledgeSeriesModel;
@@ -106,16 +109,97 @@ class Media extends BaseController
         ]);
     }
 
-    /** CI3: Home::research (controllers/Home.php:139); Ui_model::research reads pages id 8. */
+    /** CI3: Home::research (controllers/Home.php:139); Ui_model::research reads pages id 8.
+     * Now renders via CMS page "research" (slug) with blocks: page_hero, research_tabs,
+     * featured_report, research_grid, approach_panel, newsletter_cta.
+     */
     public function research(): string
     {
-        return view('site/research', [
-            'page_info'   => $this->pageInfo(PagesModel::PAGE_RESEARCH),
+        $preview = (string) session('admin_user') !== '' && $this->request->getGet('preview') === '1';
+        $data    = Cms::page('research', $preview);
+        if ($data === null) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+        $page   = $data['page'];
+        $isHome = (int) $page['is_home'] === 1;
+
+        if ($preview) {
+            $this->response->setHeader('X-Robots-Tag', 'noindex');
+            $this->response->setHeader('Cache-Control', 'no-store, max-age=0');
+        }
+
+        return view('cms/page', [
+            'page'        => $page,
+            'blocks'      => $data['blocks'],
+            'is_home'     => $isHome,
+            'preview'     => $preview,
             'page_active' => 'research',
-            'act'         => 'research',
-            // views/research.php:53
-            'rz1'         => model(ResearchModel::class)->activeByType('Project Reports'),
+            'current_url' => site_url('research'),
+            'seo'         => $this->seo($page, $data['blocks'], $isHome),
         ]);
+    }
+
+    /**
+     * AJAX Load More for Research grid.
+     * POST: type (Project Reports|Area Insights), offset, limit
+     * Returns HTML fragment of research cards.
+     */
+    public function loadMoreResearch(): ResponseInterface
+    {
+        helper('cb');
+
+        $type     = trim((string) $this->request->getPost('type'));
+        $offset   = (int) $this->request->getPost('offset');
+        $limit    = (int) $this->request->getPost('limit');
+        $ctaLabel = trim((string) $this->request->getPost('cta_label'));
+        if ($ctaLabel === '' || mb_strlen($ctaLabel) > 60) {
+            $ctaLabel = 'Download';
+        }
+
+        if (! in_array($type, ['Project Reports', 'Area Insights'], true) || $offset < 0 || $limit <= 0) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+        $limit = min($limit, 24);
+
+        $model = model(ResearchModel::class);
+        $items = $model->activeByType($type);
+        $slice = array_slice($items, $offset, $limit);
+
+        if ($slice === []) {
+            return $this->response->setBody('');
+        }
+
+        $badge = $type === 'Area Insights' ? 'Insight' : 'Report';
+        $html  = '';
+        foreach ($slice as $item) {
+            $imageUrl = ! empty($item['image_name'])
+                ? base_url('uploads/research/' . rawurlencode((string) $item['image_name']))
+                : base_url('assets/images/home-v2/news-research.jpg');
+            $hasPdf   = ! empty($item['pdf_name']);
+            $pdfUrl   = $hasPdf ? base_url('uploads/research/' . rawurlencode((string) $item['pdf_name'])) : '';
+            $date     = ! empty($item['created_date']) ? date('M Y', strtotime((string) $item['created_date'])) : '';
+            $meta     = $date !== '' ? $date . ' · ' . $type : $type;
+            $title    = esc((string) ($item['title'] ?? ''));
+
+            $btnHtml = '';
+            if ($hasPdf) {
+                $btnHtml = '<a href="' . esc($pdfUrl, 'attr') . '" target="_blank" rel="noopener noreferrer" class="cb-pill cb-pill--light cb-pill--on-section">'
+                    . '<span>' . esc($ctaLabel) . '</span><span class="cb-pill__icon">' . cb_icon('arrow') . '</span>'
+                    . '<span class="cb-sr"> (opens PDF in a new tab)</span></a>';
+            }
+
+            $html .= '<article class="cb-rcard">'
+                . '<div class="cb-rcard__img">'
+                . '<img src="' . esc($imageUrl, 'attr') . '" alt="' . esc((string) ($item['title'] ?? ''), 'attr') . '" width="384" height="250" loading="lazy" decoding="async">'
+                . '</div>'
+                . '<p class="cb-research-meta"><span class="cb-chip">' . esc($badge) . '</span><span>' . esc($meta) . '</span></p>'
+                . '<h3 class="cb-rcard__title">' . $title . '</h3>'
+                . '<div class="cb-rcard__spacer" aria-hidden="true"></div>'
+                . $btnHtml
+                . '</article>';
+        }
+
+        return $this->response->setBody($html);
     }
 
     /**
@@ -218,5 +302,52 @@ class Media extends BaseController
     public function loadMoreNews(): ResponseInterface
     {
         return $this->loadMore(model(ColdwellBankerNewsModel::class), 'iframe-image', 'news');
+    }
+
+    /**
+     * <head> values for CMS pages rendered by this controller.
+     */
+    private function seo(array $page, array $blocks, bool $isHome): array
+    {
+        $legacy = [];
+        if ($isHome) {
+            try {
+                $legacy = model(PagesModel::class)->pageById(PagesModel::PAGE_HOME) ?? [];
+            } catch (\Throwable $e) {
+                log_message('error', 'CMS home legacy SEO: {msg}', ['msg' => $e->getMessage()]);
+            }
+        }
+        $pick = static function (string ...$vals): string {
+            foreach ($vals as $v) {
+                if (trim($v) !== '') {
+                    return trim($v);
+                }
+            }
+            return '';
+        };
+
+        $heroImage = '';
+        if (($blocks[0] ?? null) !== null) {
+            $b         = $blocks[0];
+            $heroImage = match ($b['type']) {
+                'hero_slider' => (string) ($b['items']['slide'][0]['image'] ?? ''),
+                'page_hero'   => (string) ($b['settings']['image'] ?? ''),
+                default       => '',
+            };
+        }
+        $image = '';
+        foreach ([(string) $page['og_image'], (string) $page['featured_image'], $heroImage] as $candidate) {
+            if (($image = CmsUrl::imageUrl($candidate)) !== '') {
+                break;
+            }
+        }
+
+        return [
+            'title'       => $pick((string) $page['meta_title'], (string) ($legacy['title'] ?? ''), (string) $page['title']),
+            'description' => $pick((string) $page['meta_description'], (string) ($legacy['meta_description'] ?? ''), $page['type'] === 'article' ? (string) $page['excerpt'] : ''),
+            'keywords'    => $pick((string) $page['meta_keywords'], (string) ($legacy['meta_keywords'] ?? '')),
+            'image'       => $image,
+            'noindex'     => (int) $page['noindex'] === 1,
+        ];
     }
 }

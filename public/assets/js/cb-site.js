@@ -235,7 +235,27 @@
         if (hit) hit.focus({ preventScroll: true });
       } else { apply(citySel ? citySel.value : ''); }
     });
-    apply(root.getAttribute('data-default') || '');
+    var initial = root.getAttribute('data-default') || '';
+    try {
+      var qCity = new URLSearchParams(window.location.search).get('city');
+      if (qCity) {
+        var norm = qCity.replace(/\(ncr\)/ig, 'ncr').replace(/\s+/g, ' ').trim().toLowerCase();
+        var exact = tabs.find(function (t) {
+          var v = (t.getAttribute('data-city') || '').trim().toLowerCase();
+          return v !== '' && v === norm;
+        });
+        var partial = exact || tabs.find(function (t) {
+          var v = (t.getAttribute('data-city') || '').trim().toLowerCase();
+          return v !== '' && (v.indexOf(norm) !== -1 || norm.indexOf(v) !== -1);
+        });
+        if (partial) initial = partial.getAttribute('data-city') || initial;
+      }
+    } catch (e) {}
+    apply(initial);
+    if (qCity) {
+      var activeTab = tabs.find(function (t) { return t.getAttribute('aria-selected') === 'true'; });
+      if (activeTab && activeTab.scrollIntoView) activeTab.scrollIntoView({ inline: 'center', block: 'nearest' });
+    }
   });
 
   /* ---------- news feed: filter tabs + Load More ---------- */

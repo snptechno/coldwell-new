@@ -68,7 +68,7 @@ $(document).ready(function(){
 		var job_id = $(this).attr("job-id");
 		var base_url = "<?php echo base_url();?>";
 		$(document).on('click', '#delete', function (e) {			
-			$(location).attr('href', base_url+'admin/section/delete_job_opening/'+job_id)
+			adminPost(base_url+'admin/section/delete_job_opening/'+job_id)
 		});
 	});
 });

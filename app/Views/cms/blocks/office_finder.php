@@ -15,7 +15,9 @@ helper('cb');
 $offices = Offices::all();
 $cities  = Offices::cities($offices);
 $id      = 'cb-finder-title' . $sfx;
-$default = array_key_first($cities) ?? '';
+$reqCity = trim((string) service('request')->getGet('city'));
+$matched = Offices::matchCity($reqCity, $cities);
+$default = $matched !== '' ? $matched : (array_key_first($cities) ?? '');
 $dir     = ($s['layout'] ?? 'finder') === 'directory';
 $lead    = strtr(trim($s['lead'] ?? ''), ['{offices}' => (string) count($offices), '{cities}' => (string) count($cities)]);
 ?>

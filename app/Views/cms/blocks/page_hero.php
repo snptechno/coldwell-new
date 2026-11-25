@@ -11,7 +11,7 @@ helper('cb');
 $img = cb_picture($s['image'] ?? '', '', ['loading' => 'eager', 'fetchpriority' => 'high', 'width' => '1536', 'height' => '864']);
 ?>
 <div class="cb-hero">
-  <div class="cb-hero__card cb-hero__card--page">
+  <div class="cb-hero__card cb-hero__card--page<?= $img === '' ? ' cb-hero__card--plain' : '' ?>">
     <?= view('cms/partials/nav', ['page_active' => $page_active, 'current_url' => $current_url], ['saveData' => false]) ?>
 
     <?php if ($img !== ''): ?>

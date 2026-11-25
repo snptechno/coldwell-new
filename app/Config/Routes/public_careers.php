@@ -10,11 +10,12 @@
 
 // 'career' is a CMS page (CareersPageSeeder), served by the CMS catch-all route.
 
-$routes->get('franchisees-openings', 'Site\Careers::franchiseesOpenings');
-$routes->get('franchisees_openings', 'Site\Careers::franchiseesOpenings');
+// 'franchisees-openings' is a CMS page (GroupBPagesSeeder), served by the CMS catch-all route.
+$routes->get('franchisees_openings', static fn () => redirect()->to(site_url('franchisees-openings'), 301));
 
-$routes->get('corporate-team', 'Site\Careers::corporateTeam');
-$routes->get('corporate_team', 'Site\Careers::corporateTeam');
+// Corporate Team is a CMS page (slug corporate-team, CorporateTeamPageSeeder), served by the
+// catch-all. Site\Careers::corporateTeam stays for rollback.
+$routes->get('corporate_team', static fn () => redirect()->to(site_url('corporate-team'), 301));
 
 // Broken in CI3 (HTTP 500 for every request): now a 404, see the controller.
 $routes->get('apply-job-opening', 'Site\Careers::applyJobOpening');

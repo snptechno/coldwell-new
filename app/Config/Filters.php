@@ -82,7 +82,7 @@ class Filters extends BaseFilters
             // that writes data (enquiry forms, newsletter, job applications, admin) stays protected.
             'csrf' => ['except' => [
                 'load_more_news', 'load_more_newsletter', 'load_more_industry_news', 'load_more_knowledge_series',
-                'load_group_images_gallery', 'get_team_information',
+                'load_more_research', 'research/load-more', 'load_group_images_gallery', 'get_team_information',
                 'get_owner_info', 'get_specialist_info', 'home/get_owner_info', 'home/get_specialist_info',
                 'get_all_franchisee_location', // map markers on /our-franchise
                 'get_franchisee_location_by_city', 'get_franchisee_name', 'search_franchisee_by_location',

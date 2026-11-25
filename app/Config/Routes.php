@@ -43,16 +43,16 @@ $routes->group('admin', ['filter' => 'adminauth'], static function (RouteCollect
     $routes->get('section/learning_gallery', 'Admin\Section::learning_gallery');
     $routes->match(['GET', 'POST'], 'section/add_learning_gallery', 'Admin\Section::add_learning_gallery');
     $routes->match(['GET', 'POST'], 'section/add_learning_gallery/(:num)', 'Admin\Section::add_learning_gallery/$1');
-    $routes->get('section/delete_learning_gallery_image/(:num)', 'Admin\Section::delete_learning_gallery_image/$1');
-    $routes->get('section/change_status_learning_gallery/(:num)/(:num)', 'Admin\Section::change_status_learning_gallery/$1/$2');
+    $routes->post('section/delete_learning_gallery_image/(:num)', 'Admin\Section::delete_learning_gallery_image/$1');
+    $routes->post('section/change_status_learning_gallery/(:num)/(:num)', 'Admin\Section::change_status_learning_gallery/$1/$2');
     $routes->post('section/update_group_id_life_at_coldwell_gallery', 'Admin\Section::update_group_id_life_at_coldwell_gallery');
 
     // Learning Gallery Thumbnails
     $routes->get('section/learning_gallery_thumbnails', 'Admin\Section::learning_gallery_thumbnails');
     $routes->match(['GET', 'POST'], 'section/add_gallery_thumbnail', 'Admin\Section::add_gallery_thumbnail');
     $routes->match(['GET', 'POST'], 'section/add_gallery_thumbnail/(:num)', 'Admin\Section::add_gallery_thumbnail/$1');
-    $routes->get('section/delete_gallery_thumbnail_image/(:num)', 'Admin\Section::delete_gallery_thumbnail_image/$1');
-    $routes->get('section/change_status_learning_gallery_thumbnail/(:num)/(:num)', 'Admin\Section::change_status_learning_gallery_thumbnail/$1/$2');
+    $routes->post('section/delete_gallery_thumbnail_image/(:num)', 'Admin\Section::delete_gallery_thumbnail_image/$1');
+    $routes->post('section/change_status_learning_gallery_thumbnail/(:num)/(:num)', 'Admin\Section::change_status_learning_gallery_thumbnail/$1/$2');
     $routes->post('section/update_group_id_life_at_coldwell_gallery_thumb', 'Admin\Section::update_group_id_life_at_coldwell_gallery_thumb');
 
     // Learning Events
@@ -60,20 +60,20 @@ $routes->group('admin', ['filter' => 'adminauth'], static function (RouteCollect
     $routes->match(['GET', 'POST'], 'section/add_events', 'Admin\Section::add_events');
     $routes->match(['GET', 'POST'], 'section/add_events/(:num)', 'Admin\Section::add_events/$1');
     $routes->get('section/change_event_status/(:num)/(:num)', 'Admin\Section::change_event_status/$1/$2');
-    $routes->get('section/delete_event/(:num)', 'Admin\Section::delete_event/$1');
+    $routes->post('section/delete_event/(:num)', 'Admin\Section::delete_event/$1');
 
     // Cities
     $routes->get('section/manage_cities', 'Admin\Section::manage_cities');
     $routes->match(['GET', 'POST'], 'section/add_city', 'Admin\Section::add_city');
     $routes->match(['GET', 'POST'], 'section/add_city/(:num)', 'Admin\Section::add_city/$1');
-    $routes->get('section/delete_city/(:num)', 'Admin\Section::delete_city/$1');
+    $routes->post('section/delete_city/(:num)', 'Admin\Section::delete_city/$1');
 
     // Franchises
     $routes->get('section/manage_franchises', 'Admin\Section::manage_franchises');
     $routes->match(['GET', 'POST'], 'section/add_franchise', 'Admin\Section::add_franchise');
     $routes->match(['GET', 'POST'], 'section/add_franchise/(:num)', 'Admin\Section::add_franchise/$1');
-    $routes->get('section/delete_franchise/(:num)', 'Admin\Section::delete_franchise/$1');
-    $routes->get('section/change_status_franchises/(:num)/(:num)', 'Admin\Section::change_status_franchises/$1/$2');
+    $routes->post('section/delete_franchise/(:num)', 'Admin\Section::delete_franchise/$1');
+    $routes->post('section/change_status_franchises/(:num)/(:num)', 'Admin\Section::change_status_franchises/$1/$2');
 
     // Real Estate Specialists
     $routes->get('section/specialist_list/(:num)', 'Admin\Section::specialist_list/$1');
@@ -83,7 +83,7 @@ $routes->group('admin', ['filter' => 'adminauth'], static function (RouteCollect
     $routes->get('section/manage_real_estate_specialist/(:num)', 'Admin\Section::manage_real_estate_specialist/$1');
     $routes->match(['GET', 'POST'], 'section/update_real_estate_specialist/(:num)', 'Admin\Section::update_real_estate_specialist/$1');
     $routes->match(['GET', 'POST'], 'section/update_real_estate_specialist/(:num)/(:num)', 'Admin\Section::update_real_estate_specialist/$1/$2');
-    $routes->get('section/delete_specialist/(:num)/(:num)', 'Admin\Section::delete_specialist/$1/$2');
+    $routes->post('section/delete_specialist/(:num)/(:num)', 'Admin\Section::delete_specialist/$1/$2');
 
     // Franchise Owners
     $routes->get('section/franchise_owners_list/(:num)', 'Admin\Section::franchise_owners_list/$1');
@@ -93,69 +93,69 @@ $routes->group('admin', ['filter' => 'adminauth'], static function (RouteCollect
     $routes->get('section/manage_franchise_owners/(:num)', 'Admin\Section::manage_franchise_owners/$1');
     $routes->match(['GET', 'POST'], 'section/update_franchise_owners/(:num)', 'Admin\Section::update_franchise_owners/$1');
     $routes->match(['GET', 'POST'], 'section/update_franchise_owners/(:num)/(:num)', 'Admin\Section::update_franchise_owners/$1/$2');
-    $routes->get('section/delete_franchise_owner/(:num)/(:num)', 'Admin\Section::delete_franchise_owner/$1/$2');
+    $routes->post('section/delete_franchise_owner/(:num)/(:num)', 'Admin\Section::delete_franchise_owner/$1/$2');
 
     // Franchise Testimonials
     $routes->get('section/manage_franchiese_testimonials/(:num)', 'Admin\Section::manage_franchiese_testimonials/$1');
     $routes->match(['GET', 'POST'], 'section/add_franchise_testimonials/(:num)', 'Admin\Section::add_franchise_testimonials/$1');
     $routes->match(['GET', 'POST'], 'section/add_franchise_testimonials/(:num)/(:num)', 'Admin\Section::add_franchise_testimonials/$1/$2');
-    $routes->get('section/delete_franchise_testimonials/(:num)/(:num)', 'Admin\Section::delete_franchise_testimonials/$1/$2');
-    $routes->get('section/change_status_franchise_testimonials/(:num)/(:num)/(:num)', 'Admin\Section::change_status_franchise_testimonials/$1/$2/$3');
+    $routes->post('section/delete_franchise_testimonials/(:num)/(:num)', 'Admin\Section::delete_franchise_testimonials/$1/$2');
+    $routes->post('section/change_status_franchise_testimonials/(:num)/(:num)/(:num)', 'Admin\Section::change_status_franchise_testimonials/$1/$2/$3');
 
     // Corporate Teams
     $routes->get('section/manage_corporate_teams', 'Admin\Section::manage_corporate_teams');
     $routes->match(['GET', 'POST'], 'section/update_corporate_team', 'Admin\Section::update_corporate_team');
     $routes->match(['GET', 'POST'], 'section/update_corporate_team/(:num)', 'Admin\Section::update_corporate_team/$1');
-    $routes->get('section/delete_corporate_team/(:num)', 'Admin\Section::delete_corporate_team/$1');
-    $routes->get('section/delete_corporate_team/(:num)/(:num)', 'Admin\Section::delete_corporate_team/$1/$2');
-    $routes->get('section/change_status_corporate_team/(:num)/(:num)', 'Admin\Section::change_status_corporate_team/$1/$2');
+    $routes->post('section/delete_corporate_team/(:num)', 'Admin\Section::delete_corporate_team/$1');
+    $routes->post('section/delete_corporate_team/(:num)/(:num)', 'Admin\Section::delete_corporate_team/$1/$2');
+    $routes->post('section/change_status_corporate_team/(:num)/(:num)', 'Admin\Section::change_status_corporate_team/$1/$2');
     $routes->post('section/update_order_no_corporate_team', 'Admin\Section::update_order_no_corporate_team');
 
     // Pages
     $routes->get('section/list_pages', 'Admin\Section::list_pages');
     $routes->get('section/update_page/(:num)', 'Admin\Section::update_page/$1');
     $routes->match(['GET', 'POST'], 'section/save_page/(:num)', 'Admin\Section::save_page/$1');
-    $routes->get('section/change_status_page/(:num)/(:num)', 'Admin\Section::change_status_page/$1/$2');
-    $routes->get('section/delete_page/(:num)', 'Admin\Section::delete_page/$1');
+    $routes->post('section/change_status_page/(:num)/(:num)', 'Admin\Section::change_status_page/$1/$2');
+    $routes->post('section/delete_page/(:num)', 'Admin\Section::delete_page/$1');
 
     // Videos
     $routes->get('section/finding_home_videos', 'Admin\Section::finding_home_videos');
     $routes->match(['GET', 'POST'], 'section/add_home_videos', 'Admin\Section::add_home_videos');
     $routes->match(['GET', 'POST'], 'section/add_home_videos/(:num)', 'Admin\Section::add_home_videos/$1');
-    $routes->get('section/delete_home_videos/(:num)', 'Admin\Section::delete_home_videos/$1');
-    $routes->get('section/change_status_finding_home_videos/(:num)/(:num)', 'Admin\Section::change_status_finding_home_videos/$1/$2');
+    $routes->post('section/delete_home_videos/(:num)', 'Admin\Section::delete_home_videos/$1');
+    $routes->post('section/change_status_finding_home_videos/(:num)/(:num)', 'Admin\Section::change_status_finding_home_videos/$1/$2');
 
     $routes->get('section/selling_home_videos', 'Admin\Section::selling_home_videos');
     $routes->match(['GET', 'POST'], 'section/add_selling_videos', 'Admin\Section::add_selling_videos');
     $routes->match(['GET', 'POST'], 'section/add_selling_videos/(:num)', 'Admin\Section::add_selling_videos/$1');
-    $routes->get('section/delete_selling_videos/(:num)', 'Admin\Section::delete_selling_videos/$1');
-    $routes->get('section/change_status_selling_videos/(:num)/(:num)', 'Admin\Section::change_status_selling_videos/$1/$2');
+    $routes->post('section/delete_selling_videos/(:num)', 'Admin\Section::delete_selling_videos/$1');
+    $routes->post('section/change_status_selling_videos/(:num)/(:num)', 'Admin\Section::change_status_selling_videos/$1/$2');
 
     $routes->get('section/testimonial_videos', 'Admin\Section::testimonial_videos');
     $routes->match(['GET', 'POST'], 'section/add_testimonial_videos', 'Admin\Section::add_testimonial_videos');
     $routes->match(['GET', 'POST'], 'section/add_testimonial_videos/(:num)', 'Admin\Section::add_testimonial_videos/$1');
-    $routes->get('section/change_status_testimonial_videos/(:num)/(:num)', 'Admin\Section::change_status_testimonial_videos/$1/$2');
-    $routes->get('section/delete_testimonial_videos/(:num)', 'Admin\Section::delete_testimonial_videos/$1');
+    $routes->post('section/change_status_testimonial_videos/(:num)/(:num)', 'Admin\Section::change_status_testimonial_videos/$1/$2');
+    $routes->post('section/delete_testimonial_videos/(:num)', 'Admin\Section::delete_testimonial_videos/$1');
 
     $routes->get('section/cb_india_videos', 'Admin\Section::cb_india_videos');
     $routes->match(['GET', 'POST'], 'section/add_cb_india_videos', 'Admin\Section::add_cb_india_videos');
     $routes->match(['GET', 'POST'], 'section/add_cb_india_videos/(:num)', 'Admin\Section::add_cb_india_videos/$1');
-    $routes->get('section/change_status_cb_india_videos/(:num)/(:num)', 'Admin\Section::change_status_cb_india_videos/$1/$2');
-    $routes->get('section/delete_cb_india_videos/(:num)', 'Admin\Section::delete_cb_india_videos/$1');
+    $routes->post('section/change_status_cb_india_videos/(:num)/(:num)', 'Admin\Section::change_status_cb_india_videos/$1/$2');
+    $routes->post('section/delete_cb_india_videos/(:num)', 'Admin\Section::delete_cb_india_videos/$1');
 
     $routes->get('section/featured_videos', 'Admin\Section::featured_videos');
     $routes->match(['GET', 'POST'], 'section/add_featured_videos', 'Admin\Section::add_featured_videos');
     $routes->match(['GET', 'POST'], 'section/add_featured_videos/(:num)', 'Admin\Section::add_featured_videos/$1');
-    $routes->get('section/change_status_featured_videos/(:num)/(:num)', 'Admin\Section::change_status_featured_videos/$1/$2');
-    $routes->get('section/delete_featured_videos/(:num)', 'Admin\Section::delete_featured_videos/$1');
+    $routes->post('section/change_status_featured_videos/(:num)/(:num)', 'Admin\Section::change_status_featured_videos/$1/$2');
+    $routes->post('section/delete_featured_videos/(:num)', 'Admin\Section::delete_featured_videos/$1');
 
     $routes->get('section/success_stories_videos', 'Admin\Section::success_stories_videos');
     $routes->match(['GET', 'POST'], 'section/success_story_videos', 'Admin\Section::success_story_videos');
     $routes->match(['GET', 'POST'], 'section/success_story_videos/(:num)', 'Admin\Section::success_story_videos/$1');
     $routes->match(['GET', 'POST'], 'section/add_success_story_videos', 'Admin\Section::add_success_story_videos');
     $routes->match(['GET', 'POST'], 'section/add_success_story_videos/(:num)', 'Admin\Section::add_success_story_videos/$1');
-    $routes->get('section/delete_success_story_videos/(:num)', 'Admin\Section::delete_success_story_videos/$1');
-    $routes->get('section/change_status_success_story/(:num)/(:num)', 'Admin\Section::change_status_success_story/$1/$2');
+    $routes->post('section/delete_success_story_videos/(:num)', 'Admin\Section::delete_success_story_videos/$1');
+    $routes->post('section/change_status_success_story/(:num)/(:num)', 'Admin\Section::change_status_success_story/$1/$2');
 
     // Jobs & Applications & Careers
     $routes->get('section/job_openings_list', 'Admin\Section::job_openings_list');
@@ -167,8 +167,8 @@ $routes->group('admin', ['filter' => 'adminauth'], static function (RouteCollect
     $routes->match(['GET', 'POST'], 'section/save_job/(:num)', 'Admin\Section::save_job/$1');
     $routes->match(['GET', 'POST'], 'section/add_job_opening', 'Admin\Section::add_job_opening');
     $routes->match(['GET', 'POST'], 'section/add_job_opening/(:num)', 'Admin\Section::add_job_opening/$1');
-    $routes->get('section/delete_job_opening/(:num)', 'Admin\Section::delete_job_opening/$1');
-    $routes->get('section/change_status_job_opening/(:num)/(:num)', 'Admin\Section::change_status_job_opening/$1/$2');
+    $routes->post('section/delete_job_opening/(:num)', 'Admin\Section::delete_job_opening/$1');
+    $routes->post('section/change_status_job_opening/(:num)/(:num)', 'Admin\Section::change_status_job_opening/$1/$2');
 
     $routes->get('section/job_application_list', 'Admin\Section::job_application_list');
     $routes->get('section/check_details_candidate/(:num)', 'Admin\Section::check_details_candidate/$1');
@@ -178,8 +178,8 @@ $routes->group('admin', ['filter' => 'adminauth'], static function (RouteCollect
     $routes->get('section/manage_testimonials', 'Admin\Section::manage_testimonials');
     $routes->match(['GET', 'POST'], 'section/add_carrer_testimonial', 'Admin\Section::add_carrer_testimonial');
     $routes->match(['GET', 'POST'], 'section/add_carrer_testimonial/(:num)', 'Admin\Section::add_carrer_testimonial/$1');
-    $routes->get('section/change_status_carrers_testimonial/(:num)/(:num)', 'Admin\Section::change_status_carrers_testimonial/$1/$2');
-    $routes->get('section/delete_carrer_testimonial/(:num)', 'Admin\Section::delete_carrer_testimonial/$1');
+    $routes->post('section/change_status_carrers_testimonial/(:num)/(:num)', 'Admin\Section::change_status_carrers_testimonial/$1/$2');
+    $routes->post('section/delete_carrer_testimonial/(:num)', 'Admin\Section::delete_carrer_testimonial/$1');
 
     $routes->get('section/life_at_coldwell_banker', 'Admin\Section::life_at_coldwell_banker');
     $routes->match(['GET', 'POST'], 'section/add_life_at_coldwell_banker', 'Admin\Section::add_life_at_coldwell_banker');
@@ -188,39 +188,50 @@ $routes->group('admin', ['filter' => 'adminauth'], static function (RouteCollect
     $routes->get('section/add_images_coldwell_banker', 'Admin\Section::add_images_coldwell_banker');
     $routes->match(['GET', 'POST'], 'section/add_life_at_coldwell_banker_image', 'Admin\Section::add_life_at_coldwell_banker_image');
     $routes->match(['GET', 'POST'], 'section/add_life_at_coldwell_banker_image/(:num)', 'Admin\Section::add_life_at_coldwell_banker_image/$1');
-    $routes->get('section/delete_image_life_at_coldwell/(:num)', 'Admin\Section::delete_image_life_at_coldwell/$1');
+    $routes->post('section/delete_image_life_at_coldwell/(:num)', 'Admin\Section::delete_image_life_at_coldwell/$1');
+
+    // Home Page (App\Controllers\Admin\HomePage) - redesigned home content. Writes are POST + CSRF.
+    // The section segment is validated against App\Libraries\HomeSections::ITEMS (404 otherwise).
+    $routes->get('home-page', 'Admin\HomePage::index');
+    $routes->match(['GET', 'POST'], 'home-page/content', 'Admin\HomePage::content');
+    $routes->get('home-page/([a-z_]+)', 'Admin\HomePage::items/$1');
+    $routes->match(['GET', 'POST'], 'home-page/([a-z_]+)/add', 'Admin\HomePage::item_form/$1');
+    $routes->match(['GET', 'POST'], 'home-page/([a-z_]+)/edit/(:num)', 'Admin\HomePage::item_form/$1/$2');
+    $routes->post('home-page/([a-z_]+)/status/(:num)/(:num)', 'Admin\HomePage::item_status/$1/$2/$3');
+    $routes->post('home-page/([a-z_]+)/delete/(:num)', 'Admin\HomePage::item_delete/$1/$2');
+    $routes->post('home-page/([a-z_]+)/sort', 'Admin\HomePage::item_sort/$1');
 
     // Research & Media
     $routes->get('section/manage_research', 'Admin\Section::manage_research');
     $routes->match(['GET', 'POST'], 'section/add_research', 'Admin\Section::add_research');
     $routes->match(['GET', 'POST'], 'section/add_research/(:num)', 'Admin\Section::add_research/$1');
-    $routes->get('section/change_status_research/(:num)/(:num)', 'Admin\Section::change_status_research/$1/$2');
-    $routes->get('section/delete_research/(:num)', 'Admin\Section::delete_research/$1');
+    $routes->post('section/change_status_research/(:num)/(:num)', 'Admin\Section::change_status_research/$1/$2');
+    $routes->post('section/delete_research/(:num)', 'Admin\Section::delete_research/$1');
 
     $routes->get('section/coldwell_banker_news', 'Admin\Section::coldwell_banker_news');
     $routes->match(['GET', 'POST'], 'section/add_coldwell_banker_news', 'Admin\Section::add_coldwell_banker_news');
     $routes->match(['GET', 'POST'], 'section/add_coldwell_banker_news/(:num)', 'Admin\Section::add_coldwell_banker_news/$1');
-    $routes->get('section/delete_coldwell_banker_news/(:num)', 'Admin\Section::delete_coldwell_banker_news/$1');
+    $routes->post('section/delete_coldwell_banker_news/(:num)', 'Admin\Section::delete_coldwell_banker_news/$1');
 
     $routes->get('section/coldwell_banker_industry_news', 'Admin\Section::coldwell_banker_industry_news');
     $routes->match(['GET', 'POST'], 'section/add_coldwell_banker_industry_news', 'Admin\Section::add_coldwell_banker_industry_news');
     $routes->match(['GET', 'POST'], 'section/add_coldwell_banker_industry_news/(:num)', 'Admin\Section::add_coldwell_banker_industry_news/$1');
-    $routes->get('section/delete_coldwell_banker_industry_news/(:num)', 'Admin\Section::delete_coldwell_banker_industry_news/$1');
+    $routes->post('section/delete_coldwell_banker_industry_news/(:num)', 'Admin\Section::delete_coldwell_banker_industry_news/$1');
 
     $routes->get('section/coldwell_banker_knowledge_series', 'Admin\Section::coldwell_banker_knowledge_series');
     $routes->match(['GET', 'POST'], 'section/add_coldwell_banker_knowledge_series', 'Admin\Section::add_coldwell_banker_knowledge_series');
     $routes->match(['GET', 'POST'], 'section/add_coldwell_banker_knowledge_series/(:num)', 'Admin\Section::add_coldwell_banker_knowledge_series/$1');
-    $routes->get('section/delete_coldwell_banker_knowledge_series/(:num)', 'Admin\Section::delete_coldwell_banker_knowledge_series/$1');
+    $routes->post('section/delete_coldwell_banker_knowledge_series/(:num)', 'Admin\Section::delete_coldwell_banker_knowledge_series/$1');
 
     $routes->get('section/coldwell_banker_newsletter', 'Admin\Section::coldwell_banker_newsletter');
     $routes->match(['GET', 'POST'], 'section/add_coldwell_banker_newsletter', 'Admin\Section::add_coldwell_banker_newsletter');
     $routes->match(['GET', 'POST'], 'section/add_coldwell_banker_newsletter/(:num)', 'Admin\Section::add_coldwell_banker_newsletter/$1');
-    $routes->get('section/delete_coldwell_banker_newsletter/(:num)', 'Admin\Section::delete_coldwell_banker_newsletter/$1');
+    $routes->post('section/delete_coldwell_banker_newsletter/(:num)', 'Admin\Section::delete_coldwell_banker_newsletter/$1');
 
     $routes->get('section/coldwell_banker_awards', 'Admin\Section::coldwell_banker_awards');
     $routes->match(['GET', 'POST'], 'section/add_coldwell_banker_award', 'Admin\Section::add_coldwell_banker_award');
     $routes->match(['GET', 'POST'], 'section/add_coldwell_banker_award/(:num)', 'Admin\Section::add_coldwell_banker_award/$1');
-    $routes->get('section/delete_coldwell_banker_award/(:num)', 'Admin\Section::delete_coldwell_banker_award/$1');
+    $routes->post('section/delete_coldwell_banker_award/(:num)', 'Admin\Section::delete_coldwell_banker_award/$1');
 
     // MIME check AJAX
     $routes->post('section/check_mime', 'Admin\Section::check_mime');
@@ -228,13 +239,13 @@ $routes->group('admin', ['filter' => 'adminauth'], static function (RouteCollect
     // Enquiries & Exports
     $routes->get('section/projects_contact_enquiry', 'Admin\Section::projects_contact_enquiry');
     $routes->get('section/franchisee_enquiry', 'Admin\Section::franchisee_enquiry');
-    $routes->get('section/delete_franchisee/(:num)', 'Admin\Section::delete_franchisee/$1');
+    $routes->post('section/delete_franchisee/(:num)', 'Admin\Section::delete_franchisee/$1');
     $routes->get('section/contact_enquiry', 'Admin\Section::contact_enquiry');
-    $routes->get('section/delete_contact/(:num)', 'Admin\Section::delete_contact/$1');
+    $routes->post('section/delete_contact/(:num)', 'Admin\Section::delete_contact/$1');
     $routes->get('section/franchisee_project_enquiries', 'Admin\Section::franchisee_project_enquiries');
-    $routes->get('section/delete_franchisee_project_enquiry/(:num)', 'Admin\Section::delete_franchisee_project_enquiry/$1');
+    $routes->post('section/delete_franchisee_project_enquiry/(:num)', 'Admin\Section::delete_franchisee_project_enquiry/$1');
     $routes->get('section/newsletter_list', 'Admin\Section::newsletter_list');
-    $routes->get('section/delete_newslettes_subscriber/(:num)', 'Admin\Section::delete_newslettes_subscriber/$1');
+    $routes->post('section/delete_newslettes_subscriber/(:num)', 'Admin\Section::delete_newslettes_subscriber/$1');
     $routes->get('section/nri_enquiry', 'Admin\Section::nri_enquiry');
     $routes->get('section/nri_enquiry_list', 'Admin\Section::nri_enquiry_list');
 

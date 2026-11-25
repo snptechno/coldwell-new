@@ -324,7 +324,8 @@ class Blog extends BaseController
         }
         $mime = strtolower((string) $file->getMimeType());
         $ext  = strtolower((string) $file->getClientExtension());
-        if (! isset(self::IMAGE_MIMES[$mime]) || ! in_array($ext, self::IMAGE_EXTS, true) || @getimagesize($file->getTempName()) === false) {
+        $image = @getimagesize($file->getTempName());
+        if (! isset(self::IMAGE_MIMES[$mime]) || ! in_array($ext, self::IMAGE_EXTS, true) || $image === false || $image[0] > 8000 || $image[1] > 8000 || ($image[0] * $image[1]) > 20_000_000) {
             $errors[$field] = 'Only JPG, PNG or WEBP images are allowed.';
 
             return null;

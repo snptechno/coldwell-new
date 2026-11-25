@@ -25,7 +25,7 @@
 				  <td><?php echo $row['overview'];?></td>
 				  <td><?php echo $row['university'];?></td>
 				  <td>
-			  		<?php if($row['university_logo'] != ''){?>
+							<?php if($row['university_logo'] != ''){?>
 			  			<img src="<?php echo base_url().'uploads/university_logo/'.esc($row['university_logo'])?>">
 		  			<?php }?>
 				  </td>
@@ -65,7 +65,7 @@ $(document).ready(function(){
 		var page_id = $(this).attr("page-id");
 		var base_url = "<?php echo base_url();?>";
 		$(document).on('click', '#delete', function (e) {			
-			$(location).attr('href', base_url+'admin/section/delete_overview/'+page_id);
+			adminPost(base_url+'admin/section/delete_overview/'+page_id);
 		});
 	});
 });

@@ -17,6 +17,16 @@ $cols    = [];
 foreach (SiteSchema::FOOTER_HEADINGS as $location => $headingKey) {
     $links = Cms::menu($location);
     if ($links !== []) {
+        if ($location === 'footer_network') {
+            foreach ($links as &$l) {
+                $lbl = trim((string) ($l['label'] ?? ''));
+                if ($lbl !== '' && preg_match('~/our-franchise(?:#.*)?$~i', (string) ($l['href'] ?? '')) === 1) {
+                    $base      = preg_replace('~#.*$~', '', (string) $l['href']);
+                    $l['href'] = $base . '?city=' . rawurlencode($lbl) . '#offices';
+                }
+            }
+            unset($l);
+        }
         $default = trim((string) preg_replace('/^.*—\s*/u', '', SiteSchema::MENUS[$location]['name']));
         $cols[]  = [Cms::setting($headingKey, $default), $links];
     }

@@ -85,11 +85,13 @@ class Section extends BaseController
         $mime = strtolower((string) $file->getMimeType());
         $ext  = strtolower((string) $file->getClientExtension());
 
-        if (! isset(self::IMAGE_MIMES[$mime]) || ! in_array($ext, self::IMAGE_EXTS, true)) {
+        $image = @getimagesize($file->getTempName());
+        $mimeExtensions = ['image/jpeg' => ['jpg', 'jpeg'], 'image/jpg' => ['jpg', 'jpeg'], 'image/png' => ['png']];
+        if (! isset(self::IMAGE_MIMES[$mime]) || ! in_array($ext, $mimeExtensions[$mime] ?? [], true) || $image === false || $image[0] > 8000 || $image[1] > 8000 || ($image[0] * $image[1]) > 20_000_000) {
             return null;
         }
 
-        $finalExt = $useMimeSubtypeForName ? self::IMAGE_MIMES[$mime] : $ext;
+        $finalExt = self::IMAGE_MIMES[$mime];
         $filename = $useMimeSubtypeForName
             ? time() . mt_rand() . '.' . $finalExt
             : mt_rand() . time() . '.' . $finalExt;
@@ -123,7 +125,12 @@ class Section extends BaseController
         $mime = strtolower((string) $file->getMimeType());
         $ext  = strtolower((string) $file->getClientExtension());
 
-        if ($mime !== 'application/pdf' || $ext !== 'pdf') {
+        $handle = @fopen($file->getTempName(), 'rb');
+        $signature = $handle !== false ? fread($handle, 1024) : false;
+        if ($handle !== false) {
+            fclose($handle);
+        }
+        if ($mime !== 'application/pdf' || $ext !== 'pdf' || ! is_string($signature) || ! str_starts_with($signature, '%PDF-')) {
             return null;
         }
 
@@ -1523,7 +1530,17 @@ class Section extends BaseController
         }
 
         $safeName = basename((string) $row['resume']);
-        $filePath = rtrim(FCPATH, '\\/') . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'resume' . DIRECTORY_SEPARATOR . $safeName;
+        $privateDir = rtrim(WRITEPATH, '\\/') . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'resume';
+        if (! is_dir($privateDir)) {
+            mkdir($privateDir, 0700, true);
+        }
+        $filePath = $privateDir . DIRECTORY_SEPARATOR . $safeName;
+        if (! is_file($filePath)) {
+            $legacyPath = rtrim(FCPATH, '\\/') . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'resume' . DIRECTORY_SEPARATOR . $safeName;
+            if (is_file($legacyPath) && ! @rename($legacyPath, $filePath)) {
+                throw PageNotFoundException::forPageNotFound();
+            }
+        }
         if (! is_file($filePath)) {
             throw PageNotFoundException::forPageNotFound();
         }

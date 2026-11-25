@@ -3,6 +3,7 @@
 namespace App\Controllers\Site;
 
 use App\Controllers\BaseController;
+use App\Libraries\Cms\NriDesk;
 use App\Libraries\EnquiryMailer;
 use App\Models\ContactEnquiryModel;
 use App\Models\FranchiseeEnquiryModel;
@@ -342,9 +343,18 @@ class Enquiry extends BaseController
      * CI3: Home::nri_enquiry (controllers/Home.php:267).
      * Handles the NRI desk form (`#nri_enquiry` on `/nri`) submitted via AJAX in `form.js`.
      * Returns `'Success'` on success.
+     *
+     * CMS mode (source=cms, block "nri_enquiry_form" on the /nri CMS page): message is optional,
+     * "interest" and "city" must be on NriDesk's allow-lists, a filled honeypot is dropped
+     * silently, 5 submissions per IP per 10 minutes, and the reply is a redirect back to the
+     * same page's #nri-enquiry form with a flash message.
      */
     public function nriEnquiry(): ResponseInterface
     {
+        if ($this->request->getPost('source') === 'cms') {
+            return $this->nriEnquiryCms();
+        }
+
         $name    = trim($this->postString('name'));
         $email   = trim($this->postString('email'));
         $phone   = trim($this->postString('phone'));
@@ -381,6 +391,73 @@ class Enquiry extends BaseController
         );
 
         return $this->response->setContentType('text/plain')->setBody('Success');
+    }
+
+    /** CMS "NRI desk enquiry form" submission (see nriEnquiry()). */
+    private function nriEnquiryCms(): ResponseInterface
+    {
+        $back = $this->cmsNewsletterReturn() . '#nri-enquiry';
+        $fail = static function (string $msg) use ($back): ResponseInterface {
+            session()->setFlashdata(['nri_msg' => $msg, 'nri_ok' => false]);
+
+            return redirect()->to($back);
+        };
+
+        // Bots fill every field: accept quietly, store and send nothing.
+        if (trim($this->postString('website')) !== '') {
+            session()->setFlashdata(['nri_msg' => 'Thank you — our NRI desk will get in touch shortly.', 'nri_ok' => true]);
+
+            return redirect()->to($back);
+        }
+
+        $throttler = \Config\Services::throttler();
+        if (! $throttler->check(NriDesk::throttleKey($this->request->getIPAddress()), NriDesk::THROTTLE_MAX, 10 * MINUTE)) {
+            return $fail('Too many requests from your connection. Please try again in a few minutes.');
+        }
+
+        $name     = mb_substr(trim($this->postString('name')), 0, 100);
+        $email    = mb_substr(trim($this->postString('email')), 0, 150);
+        $phone    = mb_substr(trim($this->postString('phone')), 0, 20);
+        $country  = mb_substr(trim($this->postString('nri_country')), 0, 60);
+        $interest = NriDesk::interest(trim($this->postString('interest')));
+        $city     = NriDesk::city(trim($this->postString('city')));
+        $note     = mb_substr(trim($this->postString('message')), 0, 1000);
+
+        if ($name === '' || ! filter_var($email, FILTER_VALIDATE_EMAIL) || ! preg_match('/^[0-9+()\s-]{6,20}$/', $phone) || $country === '') {
+            return $fail('Please fill in your name, a valid email address, phone number and country of residence.');
+        }
+
+        // nri_enquiry has no interest/city columns: keep them readable at the top of the message.
+        $message = implode("\n", array_filter([
+            $interest !== '' ? 'Interested in: ' . $interest : '',
+            $city !== '' ? 'Preferred city: ' . $city : '',
+            $note,
+        ], 'strlen')) ?: 'NRI desk enquiry (no details given)';
+
+        model(NriEnquiryModel::class)->addEnquiry([
+            'name'       => $name,
+            'email'      => $email,
+            'phone'      => $phone,
+            'message'    => $message,
+            'country'    => $country,
+            'created_on' => date('Y-m-d H:i:s'),
+        ]);
+
+        $html = '<html><body>'
+            . '<p>Name : ' . esc($name) . '</p>'
+            . '<p>Email : ' . esc($email) . '</p>'
+            . '<p>Mobile No. : ' . esc($phone) . '</p>'
+            . '<p>Country : ' . esc($country) . '</p>'
+            . '<p>Interested in : ' . esc($interest !== '' ? $interest : '-') . '</p>'
+            . '<p>Preferred city : ' . esc($city !== '' ? $city : '-') . '</p>'
+            . ($note !== '' ? '<p>Message : ' . nl2br(esc($note)) . '</p>' : '')
+            . '</body></html>';
+
+        $this->mailer->send(['info@coldwellbanker.in'], 'NRI Lead details', $html, $email, $name);
+
+        session()->setFlashdata(['nri_msg' => 'Thank you — our NRI desk will get in touch shortly.', 'nri_ok' => true]);
+
+        return redirect()->to($back);
     }
 
     /**
@@ -495,21 +572,28 @@ class Enquiry extends BaseController
         }
 
         $clientExt = strtolower($file->getClientExtension());
-        $mimeType  = $file->getMimeType();
-        if (
-            ! in_array($clientExt, self::RESUME_EXTENSIONS, true)
-            || ! isset(self::RESUME_MIMES[$mimeType])
-        ) {
+        $mimeType  = strtolower($file->getMimeType());
+        if (! in_array($clientExt, self::RESUME_EXTENSIONS, true) || ! $this->resumeContentMatches($file->getTempName(), $clientExt, $mimeType)) {
             return $this->jobReply(false, $fromCms, 'The résumé must be a PDF, DOC, DOCX or RTF file.');
         }
 
-        $safeExt   = self::RESUME_MIMES[$mimeType];
-        $uploadDir = FCPATH . 'uploads/resume';
-        if (! is_dir($uploadDir)) {
-            mkdir($uploadDir, 0755, true);
+        $throttler = \Config\Services::throttler();
+        $throttleKey = 'public-resume-' . hash('sha256', $this->request->getIPAddress());
+        if (! $throttler->check($throttleKey, 5, 10 * MINUTE)) {
+            if ($fromCms) {
+                return $this->jobReply(false, true, 'Too many applications from your connection. Please try again in a few minutes.');
+            }
+            return $this->response->setStatusCode(429)->setContentType('text/plain')->setBody('error');
         }
 
-        $newFilename = time() . mt_rand(1000, 999999) . '.' . $safeExt;
+        $safeExt   = $clientExt;
+        $uploadDir = WRITEPATH . 'uploads' . DIRECTORY_SEPARATOR . 'resume';
+        if (! is_dir($uploadDir)) {
+            mkdir($uploadDir, 0700, true);
+        }
+        @chmod($uploadDir, 0700);
+
+        $newFilename = bin2hex(random_bytes(16)) . '.' . $safeExt;
         if (! $file->move($uploadDir, $newFilename)) {
             return $this->jobReply(false, $fromCms, 'Your résumé could not be saved. Please try again.');
         }

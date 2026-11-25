@@ -23,9 +23,9 @@
 				  <td><?php echo $i;?></td>
 				  <td><?php echo esc($row['name']);?></td>
 				  <td><?php if($row['status'] == '0'){?>
-						<a data-toggle="tooltip" data-placement="top" title="Click to enable " href="<?php echo base_url() .'admin/section/change_status_page/'.$row['id'].'/1';?>"><i class="fa fa-thumbs-down  fa-2x"></i></a>
+						<a data-toggle="tooltip" data-placement="top" title="Click to enable " href="#" data-admin-post="<?php echo base_url() .'admin/section/change_status_page/'.$row['id'].'/1';?>" onclick="adminPost(this.dataset.adminPost); return false;"><i class="fa fa-thumbs-down  fa-2x"></i></a>
 					<?php }else{ ?>
-						<a data-toggle="tooltip" data-placement="top" title="Click to disable " href="<?php echo base_url() .'admin/section/change_status_page/'.$row['id'].'/0';?>"><i class="fa fa-thumbs-up  fa-2x"></i></a>
+						<a data-toggle="tooltip" data-placement="top" title="Click to disable " href="#" data-admin-post="<?php echo base_url() .'admin/section/change_status_page/'.$row['id'].'/0';?>" onclick="adminPost(this.dataset.adminPost); return false;"><i class="fa fa-thumbs-up  fa-2x"></i></a>
 					<?php } ?>
 				  </td>
 				  <td><?php echo esc($row['created_on']);?></td>
@@ -64,7 +64,7 @@ $(document).ready(function(){
 		var page_id = $(this).attr("page-id");
 		var base_url = "<?php echo base_url();?>";
 		$(document).on('click', '#delete', function (e) {			
-			$(location).attr('href', base_url+'admin/section/delete_page/'+page_id);
+			adminPost(base_url+'admin/section/delete_page/'+page_id);
 		});
 	});
 });

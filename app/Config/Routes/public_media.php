@@ -10,13 +10,12 @@
 // Media Center is a CMS page (slug media-center, served by the catch-all in Routes.php; seeded by
 // MediaPageSeeder). Site\Media::mediaCenter and views/site/media_center.php stay for rollback.
 $routes->get('media_center', static fn () => redirect()->to(site_url('media-center'), 301));
-$routes->get('industry-news', 'Site\Media::industryNews');
-$routes->get('industry_news', 'Site\Media::industryNews');
-$routes->get('knowledge-series', 'Site\Media::knowledgeSeries');
-$routes->get('knowledge_series', 'Site\Media::knowledgeSeries');
-$routes->get('newsletter', 'Site\Media::newsletter');
-$routes->get('awards', 'Site\Media::awards');
-$routes->get('research', 'Site\Media::research');
+// Group B CMS pages (industry-news, knowledge-series, newsletter, awards) served by the CMS catch-all;
+// legacy Site\Media methods stay for rollback. Underscore spellings 301 to dashed slugs.
+$routes->get('industry_news', static fn () => redirect()->to(site_url('industry-news'), 301));
+$routes->get('knowledge_series', static fn () => redirect()->to(site_url('knowledge-series'), 301));
+// Research is a CMS page (slug research, served by the catch-all in Routes.php; seeded by
+// ResearchPageSeeder). Site\Media::research and views/site/research.php stay for rollback.
 
 // Lightbox iframes. The list views link to the underscore form, the "load more"
 // fragments to the dash form.
@@ -37,6 +36,8 @@ $routes->post('load_more_news', 'Site\Media::loadMoreNews');
 $routes->post('load_more_industry_news', 'Site\Media::loadMoreIndustryNews');
 $routes->post('load_more_knowledge_series', 'Site\Media::loadMoreKnowledgeSeries');
 $routes->post('load_more_newsletter', 'Site\Media::loadMoreNewsletter');
+$routes->post('load_more_research', 'Site\Media::loadMoreResearch');
+$routes->post('research/load-more', 'Site\Media::loadMoreResearch');
 
 // Newsletter subscription POST (step 7: Site\Enquiry::newsletterSubscription).
 $routes->post('newsletter-subscription', 'Site\Enquiry::newsletterSubscription');

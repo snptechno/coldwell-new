@@ -41,16 +41,6 @@
 	
 	<?= $this->include('partials/header') ?>
 
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-53591408-1', 'auto');
-            ga('require', 'displayfeatures');
-            ga('require', 'ecommerce', 'ecommerce.js');
-        ga('send', 'pageview');
-    </script>
     <?= $this->include('partials/ga_code_header') ?>
 </head>
 
@@ -64,7 +54,7 @@
         <section class="banner_container">
             <div class="home_inner_banner">
                <div class="hm-txt">
-                    <img src="<?php echo base_url(); ?>assets/images/main_banner-icon.png" alt="">
+                    <picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/main_banner-icon.webp"><img src="<?php echo base_url(); ?>assets/images/main_banner-icon.png" alt="" width="442" height="411" decoding="async" loading="eager"></picture>
                     <span>Making the Dream of Home Real <strong>Since 1906</strong></span>
                 </div>                 
             </div>            
@@ -75,12 +65,12 @@
                 <h2 class="aos-item" data-aos="zoom-in">The Coldwell Banker India Advantage</h2>
                 <p>With you at every step...</p>
                 <ul class="aos-item" data-aos="fade-up">
-                    <li class="li_01"><img src="<?php echo base_url(); ?>assets/images/ad_01.png"><span>Location</span></li>
-                    <li class="li_02"><img src="<?php echo base_url(); ?>assets/images/ad_02.png"><span>Search & Shortlist Properties</span></li>
-                    <li class="li_03"><img src="<?php echo base_url(); ?>assets/images/ad_03.png"><span>Site Visit</span></li>
-                    <li class="li_04"><img src="<?php echo base_url(); ?>assets/images/ad_04.png"><span>Negotiation</span></li>
-                    <li class="li_05"><img src="<?php echo base_url(); ?>assets/images/ad_05.png"><span>Documentation & Paper work </span></li>
-                    <li class="li_06"><img src="<?php echo base_url(); ?>assets/images/ad_06.png"><span>Buy your<br> Dream Home </span></li>
+                    <li class="li_01"><picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/ad_01.webp"><img src="<?php echo base_url(); ?>assets/images/ad_01.png" width="35" height="46" decoding="async" loading="lazy"></picture><span>Location</span></li>
+                    <li class="li_02"><picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/ad_02.webp"><img src="<?php echo base_url(); ?>assets/images/ad_02.png" width="35" height="36" decoding="async" loading="lazy"></picture><span>Search & Shortlist Properties</span></li>
+                    <li class="li_03"><picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/ad_03.webp"><img src="<?php echo base_url(); ?>assets/images/ad_03.png" width="50" height="24" decoding="async" loading="lazy"></picture><span>Site Visit</span></li>
+                    <li class="li_04"><picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/ad_04.webp"><img src="<?php echo base_url(); ?>assets/images/ad_04.png" width="35" height="48" decoding="async" loading="lazy"></picture><span>Negotiation</span></li>
+                    <li class="li_05"><picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/ad_05.webp"><img src="<?php echo base_url(); ?>assets/images/ad_05.png" width="31" height="35" decoding="async" loading="lazy"></picture><span>Documentation & Paper work </span></li>
+                    <li class="li_06"><picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/ad_06.webp"><img src="<?php echo base_url(); ?>assets/images/ad_06.png" width="77" height="59" decoding="async" loading="lazy"></picture><span>Buy your<br> Dream Home </span></li>
                 </ul>
             </div>
         </section>
@@ -90,19 +80,19 @@
                 <div class="abt_home_left aos-item" data-aos="slide-right">
                     <h2>About Coldwell Banker India</h2>
                     <h3>More than a century of fulfilled dreams world over. Now it's India's turn.</h3>
-                    <img src="<?php echo base_url(); ?>assets/images/1906.png">
+                    <picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/1906.webp"><img src="<?php echo base_url(); ?>assets/images/1906.png" width="558" height="220" decoding="async" loading="lazy"></picture>
                    <!-- <p>Coldwell Banker India is the Indian arm of the world’s largest residential Brokerage & Advisory company, Coldwell Banker Real Estate LLC. known for our people-centric endeavors to fulfill the dream of a perfect home, we are committed to perpetuating the legacy of more than a century, which was first founded in 1906 in North America. Being a part of the renowned global conglomerate, we wish to create a happy home buying experience in India too. With the valued assistance of our dedicated team, we render credible real estate advisory services and widespread network of affiliated sales associates.<p>-->
                     <p>Coldwell Banker India is Indian arm to the world’s largest housing Brokerage and Advisory company which is Coldwell Banker Real Estate LLC. It is known for people-centric endeavors to accomplish the dream of perfect home and committed to perpetuating the legacy of more than a century which basically was first founded in 1906 in Northern America. Being a part of a reputed global conglomerate, we wish to create the happy experience of buying home in India too. With valued support of our dedicated team, we condense credible realty advisory services as well as a widespread network of affiliated sales associates.</p>
                 </div>
                 <div class="abt_home_right aos-item" data-aos="slide-left">
                     <div class="owl-carousel" id="owl_demo1" style="position:relative;">
-                        <div class="item"><img src="<?php echo base_url(); ?>assets/images/abt_people06.jpg" alt="image"><small>Embassy Group ties-up with Coldwell Banker India to boost NRI sales.<br><br></small></div>
-                        <div class="item"><img src="<?php echo base_url(); ?>assets/images/abt_people01.png" alt="image"><small>Coldwell Banker India congratulates and takes pride in welcoming our new franchise CB Angel Properties to the Coldwell Banker India family.</small></div>
-                        <div class="item"><img src="<?php echo base_url(); ?>assets/images/abt_people02.png" alt="image"><small>Coldwell Banker India congratulates and takes pride in welcoming our new franchise CB Mega Properties to the Coldwell Banker India family.</small></div>
-                        <div class="item"><img src="<?php echo base_url(); ?>assets/images/abt_people03.jpg" alt="image"><small>The Real Estate Broker Meet organised on 23rd Feb at The Mirage, Andheri gave agents ample insights on RERA and the future of RealEstate.</small></div>
-                        <div class="item"><img src="<?php echo base_url(); ?>assets/images/abt_people04.jpg" alt="image"><small>Coldwell Banker India congratulates and takes pride in welcoming our new franchisee CB Orange Realty to the Coldwell Banker India family.</small></div>
-			            <div class="item"><img src="<?php echo base_url(); ?>assets/images/abt_people05.png" alt="image"><small>Coldwell Banker India congratulates and takes pride in welcoming our new franchise CB Samyak Estate to the Coldwell Banker India family.</small></div>
-                        <div class="item"><img src="<?php echo base_url(); ?>assets/images/Mithlesh-30-under-30-award.jpg" alt="Mithlesh-30-under-30-award"><small>Coldwell Banker India congratulates Mithlesh Gupta for winning the COLDWELL BANKER 30 under 30 award.</small></div>
+                        <div class="item"><picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/abt_people06.webp"><img src="<?php echo base_url(); ?>assets/images/abt_people06.jpg" alt="image" width="800" height="800" decoding="async" loading="lazy"></picture><small>Embassy Group ties-up with Coldwell Banker India to boost NRI sales.<br><br></small></div>
+                        <div class="item"><picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/abt_people01.webp"><img src="<?php echo base_url(); ?>assets/images/abt_people01.png" alt="image" width="800" height="800" decoding="async" loading="lazy"></picture><small>Coldwell Banker India congratulates and takes pride in welcoming our new franchise CB Angel Properties to the Coldwell Banker India family.</small></div>
+                        <div class="item"><picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/abt_people02.webp"><img src="<?php echo base_url(); ?>assets/images/abt_people02.png" alt="image" width="800" height="800" decoding="async" loading="lazy"></picture><small>Coldwell Banker India congratulates and takes pride in welcoming our new franchise CB Mega Properties to the Coldwell Banker India family.</small></div>
+                        <div class="item"><picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/abt_people03.webp"><img src="<?php echo base_url(); ?>assets/images/abt_people03.jpg" alt="image" width="800" height="800" decoding="async" loading="lazy"></picture><small>The Real Estate Broker Meet organised on 23rd Feb at The Mirage, Andheri gave agents ample insights on RERA and the future of RealEstate.</small></div>
+                        <div class="item"><picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/abt_people04.webp"><img src="<?php echo base_url(); ?>assets/images/abt_people04.jpg" alt="image" width="800" height="800" decoding="async" loading="lazy"></picture><small>Coldwell Banker India congratulates and takes pride in welcoming our new franchisee CB Orange Realty to the Coldwell Banker India family.</small></div>
+			            <div class="item"><picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/abt_people05.webp"><img src="<?php echo base_url(); ?>assets/images/abt_people05.png" alt="image" width="800" height="800" decoding="async" loading="lazy"></picture><small>Coldwell Banker India congratulates and takes pride in welcoming our new franchise CB Samyak Estate to the Coldwell Banker India family.</small></div>
+                        <div class="item"><picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/Mithlesh-30-under-30-award.webp"><img src="<?php echo base_url(); ?>assets/images/Mithlesh-30-under-30-award.jpg" alt="Mithlesh-30-under-30-award" width="800" height="800" decoding="async" loading="lazy"></picture><small>Coldwell Banker India congratulates Mithlesh Gupta for winning the COLDWELL BANKER 30 under 30 award.</small></div>
 						</div>
                 </div>
             </div>
@@ -123,14 +113,14 @@
             <div class="container">
                 <div class="cbu_left">
                     <div class="logo_cbu">
-                        <img src="<?php echo base_url(); ?>assets/images/univer-lgog.png">
+                        <picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/univer-lgog.webp"><img src="<?php echo base_url(); ?>assets/images/univer-lgog.png" width="466" height="165" decoding="async" loading="lazy"></picture>
                     </div>
                     <div class="learning_blue aos-item" data-aos="slide-right">
                         <h2>Learning & Development</h2>
                         <p>Each day brings new hopes and surprises. Find out what's going on behind the scenes.</p>
                     </div>
                     <a href="<?php echo base_url(); ?>learning-development" class="explore_btn">
-                        <img src="<?php echo base_url(); ?>assets/images/explore_img.png">
+                        <picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/explore_img.webp"><img src="<?php echo base_url(); ?>assets/images/explore_img.png" width="145" height="111" decoding="async" loading="lazy"></picture>
                     </a>
                 </div>
             </div>
@@ -139,7 +129,7 @@
             <div class="container">
                 <ul class="aos-item" data-aos="fade-up">
                     <li>
-                        <img src="<?php echo base_url(); ?>assets/images/botm_01.jpg">
+                        <picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/botm_01.webp"><img src="<?php echo base_url(); ?>assets/images/botm_01.jpg" width="306" height="365" decoding="async" loading="lazy"></picture>
                         <div class="bottom_text">
                             <h4>Research</h4>
                             <span>Know what's new in the real estate world.</span>
@@ -147,7 +137,7 @@
                         </div>
                     </li>
                     <li>
-                        <img src="<?php echo base_url(); ?>assets/images/botm_02.jpg">
+                        <picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/botm_02.webp"><img src="<?php echo base_url(); ?>assets/images/botm_02.jpg" width="306" height="365" decoding="async" loading="lazy"></picture>
                         <div class="bottom_text">
                             <h4>Blogs</h4>
                             <span>Unravelling 100+ years of realty experience in words.</span>
@@ -155,7 +145,7 @@
                         </div>
                     </li>
                     <li>
-                        <img src="<?php echo base_url(); ?>assets/images/botm_03.jpg">
+                        <picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/botm_03.webp"><img src="<?php echo base_url(); ?>assets/images/botm_03.jpg" width="306" height="365" decoding="async" loading="lazy"></picture>
                         <div class="bottom_text">
                             <h4>Videos</h4>
                             <span>Take a tour of our journey</span>
@@ -163,7 +153,7 @@
                         </div>
                     </li>
                     <li>
-                        <img src="<?php echo base_url(); ?>assets/images/botm_04.jpg">
+                        <picture><source type="image/webp" srcset="<?php echo base_url(); ?>assets/images/botm_04.webp"><img src="<?php echo base_url(); ?>assets/images/botm_04.jpg" width="306" height="365" decoding="async" loading="lazy"></picture>
                         <div class="bottom_text">
                             <h4>Media</h4>
                             <span>Stay updated with trending real estate news.</span>

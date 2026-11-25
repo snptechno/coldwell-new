@@ -27,8 +27,16 @@ if ($cities === []) {
     </div>
     <ul class="cb-track cb-cities" data-track aria-label="City offices">
       <?php foreach ($cities as $i => $c): ?>
+      <?php
+        $rawUrl = trim((string) ($c['cta_url'] ?? ''));
+        $target = $rawUrl !== '' ? $rawUrl : 'our-franchise';
+        $cityTitle = trim((string) ($c['title'] ?? ''));
+        if ($cityTitle !== '' && preg_match('~^/?our-franchise(?:#.*)?$~i', $target) === 1) {
+            $target = 'our-franchise?city=' . rawurlencode($cityTitle) . '#offices';
+        }
+      ?>
       <li id="<?= esc($cid . $i, 'attr') ?>">
-        <a class="cb-city" <?= cb_link_attrs(trim((string) $c['cta_url']) !== '' ? $c['cta_url'] : 'our-franchise') ?>>
+        <a class="cb-city" <?= cb_link_attrs($target) ?>>
           <?= cb_picture($c['image'], (string) $c['image_alt'], ['width' => '896', 'height' => '1200', 'sizes' => '(max-width: 1199px) 300px, 387px']) ?>
           <div><h3><?= esc($c['title']) ?></h3><?php if (trim((string) $c['subtitle']) !== ''): ?><p><?= esc($c['subtitle']) ?></p><?php endif ?></div>
           <div class="cb-city__foot"><span><?= esc((string) $c['body']) ?></span><span class="cb-city__go" aria-hidden="true"><?= cb_icon('diag') ?></span></div>

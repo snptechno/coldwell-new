@@ -34,4 +34,23 @@
 		</footer>
 
     </div><!-- ./wrapper -->
+<script>
+(function () {
+    const tokenForm = document.createElement('form');
+    tokenForm.hidden = true;
+    tokenForm.innerHTML = <?= json_encode(csrf_field(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>;
+    document.body.appendChild(tokenForm);
+
+    window.adminPost = function (url) {
+        if (!url || !url.startsWith(<?= json_encode(rtrim(site_url(), '/') . '/') ?>)) return;
+        const form = document.createElement('form');
+        form.method = 'post';
+        form.action = url;
+        form.appendChild(tokenForm.querySelector('input').cloneNode(true));
+        document.body.appendChild(form);
+        form.submit();
+    };
+}());
+</script>
+
     <?= view('admin/components/footer') ?>
