@@ -596,6 +596,24 @@ body.cb-lock{overflow:hidden;}
 .cb-vcard--feature h3{color:#fff;}
 .cb-vcard--feature p{color:rgba(255,255,255,.8);}
 
+/* moving hover highlight across all .cb-values__row card grids site-wide */
+.cb-values__row .cb-vcard{transition:transform .3s var(--cb-ease),box-shadow .3s var(--cb-ease),background-color .3s var(--cb-ease),color .3s var(--cb-ease);}
+.cb-values__row .cb-vcard__icon,.cb-values__row .cb-vcard h3,.cb-values__row .cb-vcard p,.cb-values__row .cb-vcard__list,.cb-values__row .cb-vcard__list li{transition:background-color .3s var(--cb-ease),color .3s var(--cb-ease),border-color .3s var(--cb-ease);}
+.cb-values__row .cb-vcard:hover{background:var(--cb-navy);box-shadow:var(--cb-shadow-card);transform:translateY(-4px);}
+.cb-values__row .cb-vcard:hover .cb-vcard__icon{background:var(--cb-gold);color:var(--cb-navy);}
+.cb-values__row .cb-vcard:hover h3{color:#fff;}
+.cb-values__row .cb-vcard:hover p{color:rgba(255,255,255,.8);}
+.cb-values__row .cb-vcard:hover .cb-vcard__list{border-top-color:rgba(255,255,255,.15);}
+.cb-values__row .cb-vcard:hover .cb-vcard__list li{color:#fff;}
+.cb-values__row .cb-vcard:hover .cb-pill--light{box-shadow:none;}
+.cb-values__row:has(.cb-vcard:hover) .cb-vcard--feature:not(:hover){background:#fff;box-shadow:inset 0 0 0 1px var(--cb-line);}
+.cb-values--panel .cb-values__row:has(.cb-vcard:hover) .cb-vcard--feature:not(:hover){box-shadow:var(--cb-shadow-card);}
+.cb-values__row:has(.cb-vcard:hover) .cb-vcard--feature:not(:hover) .cb-vcard__icon{background:var(--cb-navy);color:#fff;}
+.cb-values__row:has(.cb-vcard:hover) .cb-vcard--feature:not(:hover) h3{color:var(--cb-navy);}
+.cb-values__row:has(.cb-vcard:hover) .cb-vcard--feature:not(:hover) p{color:var(--cb-muted);}
+.cb-values__row:has(.cb-vcard:hover) .cb-vcard--feature:not(:hover) .cb-vcard__list{border-top-color:var(--cb-line);}
+.cb-values__row:has(.cb-vcard:hover) .cb-vcard--feature:not(:hover) .cb-vcard__list li{color:var(--cb-ink);}
+
 /* steps ("Your Journey to Ownership") */
 .cb-steps{padding:0 var(--cb-inset);}
 .cb-steps__panel{max-width:1400px;margin:0 auto;padding:100px;border-radius:var(--cb-r-panel);background:var(--cb-surface);}
