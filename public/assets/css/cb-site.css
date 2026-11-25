@@ -1066,6 +1066,7 @@ a.cb-channel[href*="franchise"] b+span{color:var(--cb-blue);}
 .cb-jobs .cb-head{margin-bottom:40px;}
 .cb-jobs__empty{max-width:760px;font:normal 17px/1.6 var(--cb-medium);color:var(--cb-ink);}
 .cb-jobs__list{display:grid;gap:14px;max-width:1200px;}
+.cb-jobs__list[hidden]{display:none;} /* .cb-jobs__list sets display:grid, which beats the UA [hidden] rule: tab panels never hid */
 .cb-job{border-radius:20px;background:#fff;transition:box-shadow .25s;}
 .cb-job[open]{box-shadow:0 12px 40px rgba(15,31,61,.08);}
 .cb-job summary{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:24px 24px 24px 32px;cursor:pointer;list-style:none;}
