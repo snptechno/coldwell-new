@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<!-- DEBUG-VIEW START 7 APPPATH\Views\admin\_layout_main.php --><!-- DEBUG-VIEW START 3 APPPATH\Views\admin\components\header.php --><html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>CMS | Menus</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="X-CSRF-TOKEN" content="448fdb7238a5ad8c07c85c365671ddba">  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="http://localhost/coldwell-ci4/assets/admin/bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="http://localhost/coldwell-ci4/assets/admin/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="http://localhost/coldwell-ci4/assets/admin/plugins/datatables/dataTables.bootstrap.css">
+  <!-- AdminLTE Skins -->
+  <link rel="stylesheet" href="http://localhost/coldwell-ci4/assets/admin/dist/css/skins/_all-skins.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="http://localhost/coldwell-ci4/assets/admin/plugins/iCheck/flat/blue.css">
+  <link rel="stylesheet" href="http://localhost/coldwell-ci4/assets/admin/plugins/iCheck/all.css">
+  <!-- Morris chart -->
+  <link rel="stylesheet" href="http://localhost/coldwell-ci4/assets/admin/plugins/morris/morris.css">
+  <!-- jvectormap -->
+  <link rel="stylesheet" href="http://localhost/coldwell-ci4/assets/admin/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+  <!-- Date Picker -->
+  <link rel="stylesheet" href="http://localhost/coldwell-ci4/assets/admin/plugins/datepicker/datepicker3.css">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="http://localhost/coldwell-ci4/assets/admin/plugins/daterangepicker/daterangepicker.css">
+  <!-- bootstrap wysihtml5 - text editor -->
+  <link rel="stylesheet" href="http://localhost/coldwell-ci4/assets/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+  <!-- jQuery 2.2.3 -->
+  <script src="http://localhost/coldwell-ci4/assets/admin/plugins/jQuery/jquery-2.2.3.min.js"></script>
+  <script>
+    $.ajaxSetup({
+      headers: {
+        'X\x2DCSRF\x2DTOKEN': '448fdb7238a5ad8c07c85c365671ddba'
+      }
+    });
+  </script>
+</head>
+
+<!-- DEBUG-VIEW ENDED 3 APPPATH\Views\admin\components\header.php -->
+
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+        <!-- DEBUG-VIEW START 4 APPPATH\Views\admin\components\user_profile.php -->
+<header class="main-header">
+    <!-- Logo -->
+    <a href="http://localhost/coldwell-ci4/admin/dashboard/index" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>N</b>R</span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>Coldwell </b>Admin</span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <!-- User Account: style can be found in dropdown.less -->
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <img src="http://localhost/coldwell-ci4/assets/admin/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <span class="hidden-xs">Coldwell Admin</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="http://localhost/coldwell-ci4/assets/admin/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+                <p>
+                  Coldwell Admin
+                  <small>Coldwell</small>
+                </p>
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-right">
+                  <a href="http://localhost/coldwell-ci4/admin/login/logout" class="btn btn-default btn-flat">Sign out</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <!-- Control Sidebar Toggle Button -->
+          <li>
+            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+<!-- DEBUG-VIEW ENDED 4 APPPATH\Views\admin\components\user_profile.php -->
+
+        <!-- DEBUG-VIEW START 5 APPPATH\Views\admin\components\navigation.php -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="http://localhost/coldwell-ci4/assets/admin/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>Admin</p>
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+      </div>
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu">
+		<li>
+          <a href="http://localhost/coldwell-ci4/admin/dashboard/index">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-sitemap"></i>
+            <span>CMS</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="http://localhost/coldwell-ci4/admin/cms/pages"><i class="fa fa-circle-o"></i> Pages</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/cms/pages?type=article"><i class="fa fa-circle-o"></i> Articles</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/cms/menus"><i class="fa fa-circle-o"></i> Menus</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/cms/settings"><i class="fa fa-circle-o"></i> Site settings</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-pencil-square-o"></i>
+            <span>Blog</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="http://localhost/coldwell-ci4/admin/blog/posts"><i class="fa fa-circle-o"></i> Posts</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/blog/posts/add"><i class="fa fa-circle-o"></i> Add New Post</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/blog/categories"><i class="fa fa-circle-o"></i> Categories</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-book"></i>
+            <span>Manage Learning Section</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="http://localhost/coldwell-ci4/admin/section/learning_overview"><i class="fa fa-circle-o"></i> Manage Overview</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/section/learning_events/"><i class="fa fa-circle-o"></i> Manage Events</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/section/learning_gallery/"><i class="fa fa-circle-o"></i> Manage Gallery</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/section/learning_gallery_thumbnails/"><i class="fa fa-circle-o"></i> Manage Gallery Thumb</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-book"></i>
+            <span>Franchises</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="http://localhost/coldwell-ci4/admin/section/manage_cities"><i class="fa fa-circle-o"></i>Manage Cities</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/section/manage_franchises"><i class="fa fa-circle-o"></i>Manage Franchises</a></li>
+         </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-book"></i>
+            <span>Manage Corporate Teams</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+        <ul class="treeview-menu">
+            <li><a href="http://localhost/coldwell-ci4/admin/section/manage_corporate_teams"><i class="fa fa-circle-o"></i>List</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-book"></i>
+            <span>Manage Media</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+        <ul class="treeview-menu">
+            <li><a href="http://localhost/coldwell-ci4/admin/section/coldwell_banker_news"><i class="fa fa-circle-o"></i>Coldwell Banker News</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/section/coldwell_banker_industry_news"><i class="fa fa-circle-o"></i>Industry News</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/section/coldwell_banker_knowledge_series"><i class="fa fa-circle-o"></i>Knowledge Series</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/section/coldwell_banker_newsletter"><i class="fa fa-circle-o"></i>Newsletter</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/section/coldwell_banker_awards"><i class="fa fa-circle-o"></i>Manage Awards</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-book"></i>
+            <span>Manage Videos</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+        <ul class="treeview-menu">
+            <li><a href="http://localhost/coldwell-ci4/admin/section/finding_home_videos"><i class="fa fa-circle-o"></i>Finding A Home</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/section/selling_home_videos"><i class="fa fa-circle-o"></i>Selling A Home</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/section/testimonial_videos"><i class="fa fa-circle-o"></i>Testimonials</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/section/cb_india_videos"><i class="fa fa-circle-o"></i>CB India Videos</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/section/featured_videos"><i class="fa fa-circle-o"></i>Featured Videos</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-book"></i>
+            <span>Research</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="http://localhost/coldwell-ci4/admin/section/manage_research"><i class="fa fa-circle-o"></i>Manage Research</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-book"></i>
+            <span>Manage Careers</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="http://localhost/coldwell-ci4/admin/section/job_openings_list/"><i class="fa fa-circle-o"></i> Manage Jobs</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/section/manage_testimonials/"><i class="fa fa-circle-o"></i> Manage Testimonials</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/section/life_at_coldwell_banker/"><i class="fa fa-circle-o"></i> Life at coldwell banker</a></li>
+            <li><a href="http://localhost/coldwell-ci4/admin/section/success_stories_videos/"><i class="fa fa-circle-o"></i>Success Story Videos</a></li>
+          </ul>
+      </li>
+
+		  <li class="treeview">
+          <a href="#">
+            <i class="fa fa-book"></i>
+            <span>Manage Job Applications</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="http://localhost/coldwell-ci4/admin/section/job_application_list/"><i class="fa fa-circle-o"></i> List</a></li>
+          </ul>
+      </li>
+		<li>
+			<a href="http://localhost/coldwell-ci4/admin/section/list_pages">
+				<i class="fa fa-file"></i> <span>Manage Pages</span>
+			</a>
+		</li>
+
+    <li>
+      <a href="http://localhost/coldwell-ci4/admin/section/franchisee_enquiry">
+        <i class="fa fa-phone"></i> <span>Franchisee Enquiry</span>
+      </a>
+    </li>
+	<li>
+      <a href="http://localhost/coldwell-ci4/admin/section/contact_enquiry">
+        <i class="fa fa-phone"></i> <span>Contact Enquiry</span>
+      </a>
+    </li>
+      <li>
+      <a href="http://localhost/coldwell-ci4/admin/section/franchisee_project_enquiries">
+        <i class="fa fa-phone"></i> <span>Franchisee Project Enquiries</span>
+      </a>
+    </li>
+    <li>
+      <a href="http://localhost/coldwell-ci4/admin/section/newsletter_list">
+        <i class="fa fa-phone"></i> <span>Newsletters subscribers </span>
+      </a>
+    </li>
+    <li>
+      <a href="http://localhost/coldwell-ci4/admin/section/nri_enquiry_list">
+        <i class="fa fa-phone"></i> <span>NRI Enquiry </span>
+      </a>
+    </li>
+
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+<!-- DEBUG-VIEW ENDED 5 APPPATH\Views\admin\components\navigation.php -->
+        <!-- Right side column. Contains the navbar and content of the page -->
+
+        <div class="content-wrapper">
+            <section class="content-header">
+			  <h1>
+				Dashboard
+				<small>Control panel</small>
+			  </h1>
+			  <ol class="breadcrumb">
+				<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+				<li class="active">Dashboard</li>
+			  </ol>
+			</section>
+            <section class="content">
+                <!-- DEBUG-VIEW START 2 APPPATH\Views\admin\cms\menus\index.php -->
+<div class="row">
+  <div class="col-xs-12">
+    <!-- DEBUG-VIEW START 1 APPPATH\Views\admin\blog\_flash.php -->
+
+<!-- DEBUG-VIEW ENDED 1 APPPATH\Views\admin\blog\_flash.php -->
+    <div class="box">
+      <div class="box-header"><h3 class="box-title">Menus</h3></div>
+      <div class="box-body">
+        <p class="text-muted">Every menu of the site layout. Open a menu to add, reorder, hide or remove its links.</p>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr><th>Menu</th><th>Where it shows</th><th>Links</th><th>Limit</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+                      <tr>
+              <td>
+                <a href="http://localhost/coldwell-ci4/admin/cms/menus/main"><strong>Main navigation</strong></a><br>
+                <small class="text-muted">main</small>
+              </td>
+              <td>Glass pill menu in the header and the phone menu. Items with children become a dropdown. <span class="label label-info">sub-items allowed</span></td>
+              <td>12 shown</td>
+              <td>12 / 9</td>
+              <td><a class="btn btn-default btn-xs" href="http://localhost/coldwell-ci4/admin/cms/menus/main"><i class="fa fa-list"></i> Manage links</a></td>
+            </tr>
+                      <tr>
+              <td>
+                <a href="http://localhost/coldwell-ci4/admin/cms/menus/footer_quick"><strong>Footer &mdash; Quick Links</strong></a><br>
+                <small class="text-muted">footer_quick</small>
+              </td>
+              <td>First footer column.</td>
+              <td>6 shown</td>
+              <td>6 / 10</td>
+              <td><a class="btn btn-default btn-xs" href="http://localhost/coldwell-ci4/admin/cms/menus/footer_quick"><i class="fa fa-list"></i> Manage links</a></td>
+            </tr>
+                      <tr>
+              <td>
+                <a href="http://localhost/coldwell-ci4/admin/cms/menus/footer_network"><strong>Footer &mdash; Our Network</strong></a><br>
+                <small class="text-muted">footer_network</small>
+              </td>
+              <td>Second footer column.</td>
+              <td>5 shown</td>
+              <td>5 / 10</td>
+              <td><a class="btn btn-default btn-xs" href="http://localhost/coldwell-ci4/admin/cms/menus/footer_network"><i class="fa fa-list"></i> Manage links</a></td>
+            </tr>
+                      <tr>
+              <td>
+                <a href="http://localhost/coldwell-ci4/admin/cms/menus/footer_media"><strong>Footer &mdash; Media Center</strong></a><br>
+                <small class="text-muted">footer_media</small>
+              </td>
+              <td>Third footer column.</td>
+              <td>4 shown</td>
+              <td>4 / 10</td>
+              <td><a class="btn btn-default btn-xs" href="http://localhost/coldwell-ci4/admin/cms/menus/footer_media"><i class="fa fa-list"></i> Manage links</a></td>
+            </tr>
+                      <tr>
+              <td>
+                <a href="http://localhost/coldwell-ci4/admin/cms/menus/footer_legal"><strong>Footer &mdash; legal links</strong></a><br>
+                <small class="text-muted">footer_legal</small>
+              </td>
+              <td>Bottom row of the footer.</td>
+              <td>3 shown</td>
+              <td>3 / 6</td>
+              <td><a class="btn btn-default btn-xs" href="http://localhost/coldwell-ci4/admin/cms/menus/footer_legal"><i class="fa fa-list"></i> Manage links</a></td>
+            </tr>
+                      <tr>
+              <td>
+                <a href="http://localhost/coldwell-ci4/admin/cms/menus/social"><strong>Social links</strong></a><br>
+                <small class="text-muted">social</small>
+              </td>
+              <td>Footer "Follow us" icons. Icon is chosen from the link: facebook, linkedin, twitter / x, youtube, instagram.</td>
+              <td>4 shown</td>
+              <td>4 / 8</td>
+              <td><a class="btn btn-default btn-xs" href="http://localhost/coldwell-ci4/admin/cms/menus/social"><i class="fa fa-list"></i> Manage links</a></td>
+            </tr>
+                    </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DEBUG-VIEW ENDED 2 APPPATH\Views\admin\cms\menus\index.php -->
+            </section>
+
+
+        </div><!-- /.right-side -->
+        <div class="control-sidebar-bg"></div>
+
+
+        <footer class="main-footer">
+
+			<strong>Copyright &copy; 2016-2017  All rights
+			reserved.
+		</strong></footer>
+
+    </div><!-- ./wrapper -->
+<script>
+(function () {
+    const tokenForm = document.createElement('form');
+    tokenForm.hidden = true;
+    tokenForm.innerHTML = "\u003Cinput type=\u0022hidden\u0022 name=\u0022csrf_cw\u0022 value=\u0022448fdb7238a5ad8c07c85c365671ddba\u0022\u003E";
+    document.body.appendChild(tokenForm);
+
+    window.adminPost = function (url) {
+        if (!url || !url.startsWith("http:\/\/localhost\/coldwell-ci4\/")) return;
+        const form = document.createElement('form');
+        form.method = 'post';
+        form.action = url;
+        form.appendChild(tokenForm.querySelector('input').cloneNode(true));
+        document.body.appendChild(form);
+        form.submit();
+    };
+}());
+</script>
+
+    <!-- DEBUG-VIEW START 6 APPPATH\Views\admin\components\footer.php -->
+<!-- Bootstrap 3.3.6 -->
+<script src="http://localhost/coldwell-ci4/assets/admin/bootstrap/js/bootstrap.min.js"></script>
+<script src="http://localhost/coldwell-ci4/assets/admin/plugins/select2/select2.full.min.js"></script>
+<!-- InputMask -->
+<script src="http://localhost/coldwell-ci4/assets/admin/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="http://localhost/coldwell-ci4/assets/admin/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="http://localhost/coldwell-ci4/assets/admin/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<!-- date-range-picker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<script src="http://localhost/coldwell-ci4/assets/admin/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="http://localhost/coldwell-ci4/assets/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="http://localhost/coldwell-ci4/assets/admin/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="http://localhost/coldwell-ci4/assets/admin/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script src="http://localhost/coldwell-ci4/assets/admin/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<!-- Slimscroll -->
+<script src="http://localhost/coldwell-ci4/assets/admin/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="http://localhost/coldwell-ci4/assets/admin/plugins/fastclick/fastclick.js"></script>
+<!-- iCheck 1.0.1 -->
+<script src="http://localhost/coldwell-ci4/assets/admin/plugins/iCheck/icheck.min.js"></script>
+<script src="http://localhost/coldwell-ci4/assets/admin/dist/js/app.min.js"></script>
+<script src="http://localhost/coldwell-ci4/assets/admin/dist/js/demo.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  $(function () {
+    $('#example1').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+    //Flat red color scheme for iCheck
+    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+      checkboxClass: 'icheckbox_flat-green',
+      radioClass: 'iradio_flat-green'
+    });
+  });
+</script>
+
+<script src="http://localhost/coldwell-ci4/assets/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<script>
+  $(function () {
+    //bootstrap WYSIHTML5 - text editor
+    $(".textarea").wysihtml5();
+  });
+</script>
+<script>
+  $(function () {
+    $(".select2").select2();
+
+    //Datemask dd/mm/yyyy
+    $("#datemask").inputmask("dd-mm-yyyy", {"placeholder": "dd-mm-yyyy"});
+    //Datemask2 mm/dd/yyyy
+    $("#datemask2").inputmask("mm-dd-yyyy", {"placeholder": "mm-dd-yyyy"});
+    //Money Euro
+    $("[data-mask]").inputmask();
+
+    //Date range picker
+    $('#reservation').daterangepicker();
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM-DD-YYYY h:mm A'});
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+        {
+          ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+          },
+          startDate: moment().subtract(29, 'days'),
+          endDate: moment()
+        },
+        function (start, end) {
+          $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        }
+    );
+
+    //Date picker
+    $('#datepicker').datepicker({
+      autoclose: true
+    });
+
+    //iCheck for checkbox and radio inputs
+    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+      checkboxClass: 'icheckbox_minimal-blue',
+      radioClass: 'iradio_minimal-blue'
+    });
+    //Red color scheme for iCheck
+    $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+      checkboxClass: 'icheckbox_minimal-red',
+      radioClass: 'iradio_minimal-red'
+    });
+    //Flat red color scheme for iCheck
+    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+      checkboxClass: 'icheckbox_flat-green',
+      radioClass: 'iradio_flat-green'
+    });
+
+    //Timepicker
+    $(".timepicker").timepicker({
+      showInputs: false
+    });
+  });
+</script>
+
+</body>
+</html><!-- DEBUG-VIEW ENDED 6 APPPATH\Views\admin\components\footer.php --><!-- DEBUG-VIEW ENDED 7 APPPATH\Views\admin\_layout_main.php -->
