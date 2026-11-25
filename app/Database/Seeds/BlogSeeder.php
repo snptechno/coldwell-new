@@ -95,6 +95,7 @@ class BlogSeeder extends Seeder
                 'slug'             => 'india-residential-market-outlook-metro-demand',
                 'category_slug'    => 'market-insights',
                 'author'           => 'Coldwell Banker India Research',
+                'featured_image'   => 'smart-city_1.jpg',
                 'excerpt'          => 'End-user confidence, infrastructure upgrades, and larger home formats continue to drive resilient residential demand across Delhi NCR, Mumbai, Bengaluru, and Hyderabad.',
                 'content'          => '<p>India\'s residential real estate sector has entered a sustained phase of end-user-driven growth. Across major metropolitan corridors, buyers are prioritizing well-planned communities, branded developers, and transit-connected neighbourhoods.</p>'
                     . '<h2>1. Shift Toward Larger, Flexible Layouts</h2>'
@@ -113,6 +114,7 @@ class BlogSeeder extends Seeder
                 'slug'             => 'why-real-estate-entrepreneurs-choose-global-franchise-india',
                 'category_slug'    => 'franchise-and-growth',
                 'author'           => 'Coldwell Banker India Franchise Desk',
+                'featured_image'   => 'buy-or-sell_.jpg',
                 'excerpt'          => 'Building an independent brokerage from scratch takes years of trial and error. Here is how a globally recognised franchise accelerates brand trust, training, and deal flow.',
                 'content'          => '<p>India\'s real estate brokerage landscape is rapidly professionalising. Clients expect structured advisory, transparent processes, and international service standards.</p>'
                     . '<h2>Instant Brand Credibility</h2>'
@@ -131,6 +133,7 @@ class BlogSeeder extends Seeder
                 'slug'             => 'first-time-homebuyer-checklist-7-essential-checks',
                 'category_slug'    => 'home-buying',
                 'author'           => 'Coldwell Banker India Editorial',
+                'featured_image'   => 'RERA.jpg',
                 'excerpt'          => 'From RERA registration and title verification to carpet area calculations and hidden closing costs, use this practical checklist before committing to a property.',
                 'content'          => '<p>Buying your first home is both an emotional milestone and a major financial decision. A disciplined due-diligence checklist protects your investment and prevents last-minute surprises.</p>'
                     . '<ul>'
@@ -150,6 +153,7 @@ class BlogSeeder extends Seeder
                 'slug'             => 'how-to-price-and-present-your-home-for-faster-sale',
                 'category_slug'    => 'home-selling',
                 'author'           => 'Coldwell Banker India Editorial',
+                'featured_image'   => 'happy-to-be-home1.jpg',
                 'excerpt'          => 'Overpricing stalls momentum while poor presentation invites low offers. Learn how data-led pricing and simple staging elevate buyer perception.',
                 'content'          => '<p>The first 30 days on the market generate the strongest buyer interest for any residential listing. Getting pricing and presentation right from day one directly impacts your final closing price.</p>'
                     . '<h2>Anchor Your Asking Price in Recent Comparables</h2>'
@@ -168,6 +172,7 @@ class BlogSeeder extends Seeder
                 'slug'             => 'nri-property-investment-india-fema-rules-taxation',
                 'category_slug'    => 'nri-real-estate',
                 'author'           => 'Coldwell Banker India NRI Desk',
+                'featured_image'   => 'ofhomeandhearths.jpg',
                 'excerpt'          => 'A clear primer for Non-Resident Indians looking to invest in Indian residential or commercial real estate—covering NRE/NRO accounts, POA, and repatriation.',
                 'content'          => '<p>Non-Resident Indians continue to view Indian real estate as a compelling long-term asset class, supported by currency dynamics, rental yields in tech hubs, and transparent regulations.</p>'
                     . '<h2>What NRIs Can Purchase Under FEMA</h2>'
@@ -186,6 +191,7 @@ class BlogSeeder extends Seeder
                 'slug'             => 'inside-india-luxury-housing-boom-buyer-expectations',
                 'category_slug'    => 'luxury-living',
                 'author'           => 'Coldwell Banker Global Luxury India',
+                'featured_image'   => 'Gardenhomes1.jpg',
                 'excerpt'          => 'Privacy, biophilic design, concierge services, and low-density living have become the new benchmarks for luxury residences across India.',
                 'content'          => '<p>Luxury real estate in India has evolved far beyond square footage and marble finishes. Today\'s affluent buyers evaluate residences through the lens of lifestyle, privacy, and long-term architectural timelessness.</p>'
                     . '<h2>Low-Density & Private Access</h2>'
@@ -202,22 +208,29 @@ class BlogSeeder extends Seeder
         $postTable = $this->db->table('blog_posts');
 
         foreach ($posts as $post) {
-            $exists = $postTable->where('slug', $post['slug'])->countAllResults() > 0;
-            if ($exists) {
+            $existing = $postTable->where('slug', $post['slug'])->get(1)->getRowArray();
+            if ($existing) {
+                if (empty($existing['featured_image']) && ! empty($post['featured_image'])) {
+                    $postTable->where('id', $existing['id'])->update([
+                        'featured_image' => $post['featured_image'],
+                        'og_image'       => 'uploads/blog/' . $post['featured_image'],
+                        'updated_at'     => $now,
+                    ]);
+                }
                 continue;
             }
 
             $categorySlug = $post['category_slug'];
             unset($post['category_slug']);
 
-            $post['category_id']    = $categoryIds[$categorySlug] ?? null;
-            $post['featured_image'] = null;
-            $post['image_alt']      = $post['title'];
-            $post['status']         = 1;
-            $post['noindex']        = 0;
-            $post['views']          = 0;
-            $post['created_at']     = $now;
-            $post['updated_at']     = $now;
+            $post['category_id'] = $categoryIds[$categorySlug] ?? null;
+            $post['og_image']    = ! empty($post['featured_image']) ? 'uploads/blog/' . $post['featured_image'] : null;
+            $post['image_alt']   = $post['title'];
+            $post['status']      = 1;
+            $post['noindex']     = 0;
+            $post['views']       = 0;
+            $post['created_at']  = $now;
+            $post['updated_at']  = $now;
 
             $postTable->insert($post);
         }
