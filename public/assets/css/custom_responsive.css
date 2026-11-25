@@ -827,3 +827,22 @@
 	.item-tit {min-height: 125px;}
 }
 
+
+/* Serve smaller modern hero images while retaining the original JPEG fallback. */
+@supports (background-image: image-set(url("../images/main_banner.webp") type("image/webp"))) {
+    .banner_container {
+        background-image: image-set(url("../images/main_banner.webp") type("image/webp"));
+    }
+}
+
+@media (max-width: 767px) {
+    .banner_container {
+        background-image: url("../images/main_banner-mobile.jpg");
+    }
+
+    @supports (background-image: image-set(url("../images/main_banner-mobile.webp") type("image/webp"))) {
+        .banner_container {
+            background-image: image-set(url("../images/main_banner-mobile.webp") type("image/webp"));
+        }
+    }
+}

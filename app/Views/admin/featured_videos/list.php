@@ -30,7 +30,7 @@
 				  <td><?php echo $row['description'];?></td>
 				  <td><?php echo esc($row['video_url']);?></td>	
 				  <td>
-				  	<?php if($row['is_active']=='0'){?><a href="<?php echo base_url().'admin/section/change_status_featured_videos/'.$row['id'].'/1';?>">Enable</a><?php }else{ ?><a href="<?php echo base_url().'admin/section/change_status_featured_videos/'.$row['id'].'/0';?>">Disable</a><?php } ?>
+							<?php if($row['is_active']=='0'){?><a href="#" data-admin-post="<?php echo base_url().'admin/section/change_status_featured_videos/'.$row['id'].'/1';?>" onclick="adminPost(this.dataset.adminPost); return false;">Enable</a><?php }else{ ?><a href="#" data-admin-post="<?php echo base_url().'admin/section/change_status_featured_videos/'.$row['id'].'/0';?>" onclick="adminPost(this.dataset.adminPost); return false;">Disable</a><?php } ?>
 				  </td>			  
 				  <td><?php echo esc($row['created_date']);?></td>
 				  <td><a href="<?php echo base_url().'admin/section/add_featured_videos/'.$row['id']?>"><i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;<a href="#"  page-id="<?php echo $row['id'];?>" name="remove_levels" class="remove_levels" data-toggle="modal" data-target="#myModal"><i class="fa fa-trash-o"></i></a></td>
@@ -68,7 +68,7 @@ $(document).ready(function(){
 		var page_id = $(this).attr("page-id");
 		var base_url = "<?php echo base_url();?>";
 		$(document).on('click', '#delete', function (e) {			
-			$(location).attr('href', base_url+'admin/section/delete_featured_videos/'+page_id);
+			adminPost(base_url+'admin/section/delete_featured_videos/'+page_id);
 		});
 	});
 });

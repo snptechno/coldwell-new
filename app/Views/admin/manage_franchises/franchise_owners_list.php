@@ -93,7 +93,7 @@ $(document).ready(function(){
 		var image_id = $(this).attr("image-id");
 		var base_url = "<?php echo base_url();?>";
 		$(document).on('click', '#delete', function (e) {			
-			$(location).attr('href', base_url+'admin/section/delete_franchise_owner/'+project_id+'/'+image_id)
+			adminPost(base_url+'admin/section/delete_franchise_owner/'+project_id+'/'+image_id)
 		});
 	});
 });

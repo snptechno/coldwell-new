@@ -36,7 +36,7 @@
 				  <td><?php echo esc($row['created_date']);?></td>
 				  <td> <input type="text" class="form-control order_no" id="order_no"  member-id="<?php echo $row['id'];?>" name="order_no" value="<?php echo esc($row['order_no']);?>" ></td>
 				   <td>
-				  	<?php if($row['status'] =='0'){?><a href="<?php echo base_url().'admin/section/change_status_corporate_team/'.$row['id'].'/1';?>">Enable</a><?php }else{ ?><a href="<?php echo base_url().'admin/section/change_status_corporate_team/'.$row['id'].'/0';?>">Disable</a><?php } ?>
+							<?php if($row['status'] =='0'){?><a href="#" data-admin-post="<?php echo base_url().'admin/section/change_status_corporate_team/'.$row['id'].'/1';?>" onclick="adminPost(this.dataset.adminPost); return false;">Enable</a><?php }else{ ?><a href="#" data-admin-post="<?php echo base_url().'admin/section/change_status_corporate_team/'.$row['id'].'/0';?>" onclick="adminPost(this.dataset.adminPost); return false;">Disable</a><?php } ?>
 				  </td>
 				  <td><a href="<?php echo base_url().'admin/section/update_corporate_team/'.$row['id'];?>"><i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;<a href="#"  project-id="<?php echo $row['id'];?>" image-id="<?php echo $row['id'];?>" name="remove_levels" class="remove_levels" data-toggle="modal" data-target="#myModal"><i class="fa fa-trash-o"></i></a></td>
 				</tr>
@@ -75,7 +75,7 @@ $(document).ready(function(){
 		var image_id = $(this).attr("image-id");
 		
 		$(document).on('click', '#delete', function (e) {			
-			$(location).attr('href', base_url+'admin/section/delete_corporate_team/'+project_id+'/'+image_id)
+			adminPost(base_url+'admin/section/delete_corporate_team/'+project_id+'/'+image_id)
 		});
 	});
 	/*-----------change order no---------------*/
@@ -89,7 +89,7 @@ $(document).ready(function(){
                 data: 'order_no='+order_no+'&member_id='+member_id,
                 success: function (response) {
                     if(response=="success"){
-                    	$(location).attr('href', base_url+'admin/section/manage_corporate_teams')
+			adminPost(base_url+'admin/section/manage_corporate_teams')
                     }
 
                 },

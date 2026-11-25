@@ -86,7 +86,7 @@ $(document).ready(function(){
 		var contact_id = $(this).attr("contact-id");
 		var base_url = "<?php echo base_url();?>";
 		$(document).on('click', '#delete', function (e) {			
-			$(location).attr('href', base_url+'admin/section/delete_franchisee_project_enquiry/'+contact_id);
+			adminPost(base_url+'admin/section/delete_franchisee_project_enquiry/'+contact_id);
 		});
 	});
 });

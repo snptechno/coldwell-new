@@ -7,12 +7,12 @@
  * @var CodeIgniter\Router\RouteCollection $routes
  */
 
-$routes->get('finding-a-home', 'Site\Videos::findingAHome');
-$routes->get('finding_a_home', 'Site\Videos::findingAHome');
-$routes->get('selling-a-home', 'Site\Videos::sellingAHome');
-$routes->get('selling_a_home', 'Site\Videos::sellingAHome');
-$routes->get('testimonials', 'Site\Videos::testimonials');
-$routes->get('cb-india-videos', 'Site\Videos::cbIndiaVideos');
-$routes->get('cb_india_videos', 'Site\Videos::cbIndiaVideos');
-$routes->get('featured-videos', 'Site\Videos::featuredVideos');
-$routes->get('featured_videos', 'Site\Videos::featuredVideos');
+// Finding a Home is a CMS page (slug finding-a-home, served by the catch-all in Routes.php;
+// seeded by FindingAHomePageSeeder). Site\Videos::findingAHome stays for rollback.
+$routes->get('finding_a_home', static fn () => redirect()->to(site_url('finding-a-home'), 301));
+// Selling a Home and Testimonials are CMS pages (SellingAHomePageSeeder, TestimonialsPageSeeder).
+// Site\Videos::sellingAHome / ::testimonials stay for rollback.
+$routes->get('selling_a_home', static fn () => redirect()->to(site_url('selling-a-home'), 301));
+// CB India Videos & Featured Videos are CMS pages (GroupBPagesSeeder), served by the CMS catch-all.
+$routes->get('cb_india_videos', static fn () => redirect()->to(site_url('cb-india-videos'), 301));
+$routes->get('featured_videos', static fn () => redirect()->to(site_url('featured-videos'), 301));

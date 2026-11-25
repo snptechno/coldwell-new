@@ -6,3 +6,9 @@ Options -Indexes -ExecCGI
 <IfModule mod_php.c>
     php_flag engine off
 </IfModule>
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    <FilesMatch "(?i)\.pdf$">
+        Header always set Content-Disposition "attachment"
+    </FilesMatch>
+</IfModule>

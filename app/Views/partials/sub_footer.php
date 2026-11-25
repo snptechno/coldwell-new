@@ -38,8 +38,17 @@
 		</ul>
 		<ul class="foot_links last_child">
 			<li>BLOGS</li>
-			<li><a href="http://www.coldwellbanker.in/blogs/content/how-beat-heat-summers-home" target="_blank">How To Beat The Heat This Summers At Home</a></li>
-			<li><a href="http://www.coldwellbanker.in/blogs/content/guidelines-buying-home" target="_blank">Guidelines Before Buying A Home</a></li>
+			<?php
+			// Latest posts from the CI4 blog (replaces two hard-coded links to Drupal posts that no longer exist).
+			try {
+			    $footerPosts = \App\Libraries\BlogCache::remember('recent:2', static fn () => model(\App\Models\BlogPostsModel::class)->recent(2));
+			} catch (\Throwable $e) {
+			    $footerPosts = [];
+			}
+			foreach ($footerPosts as $fp): ?>
+			<li><a href="<?= base_url('blog/' . $fp['slug']) ?>"><?= esc($fp['title']) ?></a></li>
+			<?php endforeach; ?>
+			<li><a href="<?php echo base_url(); ?>blog">All Blog Posts</a></li>
 		</ul>
 		<div class="clear"></div>
 		<div class="copyright">

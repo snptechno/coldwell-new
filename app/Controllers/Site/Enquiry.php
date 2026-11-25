@@ -3,6 +3,7 @@
 namespace App\Controllers\Site;
 
 use App\Controllers\BaseController;
+use App\Libraries\Cms\NriDesk;
 use App\Libraries\EnquiryMailer;
 use App\Models\ContactEnquiryModel;
 use App\Models\FranchiseeEnquiryModel;
@@ -36,17 +37,6 @@ use CodeIgniter\HTTP\ResponseInterface;
  */
 class Enquiry extends BaseController
 {
-    /** Allowed resume MIME types mapped to canonical extensions (`SEC-01`). */
-    private const RESUME_MIMES = [
-        'application/pdf'                                                         => 'pdf',
-        'application/msword'                                                      => 'doc',
-        'application/vnd.ms-office'                                               => 'doc',
-        'application/CDFV2'                                                       => 'doc',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
-        'application/rtf'                                                         => 'rtf',
-        'text/rtf'                                                                => 'rtf',
-    ];
-
     /** Allowed resume client extensions (`SEC-01`). */
     private const RESUME_EXTENSIONS = ['pdf', 'doc', 'docx', 'rtf'];
 
@@ -108,12 +98,22 @@ class Enquiry extends BaseController
             return $this->response->setContentType('text/plain')->setBody('1');
         }
 
-        $name    = trim((string) ($post['name'] ?? ''));
-        $email   = trim((string) ($post['email'] ?? ''));
-        $phone   = trim((string) ($post['phone'] ?? ''));
-        $message = trim((string) ($post['message'] ?? ''));
+        $name    = trim($this->postString('name'));
+        $email   = trim($this->postString('email'));
+        $phone   = trim($this->postString('phone'));
+        $message = trim($this->postString('message'));
+        // "I am interested in" chips (CMS contact form): allow-listed values only, saved to interested_in.
+        $allowed  = ['Franchise', 'Join as Agent', 'Buying', 'Selling', 'Renting'];
+        $interest = $this->request->getPost('interest');
+        $interest = implode(', ', array_values(array_intersect($allowed, is_array($interest) ? array_filter($interest, 'is_string') : [])));
+        $fromCms  = $this->request->getPost('source') === 'cms';
 
         if ($name === '' || ! filter_var($email, FILTER_VALIDATE_EMAIL) || $phone === '' || $message === '') {
+            if ($fromCms) {
+                session()->setFlashdata(['enquiry_msg' => 'Please fill in your name, a valid email, phone number and message.', 'enquiry_ok' => false]);
+
+                return redirect()->to($this->cmsNewsletterReturn() . '#contact-form');
+            }
             session()->setFlashdata('class', 'message_error');
             session()->setFlashdata('message', 'Please fill in all required fields with a valid email address.');
 
@@ -121,17 +121,19 @@ class Enquiry extends BaseController
         }
 
         model(ContactEnquiryModel::class)->addEnquiry([
-            'name'    => $name,
-            'email'   => $email,
-            'phone'   => $phone,
-            'message' => $message,
+            'name'          => $name,
+            'email'         => $email,
+            'phone'         => $phone,
+            'message'       => mb_substr($message, 0, 5000),
+            'interested_in' => $interest,
         ]);
 
         $html = '<html><body>'
             . '<p>Name : ' . esc($name) . '</p>'
             . '<p>Email : ' . esc($email) . '</p>'
             . '<p>Mobile No. : ' . esc($phone) . '</p>'
-            . '<p>Message : ' . esc($message) . '</p>'
+            . ($interest !== '' ? '<p>Interested in : ' . esc($interest) . '</p>' : '')
+            . '<p>Message : ' . nl2br(esc($message)) . '</p>'
             . '</body></html>';
 
         $this->mailer->send(
@@ -142,6 +144,11 @@ class Enquiry extends BaseController
             $name,
         );
 
+        if ($fromCms) {
+            session()->setFlashdata(['enquiry_msg' => 'Thank you — your message has been sent. Our team will get back to you shortly.', 'enquiry_ok' => true]);
+
+            return redirect()->to($this->cmsNewsletterReturn() . '#contact-form');
+        }
         session()->setFlashdata('class', 'message_success');
         session()->setFlashdata('message', 'Your enquiry has been successfully submitted!');
 
@@ -155,9 +162,9 @@ class Enquiry extends BaseController
      */
     public function contactEnquiryPopup(): ResponseInterface
     {
-        $name     = trim((string) $this->request->getPost('name'));
-        $email    = trim((string) $this->request->getPost('email'));
-        $phone    = trim((string) $this->request->getPost('phone'));
+        $name     = trim($this->postString('name'));
+        $email    = trim($this->postString('email'));
+        $phone    = trim($this->postString('phone'));
         $interest = $this->request->getPost('interest');
 
         if (is_array($interest)) {
@@ -203,13 +210,21 @@ class Enquiry extends BaseController
      */
     public function franchiseeEnquiry(): ResponseInterface
     {
-        $name     = trim((string) $this->request->getPost('name'));
-        $email    = trim((string) $this->request->getPost('email'));
-        $phone    = trim((string) $this->request->getPost('phone'));
-        $industry = trim((string) ($this->request->getPost('interested') ?? ''));
-        $location = trim((string) ($this->request->getPost('loc') ?? ''));
+        $name     = trim($this->postString('name'));
+        $email    = trim($this->postString('email'));
+        $phone    = trim($this->postString('phone'));
+        $industry = trim($this->postString('interested') ?: $this->postString('industry'));
+        $location = trim($this->postString('loc') ?: $this->postString('location'));
+        $profession = mb_substr(trim($this->postString('profession')), 0, 120);
+        // CMS "Request a Call Back" block (source=cms): return to the same page's #callback form.
+        $fromCms = $this->request->getPost('source') === 'cms';
 
         if ($name === '' || ! filter_var($email, FILTER_VALIDATE_EMAIL) || $phone === '') {
+            if ($fromCms) {
+                session()->setFlashdata(['enquiry_msg' => 'Please fill in your name, a valid email address and phone number.', 'enquiry_ok' => false]);
+
+                return redirect()->to($this->cmsNewsletterReturn() . '#callback');
+            }
             if ($this->request->isAJAX()) {
                 return $this->response->setContentType('text/plain')->setBody('Error');
             }
@@ -223,7 +238,7 @@ class Enquiry extends BaseController
             'name'       => $name,
             'email'      => $email,
             'phone'      => $phone,
-            'profession' => '',
+            'profession' => $profession,
             'industry'   => $industry,
             'location'   => $location,
         ]);
@@ -232,6 +247,7 @@ class Enquiry extends BaseController
             . '<p>Name : ' . esc($name) . '</p>'
             . '<p>Email : ' . esc($email) . '</p>'
             . '<p>Mobile No. : ' . esc($phone) . '</p>'
+            . ($profession !== '' ? '<p>Profession : ' . esc($profession) . '</p>' : '')
             . '<p>Interested in : ' . esc($industry) . '</p>'
             . '<p>Location : ' . esc($location) . '</p>'
             . '</body></html>';
@@ -244,6 +260,11 @@ class Enquiry extends BaseController
             $name,
         );
 
+        if ($fromCms) {
+            session()->setFlashdata(['enquiry_msg' => 'Thank you — our franchise team will call you back shortly.', 'enquiry_ok' => true]);
+
+            return redirect()->to($this->cmsNewsletterReturn() . '#callback');
+        }
         if ($this->request->isAJAX()) {
             return $this->response->setContentType('text/plain')->setBody('Success');
         }
@@ -265,11 +286,11 @@ class Enquiry extends BaseController
         $franchiseId = (int) $id;
         $franchise   = $franchiseId > 0 ? model(FranchisesModel::class)->find($franchiseId) : null;
 
-        $fname    = trim((string) $this->request->getPost('fname'));
-        $lname    = trim((string) $this->request->getPost('lname'));
+        $fname    = trim($this->postString('fname'));
+        $lname    = trim($this->postString('lname'));
         $name     = trim($fname . ' ' . $lname);
-        $email    = trim((string) $this->request->getPost('email'));
-        $phone    = trim((string) $this->request->getPost('phone'));
+        $email    = trim($this->postString('email'));
+        $phone    = trim($this->postString('phone'));
         $interest = $this->request->getPost('interest');
 
         if (is_array($interest)) {
@@ -322,14 +343,23 @@ class Enquiry extends BaseController
      * CI3: Home::nri_enquiry (controllers/Home.php:267).
      * Handles the NRI desk form (`#nri_enquiry` on `/nri`) submitted via AJAX in `form.js`.
      * Returns `'Success'` on success.
+     *
+     * CMS mode (source=cms, block "nri_enquiry_form" on the /nri CMS page): message is optional,
+     * "interest" and "city" must be on NriDesk's allow-lists, a filled honeypot is dropped
+     * silently, 5 submissions per IP per 10 minutes, and the reply is a redirect back to the
+     * same page's #nri-enquiry form with a flash message.
      */
     public function nriEnquiry(): ResponseInterface
     {
-        $name    = trim((string) $this->request->getPost('name'));
-        $email   = trim((string) $this->request->getPost('email'));
-        $phone   = trim((string) $this->request->getPost('phone'));
-        $message = trim((string) $this->request->getPost('message'));
-        $country = trim((string) $this->request->getPost('nri_country'));
+        if ($this->request->getPost('source') === 'cms') {
+            return $this->nriEnquiryCms();
+        }
+
+        $name    = trim($this->postString('name'));
+        $email   = trim($this->postString('email'));
+        $phone   = trim($this->postString('phone'));
+        $message = trim($this->postString('message'));
+        $country = trim($this->postString('nri_country'));
 
         if ($name === '' || ! filter_var($email, FILTER_VALIDATE_EMAIL) || $phone === '' || $message === '' || $country === '') {
             return $this->response->setContentType('text/plain')->setBody('Error');
@@ -363,15 +393,97 @@ class Enquiry extends BaseController
         return $this->response->setContentType('text/plain')->setBody('Success');
     }
 
+    /** CMS "NRI desk enquiry form" submission (see nriEnquiry()). */
+    private function nriEnquiryCms(): ResponseInterface
+    {
+        $back = $this->cmsNewsletterReturn() . '#nri-enquiry';
+        $fail = static function (string $msg) use ($back): ResponseInterface {
+            session()->setFlashdata(['nri_msg' => $msg, 'nri_ok' => false]);
+
+            return redirect()->to($back);
+        };
+
+        // Bots fill every field: accept quietly, store and send nothing.
+        if (trim($this->postString('website')) !== '') {
+            session()->setFlashdata(['nri_msg' => 'Thank you — our NRI desk will get in touch shortly.', 'nri_ok' => true]);
+
+            return redirect()->to($back);
+        }
+
+        $throttler = \Config\Services::throttler();
+        if (! $throttler->check(NriDesk::throttleKey($this->request->getIPAddress()), NriDesk::THROTTLE_MAX, 10 * MINUTE)) {
+            return $fail('Too many requests from your connection. Please try again in a few minutes.');
+        }
+
+        $name     = mb_substr(trim($this->postString('name')), 0, 100);
+        $email    = mb_substr(trim($this->postString('email')), 0, 150);
+        $phone    = mb_substr(trim($this->postString('phone')), 0, 20);
+        $country  = mb_substr(trim($this->postString('nri_country')), 0, 60);
+        $interest = NriDesk::interest(trim($this->postString('interest')));
+        $city     = NriDesk::city(trim($this->postString('city')));
+        $note     = mb_substr(trim($this->postString('message')), 0, 1000);
+
+        if ($name === '' || ! filter_var($email, FILTER_VALIDATE_EMAIL) || ! preg_match('/^[0-9+()\s-]{6,20}$/', $phone) || $country === '') {
+            return $fail('Please fill in your name, a valid email address, phone number and country of residence.');
+        }
+
+        // nri_enquiry has no interest/city columns: keep them readable at the top of the message.
+        $message = implode("\n", array_filter([
+            $interest !== '' ? 'Interested in: ' . $interest : '',
+            $city !== '' ? 'Preferred city: ' . $city : '',
+            $note,
+        ], 'strlen')) ?: 'NRI desk enquiry (no details given)';
+
+        model(NriEnquiryModel::class)->addEnquiry([
+            'name'       => $name,
+            'email'      => $email,
+            'phone'      => $phone,
+            'message'    => $message,
+            'country'    => $country,
+            'created_on' => date('Y-m-d H:i:s'),
+        ]);
+
+        $html = '<html><body>'
+            . '<p>Name : ' . esc($name) . '</p>'
+            . '<p>Email : ' . esc($email) . '</p>'
+            . '<p>Mobile No. : ' . esc($phone) . '</p>'
+            . '<p>Country : ' . esc($country) . '</p>'
+            . '<p>Interested in : ' . esc($interest !== '' ? $interest : '-') . '</p>'
+            . '<p>Preferred city : ' . esc($city !== '' ? $city : '-') . '</p>'
+            . ($note !== '' ? '<p>Message : ' . nl2br(esc($note)) . '</p>' : '')
+            . '</body></html>';
+
+        $this->mailer->send(['info@coldwellbanker.in'], 'NRI Lead details', $html, $email, $name);
+
+        session()->setFlashdata(['nri_msg' => 'Thank you — our NRI desk will get in touch shortly.', 'nri_ok' => true]);
+
+        return redirect()->to($back);
+    }
+
     /**
      * CI3: Home::newsletter_subscription (controllers/Home.php:250).
      * Fixes `DB-01`: populates `created_date` so new rows never default to `0000-00-00 00:00:00`.
      */
     public function newsletterSubscription(): ResponseInterface
     {
-        $email = trim((string) $this->request->getPost('email'));
+        $email = trim($this->postString('email'));
+        // The redesigned home page's newsletter band posts source=home and expects to return
+        // to its #newsletter anchor (allow-list, never a free redirect target).
+        $fromHome = $this->request->getPost('source') === 'home';
+        $back     = site_url('/');
+        // CMS pages post source=cms and return to the page they came from: only a
+        // same-origin site path taken from the referer, otherwise the home page.
+        if ($this->request->getPost('source') === 'cms') {
+            $fromHome = true;
+            $back     = $this->cmsNewsletterReturn();
+        }
 
         if ($email === '' || ! filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if ($fromHome) {
+                session()->setFlashdata(['newsletter_msg' => 'Please enter a valid email address.', 'newsletter_ok' => false]);
+
+                return redirect()->to($back . '#newsletter');
+            }
             session()->setFlashdata('class', 'message_error');
             session()->setFlashdata('message', 'Please enter a valid email address.');
 
@@ -383,10 +495,28 @@ class Enquiry extends BaseController
             'created_date' => date('Y-m-d H:i:s'),
         ]);
 
+        if ($fromHome) {
+            session()->setFlashdata(['newsletter_msg' => 'Thank you — you are subscribed to Coldwell Banker India updates.', 'newsletter_ok' => true]);
+
+            return redirect()->to($back . '#newsletter');
+        }
         session()->setFlashdata('class', 'message_success');
         session()->setFlashdata('message', 'Your enquiry has been successfully submitted!');
 
         return redirect()->to(site_url('newsletter') . '#media');
+    }
+
+    /** Same-origin CMS page path from the referer (no query/fragment), else the home page URL. */
+    private function cmsNewsletterReturn(): string
+    {
+        $referer = trim($this->request->getHeaderLine('Referer') ?: (string) $this->request->getServer('HTTP_REFERER'));
+        $base    = rtrim(site_url('/'), '/') . '/';
+        if ($referer === '' || ! str_starts_with($referer, $base)) {
+            return site_url('/');
+        }
+        $rest = substr((string) parse_url($referer, PHP_URL_PATH), strlen((string) parse_url($base, PHP_URL_PATH)));
+
+        return preg_match('#^[a-z0-9][a-z0-9-]{0,189}$#', $rest) ? site_url($rest) : site_url('/');
     }
 
     /**
@@ -402,14 +532,17 @@ class Enquiry extends BaseController
      */
     public function jobApplications(): ResponseInterface
     {
-        $firstName = trim((string) $this->request->getPost('applicant_fname'));
-        $lastName  = trim((string) $this->request->getPost('applicant_lname'));
-        $gender    = strtolower(trim((string) $this->request->getPost('gender')));
-        $mobile    = trim((string) $this->request->getPost('applicant_mobile'));
-        $phone     = trim((string) $this->request->getPost('applicant_phone'));
-        $email     = trim((string) $this->request->getPost('applicant_email'));
-        $address   = trim((string) $this->request->getPost('applicant_address'));
-        $jobId     = (int) $this->request->getPost('job_id');
+        $firstName = trim($this->postString('applicant_fname'));
+        $lastName  = trim($this->postString('applicant_lname'));
+        $gender    = strtolower(trim($this->postString('gender')));
+        $mobile    = trim($this->postString('applicant_mobile'));
+        $phone     = trim($this->postString('applicant_phone'));
+        $email     = trim($this->postString('applicant_email'));
+        $address   = trim($this->postString('applicant_address'));
+        $jobId     = (int) $this->postString('job_id');
+        // CMS careers page (source=cms): redirect back to its #apply form with a message instead
+        // of the plain-text reply the legacy AJAX form expects.
+        $fromCms   = $this->request->getPost('source') === 'cms';
 
         if (
             $firstName === ''
@@ -420,37 +553,49 @@ class Enquiry extends BaseController
             || $address === ''
             || $jobId <= 0
         ) {
-            return $this->response->setContentType('text/plain')->setBody('error');
+            return $this->jobReply(false, $fromCms, 'Please fill in all required fields: name, gender, mobile, a valid email, address and the position.');
+        }
+
+        $job = model(JobsModel::class)->findJob($jobId);
+        if ($job === null) {
+            return $this->jobReply(false, $fromCms, 'That position is no longer open. Please choose another one.');
         }
 
         $file = $this->request->getFile('resume_file');
         if ($file === null || ! $file->isValid() || $file->hasMoved()) {
-            return $this->response->setContentType('text/plain')->setBody('error');
+            return $this->jobReply(false, $fromCms, 'Please attach your résumé.');
         }
 
         $size = $file->getSize();
         if ($size <= 0 || $size >= self::RESUME_MAX_BYTES) {
-            return $this->response->setContentType('text/plain')->setBody('error');
+            return $this->jobReply(false, $fromCms, 'The résumé must be smaller than 2 MB.');
         }
 
         $clientExt = strtolower($file->getClientExtension());
-        $mimeType  = $file->getMimeType();
-        if (
-            ! in_array($clientExt, self::RESUME_EXTENSIONS, true)
-            || ! isset(self::RESUME_MIMES[$mimeType])
-        ) {
-            return $this->response->setContentType('text/plain')->setBody('error');
+        $mimeType  = strtolower($file->getMimeType());
+        if (! in_array($clientExt, self::RESUME_EXTENSIONS, true) || ! $this->resumeContentMatches($file->getTempName(), $clientExt, $mimeType)) {
+            return $this->jobReply(false, $fromCms, 'The résumé must be a PDF, DOC, DOCX or RTF file.');
         }
 
-        $safeExt   = self::RESUME_MIMES[$mimeType];
-        $uploadDir = FCPATH . 'uploads/resume';
+        $throttler = \Config\Services::throttler();
+        $throttleKey = 'public-resume-' . hash('sha256', $this->request->getIPAddress());
+        if (! $throttler->check($throttleKey, 5, 10 * MINUTE)) {
+            if ($fromCms) {
+                return $this->jobReply(false, true, 'Too many applications from your connection. Please try again in a few minutes.');
+            }
+            return $this->response->setStatusCode(429)->setContentType('text/plain')->setBody('error');
+        }
+
+        $safeExt   = $clientExt;
+        $uploadDir = WRITEPATH . 'uploads' . DIRECTORY_SEPARATOR . 'resume';
         if (! is_dir($uploadDir)) {
-            mkdir($uploadDir, 0755, true);
+            mkdir($uploadDir, 0700, true);
         }
+        @chmod($uploadDir, 0700);
 
-        $newFilename = time() . mt_rand(1000, 999999) . '.' . $safeExt;
+        $newFilename = bin2hex(random_bytes(16)) . '.' . $safeExt;
         if (! $file->move($uploadDir, $newFilename)) {
-            return $this->response->setContentType('text/plain')->setBody('error');
+            return $this->jobReply(false, $fromCms, 'Your résumé could not be saved. Please try again.');
         }
 
         $applicationsModel = model(JobApplicationsModel::class);
@@ -467,7 +612,6 @@ class Enquiry extends BaseController
         ]);
         $applicationsModel->setResume($insertId, $newFilename);
 
-        $job          = model(JobsModel::class)->findJob($jobId);
         $positionName = (string) ($job['position'] ?? 'Position #' . $jobId);
         $fullName     = trim($firstName . ' ' . $lastName);
 
@@ -490,7 +634,72 @@ class Enquiry extends BaseController
             $uploadDir . DIRECTORY_SEPARATOR . $newFilename,
         );
 
-        return $this->response->setContentType('text/plain')->setBody('success');
+        return $this->jobReply(true, $fromCms, 'Thank you — your application has been received. Our HR team will contact you if your profile matches.');
+    }
+
+    /** Plain-text reply for the legacy AJAX form; redirect + flash to #apply for the CMS form. */
+    private function jobReply(bool $ok, bool $fromCms, string $message): ResponseInterface
+    {
+        if (! $fromCms) {
+            return $this->response->setContentType('text/plain')->setBody($ok ? 'success' : 'error');
+        }
+        session()->setFlashdata(['job_msg' => $message, 'job_ok' => $ok]);
+
+        return redirect()->to($this->cmsNewsletterReturn() . '#apply');
+    }
+
+    /** Validate resume signatures against the allowed extension and detected type. */
+    private function resumeContentMatches(string $path, string $extension, string $mime): bool
+    {
+        $handle = @fopen($path, 'rb');
+        if ($handle === false) {
+            return false;
+        }
+        $header = fread($handle, 8);
+        fclose($handle);
+
+        return match ($extension) {
+            'pdf' => $mime === 'application/pdf' && is_string($header) && str_starts_with($header, '%PDF-'),
+            'doc' => in_array($mime, ['application/msword', 'application/vnd.ms-office', 'application/cdfv2', 'application/x-ole-storage'], true)
+                && is_string($header) && str_starts_with($header, "\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1"),
+            'rtf' => in_array($mime, ['application/rtf', 'text/rtf', 'text/plain'], true)
+                && is_string($header) && str_starts_with(ltrim($header), '{\\rtf'),
+            'docx' => $this->isValidDocx($path, $mime, $header),
+            default => false,
+        };
+    }
+
+    private function isValidDocx(string $path, string $mime, string|false $header): bool
+    {
+        if (! is_string($header) || ! str_starts_with($header, "PK\x03\x04")
+            || ! in_array($mime, ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip', 'application/x-zip'], true)
+            || ! class_exists(\ZipArchive::class)) {
+            return false;
+        }
+
+        $zip = new \ZipArchive();
+        if ($zip->open($path) !== true) {
+            return false;
+        }
+        $contentTypes = $zip->locateName('[Content_Types].xml') !== false;
+        $document = $zip->locateName('word/document.xml') !== false;
+        $hasMacros = $zip->locateName('word/vbaProject.bin') !== false;
+        $uncompressedBytes = 0;
+        if ($zip->numFiles > 1000) {
+            $zip->close();
+            return false;
+        }
+        for ($index = 0; $index < $zip->numFiles; $index++) {
+            $stat = $zip->statIndex($index);
+            $uncompressedBytes += (int) ($stat['size'] ?? 0);
+            if ($uncompressedBytes > 20_000_000) {
+                $zip->close();
+                return false;
+            }
+        }
+        $zip->close();
+
+        return $contentTypes && $document && ! $hasMacros;
     }
 
     /**
@@ -512,5 +721,16 @@ class Enquiry extends BaseController
         $seg   = $slug !== '' ? 'coldwell-banker-' . $slug : 'coldwell-banker';
 
         return site_url('our-franchise-details/' . $seg . '/' . $franchiseId);
+    }
+
+    /**
+     * A POST field as a string; arrays (e.g. email[]=x) become '' instead of raising
+     * "Array to string conversion" (HTTP 500) before validation runs.
+     */
+    private function postString(string $key): string
+    {
+        $v = $this->request->getPost($key);
+
+        return is_string($v) ? $v : '';
     }
 }

@@ -1,0 +1,79 @@
+/* Blog (Site\Blog). Uses the site fonts from style.css; Coldwell Banker blue #012169. */
+.blog-page .inner_banner_container { width: 100%; min-height: 260px; }
+.blog-page .blog-banner-slim { min-height: 110px; }
+.blog-page .inner_banner_container h1 { color: #fff; }
+.blog-sec { float: left; width: 100%; padding: 30px 0 60px; background: #fff; }
+.blog-sec .container { box-sizing: border-box; }
+/* style.css floats every <nav>; without this the flex layout shrinks beside the floated breadcrumb. */
+.blog-sec .blog-breadcrumb { float: none; width: auto; display: block !important; position: static; }
+.blog-layout { clear: both; width: 100%; }
+/* style.css also makes <header> absolute and floats <section>; reset them inside blog content. */
+.blog-sec .blog-layout header, .blog-sec .blog-layout section, .blog-sec .blog-layout aside, .blog-sec .blog-layout figure { position: static; float: none; width: auto; height: auto; }
+.blog-sec .blog-post > header { padding: 0; margin: 0; background: none; box-shadow: none; z-index: auto; }
+.blog-breadcrumb ol { list-style: none; margin: 0 0 24px; padding: 0; font-size: 13px; color: #777; }
+.blog-breadcrumb li { display: inline; }
+.blog-breadcrumb li + li:before { content: "\203A"; padding: 0 8px; color: #aaa; }
+.blog-breadcrumb a { color: #012169; }
+.blog-layout { display: flex; gap: 40px; align-items: flex-start; }
+.blog-main { flex: 1 1 auto; min-width: 0; }
+.blog-sidebar { flex: 0 0 280px; }
+.blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 28px; }
+.blog-card { background: #fff; border: 1px solid #e6e8ee; border-radius: 6px; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow .2s, transform .2s; }
+.blog-card:hover { box-shadow: 0 8px 24px rgba(1, 33, 105, .12); transform: translateY(-2px); }
+.blog-card-img { display: block; aspect-ratio: 16 / 10; background: #eef1f6; overflow: hidden; }
+.blog-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.blog-card-noimg { display: block; width: 100%; height: 100%; background: linear-gradient(135deg, #012169, #1f4a9c); }
+.blog-card-body { padding: 16px 18px 20px; display: flex; flex-direction: column; flex: 1; }
+.blog-card h2 { font-family: 'raleway_bold', sans-serif; font-size: 18px; line-height: 1.35; margin: 6px 0 10px; }
+.blog-card h2 a, .blog-post h1 { color: #012169; }
+.blog-card p { font-weight: normal; font-size: 14px; line-height: 1.6; flex: 1; margin: 0 0 12px; }
+.blog-meta { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: .04em; }
+.blog-meta a { color: #1f4a9c; }
+.blog-more { color: #012169; font-family: 'raleway_bold', sans-serif; font-size: 14px; }
+.blog-pager { margin: 36px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.blog-pager a, .blog-pager span { display: inline-block; min-width: 38px; padding: 8px 12px; text-align: center; border: 1px solid #d5d9e3; border-radius: 4px; color: #012169; font-size: 14px; }
+.blog-pager .current { background: #012169; border-color: #012169; color: #fff; }
+.blog-empty { padding: 40px 0; }
+.blog-widget { border: 1px solid #e6e8ee; border-radius: 6px; padding: 18px 20px; margin-bottom: 24px; }
+.blog-widget h4 { font-family: 'raleway_bold', sans-serif; color: #012169; font-size: 16px; margin: 0 0 12px; text-transform: uppercase; }
+.blog-widget ul { list-style: none; margin: 0; padding: 0; }
+.blog-widget li { padding: 7px 0; border-bottom: 1px solid #f0f1f5; font-size: 14px; }
+.blog-widget li:last-child { border-bottom: 0; }
+.blog-widget li a { color: #444; }
+.blog-widget li a.active, .blog-widget li a:hover { color: #012169; font-family: 'raleway_bold', sans-serif; }
+.blog-widget li span { color: #999; }
+.blog-recent a { display: flex; gap: 10px; align-items: flex-start; }
+.blog-recent img { width: 64px; height: 48px; object-fit: cover; border-radius: 3px; flex: 0 0 64px; }
+.blog-recent small { display: block; color: #999; font-size: 11px; margin-top: 3px; }
+.blog-rss { color: #e67e22; font-family: 'raleway_bold', sans-serif; }
+.blog-post h1 { font-family: 'raleway_bold', sans-serif; font-size: 32px; line-height: 1.25; margin: 8px 0 12px; }
+.blog-cat { display: inline-block; background: #012169; color: #fff; font-size: 12px; padding: 3px 10px; border-radius: 3px; text-transform: uppercase; }
+.blog-hero { margin: 24px 0; }
+.blog-hero img { width: 100%; height: auto; border-radius: 6px; display: block; }
+.blog-content { font-size: 16px; line-height: 1.75; color: #444; }
+.blog-content p, .blog-content li { font-size: 16px; line-height: 1.75; font-weight: normal; color: #444; margin: 0 0 1em; }
+.blog-content h2, .blog-content h3, .blog-content h4 { font-family: 'raleway_bold', sans-serif; color: #012169; margin: 1.4em 0 .6em; line-height: 1.3; }
+.blog-content h2 { font-size: 24px; } .blog-content h3 { font-size: 20px; } .blog-content h4 { font-size: 17px; }
+.blog-content ul, .blog-content ol { margin: 0 0 1em 1.4em; }
+.blog-content ul li { list-style: disc; } .blog-content ol li { list-style: decimal; }
+.blog-content a { color: #1f4a9c; text-decoration: underline; }
+.blog-content img { max-width: 100%; height: auto; }
+.blog-content blockquote { border-left: 4px solid #012169; padding: 6px 16px; margin: 1em 0; background: #f6f8fb; }
+.blog-content table { width: 100%; border-collapse: collapse; margin: 1em 0; }
+.blog-content td, .blog-content th { border: 1px solid #ddd; padding: 8px; }
+.blog-share { margin: 30px 0; padding: 16px 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; font-size: 14px; }
+.blog-share span { color: #777; margin-right: 8px; }
+.blog-share a { color: #012169; margin-right: 14px; }
+.blog-related { margin: 20px 0 30px; }
+.blog-related h3 { font-family: 'raleway_bold', sans-serif; color: #012169; font-size: 22px; margin: 0 0 18px; }
+.blog-related .blog-card h2 { font-size: 16px; }
+@media (max-width: 991px) {
+  .blog-layout { flex-direction: column; }
+  .blog-sidebar { flex: none; width: 100%; }
+}
+@media (max-width: 600px) {
+  .blog-sec { padding: 20px 0 40px; }
+  .blog-sec .container { padding: 0 16px; }
+  .blog-post h1 { font-size: 24px; }
+  .blog-grid { grid-template-columns: 1fr; }
+}

@@ -66,7 +66,7 @@ $(document).ready(function(){
 		var image_id = $(this).attr("image-id");
 		var base_url = "<?php echo base_url();?>";
 		$(document).on('click', '#delete', function (e) {			
-			$(location).attr('href', base_url+'admin/section/delete_coldwell_banker_industry_news/'+project_id+'/'+image_id)
+			adminPost(base_url+'admin/section/delete_coldwell_banker_industry_news/'+project_id+'/'+image_id)
 		});
 	});
 });

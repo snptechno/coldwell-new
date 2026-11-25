@@ -86,6 +86,21 @@ class Cache extends BaseConfig
         'mode'      => 0640,
     ];
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        // PHPUnit must never read or write the site's cache: CMS pages cached from the test
+        // database (incl. XSS payload fixtures) would otherwise be served by the real site.
+        if (ENVIRONMENT === 'testing') {
+            $dir = WRITEPATH . 'cache/testing/';
+            if (! is_dir($dir)) {
+                @mkdir($dir, 0775, true);
+            }
+            $this->file['storePath'] = $dir;
+        }
+    }
+
     /**
      * -------------------------------------------------------------------------
      * Memcached settings

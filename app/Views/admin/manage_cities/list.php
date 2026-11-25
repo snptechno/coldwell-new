@@ -60,7 +60,7 @@ $(document).ready(function(){
 		var page_id = $(this).attr("page-id");
 		var base_url = "<?php echo base_url();?>";
 		$(document).on('click', '#delete', function (e) {			
-			$(location).attr('href', base_url+'admin/section/delete_city/'+page_id);
+			adminPost(base_url+'admin/section/delete_city/'+page_id);
 		});
 	});
 });

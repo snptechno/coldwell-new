@@ -31,7 +31,7 @@
 				  <td><?php echo esc($row['created_date']);?></td>
 				  <td><input type="text" name="group_id" id="group_id_<?php echo $row['id'];?>" value="<?php echo esc($row['group_id']);?>"><input type="button" id="send_no" class="send_no"  image-id="<?php echo $row['id'];?>" value="Go"></td>
 				  <td>
-				  	<?php if($row['status'] =='0'){?><a href="<?php echo base_url().'admin/section/change_status_learning_gallery_thumbnail/'.$row['id'].'/1';?>">Enable</a><?php }else{ ?><a href="<?php echo base_url().'admin/section/change_status_learning_gallery_thumbnail/'.$row['id'].'/0';?>">Disable</a><?php } ?>
+							<?php if($row['status'] =='0'){?><a href="#" data-admin-post="<?php echo base_url().'admin/section/change_status_learning_gallery_thumbnail/'.$row['id'].'/1';?>" onclick="adminPost(this.dataset.adminPost); return false;">Enable</a><?php }else{ ?><a href="#" data-admin-post="<?php echo base_url().'admin/section/change_status_learning_gallery_thumbnail/'.$row['id'].'/0';?>" onclick="adminPost(this.dataset.adminPost); return false;">Disable</a><?php } ?>
 				  </td>
 				  <td><a href="<?php echo base_url().'admin/section/add_gallery_thumbnail/'.$row['id'];?>"><i class="fa fa-edit"></i></a> &nbsp;&nbsp;&nbsp;<a href="#" image-id="<?php echo $row['id'];?>" name="remove_levels" class="remove_levels" data-toggle="modal" data-target="#myModal"><i class="fa fa-trash-o"></i></a></td>
 				</tr>
@@ -72,7 +72,7 @@ $(document).ready(function(){
 		var project_id = $(this).attr("project-id");
 
 		$(document).on('click', '#delete', function (e) {			
-			$(location).attr('href', base_url+'admin/section/delete_gallery_thumbnail_image/'+image_id)
+			adminPost(base_url+'admin/section/delete_gallery_thumbnail_image/'+image_id)
 		});
 	});
 	/***************---------------------------*************/

@@ -19,6 +19,6 @@ class Errorpage extends BaseController
     {
         $this->response->setStatusCode(404);
 
-        return view('site/errorpage');
+        return view('errors/html/error_404', ['message' => '']);
     }
 }

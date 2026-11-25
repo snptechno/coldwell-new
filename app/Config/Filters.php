@@ -35,6 +35,7 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
         'adminauth'     => \App\Filters\AdminAuth::class, // protects the "admin" route group
+        'secheaders'    => \App\Filters\SecurityHeaders::class, // CSP on the blog (public + admin)
     ];
 
     /**
@@ -81,10 +82,13 @@ class Filters extends BaseFilters
             // that writes data (enquiry forms, newsletter, job applications, admin) stays protected.
             'csrf' => ['except' => [
                 'load_more_news', 'load_more_newsletter', 'load_more_industry_news', 'load_more_knowledge_series',
-                'load_group_images_gallery', 'get_team_information',
+                'load_more_research', 'research/load-more', 'load_group_images_gallery', 'get_team_information',
                 'get_owner_info', 'get_specialist_info', 'home/get_owner_info', 'home/get_specialist_info',
                 'get_all_franchisee_location', // map markers on /our-franchise
                 'get_franchisee_location_by_city', 'get_franchisee_name', 'search_franchisee_by_location',
+                // CKEditor 4.5 image upload posts from an iframe without the field; Admin\Blog::upload_image
+                // checks the token from the query string itself, and the route needs an admin login.
+                'admin/blog/upload-image',
             ]],
             'invalidchars', // rejects invalid UTF-8 / control chars in input
         ],
@@ -118,5 +122,8 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+        // CSP on the blog's public pages and its admin (see App\Filters\SecurityHeaders).
+        'secheaders' => ['after' => ['blog', 'blog/*', 'blogs', 'blogs/*', 'sitemap.xml', 'admin/blog', 'admin/blog/*', '/', 'index', 'index/*', 'admin/cms', 'admin/cms/*']],
+    ];
 }
