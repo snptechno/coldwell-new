@@ -52,15 +52,25 @@ class ResearchModel extends BaseModel
      * Active rows of one type, newest first (public pages).
      * $type is 'Project Reports' (views/research.php:53) or
      * 'Area Insights' (views/area_insights.php:53).
+     *
+     * Public read path (CMS blocks featured_report / research_grid, Load More): a missing or
+     * broken legacy table is logged and treated as "no reports" so the page still renders,
+     * the same way Cms\Offices handles the franchises table. Admin methods stay strict.
      */
     public function activeByType(string $type): array
     {
-        return $this->builder()
-            ->where('type', $type)
-            ->where('is_active', 1)
-            ->orderBy('id', 'DESC')
-            ->get()
-            ->getResultArray();
+        try {
+            return $this->builder()
+                ->where('type', $type)
+                ->where('is_active', 1)
+                ->orderBy('id', 'DESC')
+                ->get()
+                ->getResultArray();
+        } catch (\Throwable $e) {
+            log_message('error', 'Research reports unavailable: {msg}', ['msg' => $e->getMessage()]);
+
+            return [];
+        }
     }
 
     /**
